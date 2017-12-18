@@ -1,6 +1,9 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
+- Assets/Resources/Atlases/MainAtlas.tpsheet
 textureFileNames:
+- Assets/Resources/Atlases/MainAtlas.png
 normalmapFileNames:
+- 
 enableDebugOutput: 0

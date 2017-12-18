@@ -31,9 +31,8 @@ public class MultiplayerRoomView : UIView
             _playerItemViewList.Add(pView);
             _playerIsReady.Add(false);
         }
-
-        OnIntroTransitionFinished();
     }
+
     public void IsMasterClient(bool isMaster)
     {
         if (_isMaster != isMaster)
@@ -42,6 +41,7 @@ public class MultiplayerRoomView : UIView
             invalidateFlag = InvalidationFlag.STATIC_DATA;
         }
     }
+
     public void SetTitle(string titleText)
     {
         if(_roomTitle != titleText)

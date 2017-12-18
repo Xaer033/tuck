@@ -18,11 +18,11 @@ public class BaseController
         set { _view = value; }
     }
 
-    public virtual void RemoveView(bool immediately = false)
+    public virtual void RemoveView()
     {
         if(view != null)
         {
-            viewFactory.RemoveView(view, immediately);
+            viewFactory.RemoveView(view);
         }
     }
 }

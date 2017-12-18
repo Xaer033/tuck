@@ -62,7 +62,7 @@ public class MultiplayerSetupState : IGameState
 
     private void onJoinRoom()
     {
-        _lobbyController.RemoveView(true);
+        _lobbyController.RemoveView();
 
         _roomController = new MultiplayerRoomController();
         _roomController.Start(onStartGame, onLeaveRoom);
@@ -153,7 +153,7 @@ public class MultiplayerSetupState : IGameState
 
     private void onLeaveRoom()
     {
-        _roomController.RemoveView(true);
+        _roomController.RemoveView();
 
         _lobbyController = new MultiplayerLobbyController();
         _lobbyController.Start(onJoinRoom, onGoToMainMenu);

@@ -1,0 +1,44 @@
+[
+
+	{
+		"id"				: "ace_spades",
+		"titleKey"			: "1 or 11 or Escape!",
+		"iconName"			: "Beef",
+		"moveType"			: [
+			{
+				"type": "leave_base",
+				"value": 0
+			},
+			{
+				"type": "forwards",
+				"value": 1
+			},
+			{
+				"type": "forwards",
+				"value": 11
+			}
+		]
+	},
+	{
+		"id"				: "two_spades",
+		"titleKey"			: "2",
+		"iconName"			: "Beef",
+		"moveType"			: [
+			{
+				"type": "forwards",
+				"value": 2
+			}
+		]
+	},
+	{
+		"id"				: "three_spades",
+		"titleKey"			: "3",
+		"iconName"			: "Beef",
+		"moveType"			: [
+			{
+				"type": "forwards",
+				"value": 2
+			}
+		]
+	}
+]

@@ -44,7 +44,7 @@ public class MultiplayerLobbyController : BaseController
         });
     }
 
-    public override void RemoveView(bool immediately = false)
+    public override void RemoveView()
     {
         if(_lobbyView != null)
         {
@@ -61,7 +61,7 @@ public class MultiplayerLobbyController : BaseController
         _networkManager.onReceivedRoomListUpdate -= onReceivedRoomListUpdate;
         _networkManager.onJoinedRoom -= onJoinedRoom;
 
-        base.RemoveView(immediately);
+        base.RemoveView();
     }
 
     private void onRoomClicked(int index, bool isSelected)

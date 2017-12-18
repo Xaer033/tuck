@@ -6,42 +6,30 @@ using UnityEngine.Assertions;
 
 namespace GhostGen
 {
-    public class Event
+    public class NotificationDispatcher : IEventDispatcher
     {
-        public string type;
-        public object target;
-        public Hashtable data;
-    }
-
-    public class NotificationDispatcher
-    {
-        private Dictionary<string, List<Action<GhostGen.Event>>> _eventDictionary;
-
-        public NotificationDispatcher()
-        {
-            _eventDictionary = new Dictionary<string, List<Action<GhostGen.Event>>>();
-        }
-
-        public void AddListener(string eventKey, Action<GhostGen.Event> callback)
+        private Dictionary<string, List<Action<GhostGen.GeneralEvent>>> _eventDictionary = new Dictionary<string, List<Action<GhostGen.GeneralEvent>>>();
+        
+        public void AddListener(string eventKey, Action<GhostGen.GeneralEvent> callback)
         {
             Assert.IsNotNull(callback);
             if (callback == null) { return; }
 
-            List<Action<GhostGen.Event>> callbackList = null;
+            List<Action<GhostGen.GeneralEvent>> callbackList = null;
             if (!_eventDictionary.TryGetValue(eventKey, out callbackList))
             {
-                callbackList = new List<Action<GhostGen.Event>>();
+                callbackList = new List<Action<GhostGen.GeneralEvent>>();
                 _eventDictionary.Add(eventKey, callbackList);
             }
             callbackList.Add(callback);
         }
 
-        public void RemoveListener(string eventKey, Action<GhostGen.Event> callback)
+        public void RemoveListener(string eventKey, Action<GhostGen.GeneralEvent> callback)
         {
             Assert.IsNotNull(callback);
             if (callback == null) { return; }
 
-            List<Action<GhostGen.Event>> callbackList = null;
+            List<Action<GhostGen.GeneralEvent>> callbackList = null;
             if (_eventDictionary.TryGetValue(eventKey, out callbackList))
             {
                 int index = callbackList.FindIndex((x) => x == callback);
@@ -51,7 +39,7 @@ namespace GhostGen
 
         public void RemoveAllListeners(string eventKey)
         {
-            List<Action<GhostGen.Event>> callbackList = null;
+            List<Action<GhostGen.GeneralEvent>> callbackList = null;
             if (_eventDictionary.TryGetValue(eventKey, out callbackList))
             {
                 callbackList.Clear();
@@ -60,10 +48,10 @@ namespace GhostGen
 
         public void DispatchEvent(string eventKey, Hashtable eventData = null)
         {
-            List<Action<GhostGen.Event>> callbackList = null;
+            List<Action<GhostGen.GeneralEvent>> callbackList = null;
             if (_eventDictionary.TryGetValue(eventKey, out callbackList))
             {
-                GhostGen.Event e = new GhostGen.Event();
+                GhostGen.GeneralEvent e = new GhostGen.GeneralEvent();
                 e.type = eventKey;
                 e.target = this;
                 e.data = eventData;

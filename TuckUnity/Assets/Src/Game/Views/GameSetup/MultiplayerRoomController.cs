@@ -31,14 +31,14 @@ public class MultiplayerRoomController : BaseController
         });
     }
 
-    public override void RemoveView(bool immediately = false)
+    public override void RemoveView()
     {
         _networkManager.onPlayerConnected -= _onPlayerConnectionStatusChanged;
         _networkManager.onPlayerDisconnected -= _onPlayerConnectionStatusChanged;
         _networkManager.onLeftRoom -= _onLeftRoom;
         _networkManager.onCustomEvent -= _onCustomEvent;
 
-        base.RemoveView(immediately);
+        base.RemoveView();
     }
 
     //public PlayerState[] GetPlayerList()

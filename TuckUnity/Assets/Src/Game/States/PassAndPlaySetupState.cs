@@ -6,7 +6,7 @@ using GhostGen;
 using DG.Tweening;
 using System;
 
-public class PlayerSetupState : IGameState
+public class PassAndPlaySetupState : IGameState
 {
     private PassPlaySetupController _passPlaySetupController;
     private ScreenFader _fader;
@@ -35,30 +35,30 @@ public class PlayerSetupState : IGameState
 
     private void onStartGame()
     {
-        //Singleton.instance.sessionFlags.gameContext = _createGameContext();
+        Singleton.instance.sessionFlags.gameContext = _createGameContext();
 
         _fader.FadeOut(0.35f, () =>
         {
-            //_stateMachine.ChangeState(TuckState.GAMEPLAY);
+            _stateMachine.ChangeState(TuckState.PASS_PLAY_GAMEPLAY);
         });
     }
 
-    //private GameContext _createGameContext()
-    //{
-    //    int randomSeed = Environment.TickCount;
+    private GameContext _createGameContext()
+    {
+        //    int randomSeed = Environment.TickCount;
 
-    //    CardDeck customerDeck = CardDeck.FromFile("Decks/CustomerDeck");
-    //    customerDeck.Shuffle(randomSeed);
-    //    CardDeck ingredientDeck = CardDeck.FromFile("Decks/IngredientDeck");
-    //    ingredientDeck.Shuffle(randomSeed);
+        //    CardDeck customerDeck = CardDeck.FromFile("Decks/CustomerDeck");
+        //    customerDeck.Shuffle(randomSeed);
+        //    CardDeck ingredientDeck = CardDeck.FromFile("Decks/IngredientDeck");
+        //    ingredientDeck.Shuffle(randomSeed);
 
-    //    PlayerState[] playerStateList = _passPlaySetupController.GetPlayerList();
-    //    GameContext context = GameContext.Create(GameMode.PASS_AND_PLAY, playerStateList);
+        //    PlayerState[] playerStateList = _passPlaySetupController.GetPlayerList();
+        GameContext context = GameContext.Create(GameMode.PASS_AND_PLAY);
     //    context.isMasterClient = true;
     //    context.ingredientDeck = ingredientDeck;
     //    context.customerDeck = customerDeck;
-    //    return context;
-    //}
+        return context;
+    }
 
     private void onPassSetupCancel()
     {

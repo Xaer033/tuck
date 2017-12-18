@@ -103,20 +103,10 @@ namespace GhostGen
             return true;
         }
 
-        public void RemoveView(UIView view, bool immediately = false)
+        public void RemoveView(UIView view)
         {
             Assert.IsNotNull(view);
-            if(immediately)
-            {
-                _removeView(view);
-            }
-            else
-            {
-                view.OnViewOutro(()=>
-                {
-                    _removeView(view);
-                });
-            }
+            _removeView(view);
         }
 
         private void _removeView(UIView view)

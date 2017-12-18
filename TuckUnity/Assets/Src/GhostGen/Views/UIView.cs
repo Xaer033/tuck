@@ -27,35 +27,6 @@ namespace GhostGen
             OnViewUpdate();
         }
 
-        public event Action<UIView> onIntroFinishedEvent
-        {
-            add { _introTransitionFinishEvent += value; }
-            remove { _introTransitionFinishEvent -= value; }
-        }
-
-        public event Action<UIView> onOutroTransitionEvent
-        {
-            add { _outroTransitionFinishEvent += value; }
-            remove { _outroTransitionFinishEvent -= value; }
-        }
-
-
-        protected void OnIntroTransitionFinished()
-        {
-            if(_introTransitionFinishEvent != null)
-            {
-                _introTransitionFinishEvent(this);
-            }
-        }
-
-        protected void OnOutroTransitionFinished()
-        {
-            if (_outroTransitionFinishEvent != null)
-            {
-                _outroTransitionFinishEvent(this);
-            }
-        }
-
         public void OnTriggered(BaseEventData eventData)
         {
             if(_onTriggered != null)
@@ -78,10 +49,7 @@ namespace GhostGen
 
         public virtual void OnViewDispose()
         {
-            OnOutroTransitionFinished();
-            
-            _introTransitionFinishEvent = null;
-            _outroTransitionFinishEvent = null;
+
         }
 
         protected bool IsInvalid(InvalidationFlag flag)
@@ -101,10 +69,5 @@ namespace GhostGen
 
             invalidateFlag = InvalidationFlag.NONE;
         }
-
-        //------------------- Private Implementation -------------------
-        //--------------------------------------------------------------
-        private event Action<UIView> _introTransitionFinishEvent;
-        private event Action<UIView> _outroTransitionFinishEvent;
     }
 }
