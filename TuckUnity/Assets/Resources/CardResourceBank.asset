@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfe4d380f63683041a36eae860164400, type: 3}
-  m_Name: CardResourceBlock
+  m_Name: CardResourceBank
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 0}
   iconAtlas: {fileID: 2800000, guid: d48d40026eebad94ca36ec3b9e02be79, type: 3}

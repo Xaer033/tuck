@@ -2,6 +2,9 @@
 using UnityEngine.Assertions;
 
 
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 public enum CardColor
 {
     RED,
@@ -92,16 +95,33 @@ public class CardData : System.Object
         }
     }
 
-    public PieceMovementData[]    moveModifierData;
+    public PieceMovementData[]    pieceMovementList;
 }
 
 public class CardDataFactory
 {
+    public static CardData CreateFromJToken(JToken cardToken)
+    {
+        CardData result = new CardData();
+
+        JsonUtility.FromJsonOverwrite(cardToken.ToString(), result);
+        
+        JArray movementArray = JArray.Parse(cardToken.SelectToken("moveType").ToString());
+        PieceMovementData[] pieceMovementList = new PieceMovementData[movementArray.Count];
+
+        for (int i = 0; i < movementArray.Count; ++i)
+        {
+            pieceMovementList[i] = JsonUtility.FromJson<PieceMovementData>(movementArray[i].ToString());
+        }
+        result.pieceMovementList = pieceMovementList;
+
+        return result;
+    }
+
     public static CardData CreateFromJson(string cardJson)
     {
-        CardData card = JsonUtility.FromJson<CardData>(cardJson);
-        Assert.IsNotNull(card.moveModifierData);
-        return card;
+        JToken token = JToken.Parse(cardJson);
+        return CreateFromJToken(token);
     }
 
     public static string ToJson(CardData cData, bool prettyPrint)

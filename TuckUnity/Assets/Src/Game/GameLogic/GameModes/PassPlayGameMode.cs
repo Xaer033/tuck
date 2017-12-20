@@ -29,6 +29,9 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
 
         //_playFieldController.Start(_gameMatchCore.matchState);
         _setupCallbacks();
+
+        CardDeck deck = CardDeck.FromFile("Decks/StandardDeck");
+        Debug.Log(deck.isEmpty);
     }
 
     public void Step(double deltaTime)

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using System;
 
 [System.Serializable]
@@ -11,6 +14,11 @@ public class CardDeck : object
 
     public List<CardData> cardList { get { return _cardList; } }
 
+    [System.Serializable]
+    public class JsonDeck : object
+    {
+        public CardData[] cardList;
+    }
 
     public static CardDeck FromFile(string path)
     {
@@ -21,7 +29,14 @@ public class CardDeck : object
     public static CardDeck FromJson(string jsonStr)
     {
         CardDeck deck = new CardDeck();
-        deck._cardList.AddRange(JsonUtility.FromJson<CardData[]>(jsonStr));
+        JArray jsonDeck = JArray.Parse(jsonStr);
+
+        for (int i = 0; i < jsonDeck.Count; ++i)
+        {
+            JToken card = jsonDeck[i];
+            deck._cardList.Add(CardDataFactory.CreateFromJToken(card));
+            
+        }
         return deck;
     }
 

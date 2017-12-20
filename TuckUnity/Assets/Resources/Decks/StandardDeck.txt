@@ -1,44 +1,157 @@
 [
-
-	{
-		"id"				: "ace_spades",
-		"titleKey"			: "1 or 11 or Escape!",
-		"iconName"			: "Beef",
-		"moveType"			: [
-			{
-				"type": "leave_base",
-				"value": 0
-			},
-			{
-				"type": "forwards",
-				"value": 1
-			},
-			{
-				"type": "forwards",
-				"value": 11
-			}
-		]
-	},
-	{
-		"id"				: "two_spades",
-		"titleKey"			: "2",
-		"iconName"			: "Beef",
-		"moveType"			: [
-			{
-				"type": "forwards",
-				"value": 2
-			}
-		]
-	},
-	{
-		"id"				: "three_spades",
-		"titleKey"			: "3",
-		"iconName"			: "Beef",
-		"moveType"			: [
-			{
-				"type": "forwards",
-				"value": 2
-			}
-		]
-	}
-]
+		{
+			"id"				: "ace_spades",
+			"titleKey"			: "1 or 11 or Escape!",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "leave_base",
+					"value": 0
+				},
+				{
+					"type": "forwards",
+					"value": 1
+				},
+				{
+					"type": "forwards",
+					"value": 11
+				}
+			]
+		},
+		{
+			"id"				: "two_spades",
+			"titleKey"			: "2",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 2
+				}
+			]
+		},
+		{
+			"id"				: "three_spades",
+			"titleKey"			: "3",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 3
+				}
+			]
+		},
+		{
+			"id"				: "four_spades",
+			"titleKey"			: "4",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "backwards",
+					"value": 4
+				}
+			]
+		},
+		{
+			"id"				: "five_spades",
+			"titleKey"			: "5",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 5
+				}
+			]
+		},
+		{
+			"id"				: "six_spades",
+			"titleKey"			: "6",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 6
+				}
+			]
+		},
+		{
+			"id"				: "seven_spades",
+			"titleKey"			: "7",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "split_stomp",
+					"value": 7
+				}
+			]
+		},
+		{
+			"id"				: "eight_spades",
+			"titleKey"			: "8",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 8
+				}
+			]
+		},
+		{
+			"id"				: "nine_spades",
+			"titleKey"			: "9",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 9
+				}
+			]
+		},
+		{
+			"id"				: "ten_spades",
+			"titleKey"			: "10",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 10
+				}
+			]
+		},
+		{
+			"id"				: "jack_spades",
+			"titleKey"			: "swap",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "swap",
+					"value": 0
+				}
+			]
+		},
+		{
+			"id"				: "queen_spades",
+			"titleKey"			: "11",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 11
+				}
+			]
+		},
+		{
+			"id"				: "king_spades",
+			"titleKey"			: "13 or escape",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 13
+				},
+				{
+					"type": "leave_base",
+					"value":0
+				}
+			]
+		}
+	]
