@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 222999947302846136}
   - component: {fileID: 114746166854339986}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [LiberationSans SDF Material]
+  m_Name: TMP SubMeshUI [OutlineSubheader Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8485ec55dc0044ca6103654f530a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: {fileID: 114859055449513778}
+  playerName: {fileID: 114215027257186710}
   nameInput: {fileID: 114639965844103004}
   avatarIcon: {fileID: 114109538182318406}
 --- !u!114 &114052164604525946
@@ -2652,7 +2652,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 2.2189999
   m_canvasRenderer: {fileID: 222999947302846136}
   m_TextComponent: {fileID: 114903496532860322}
   m_materialReferenceIndex: 1
