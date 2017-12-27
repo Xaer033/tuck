@@ -18,7 +18,6 @@ public class BoardPositionUtil
             Vector3 offset = directions[position.trackIndex] * 2.0f;
 
             result = center + (((orthagonal * 5.0f) + offset) * Board.kPegStepSize);
-
         }
         else if(position.type == PositionType.GOAL_TRACK)
         {

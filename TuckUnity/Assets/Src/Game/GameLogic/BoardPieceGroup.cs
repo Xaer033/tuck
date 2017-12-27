@@ -8,7 +8,12 @@ public class BoardPieceGroup
 {
     public const int kPiecesPerPlayer = 4;
 
-    private BoardPiece[] _pieceList = new BoardPiece[kPiecesPerPlayer];
+    private List<BoardPiece> _pieceList = new List<BoardPiece>(kPiecesPerPlayer);
+
+    public List<BoardPiece> pieceList
+    {
+        get { return _pieceList; }
+    }
 
     public static BoardPieceGroup Create(int ownerIndex)
     {
@@ -16,7 +21,8 @@ public class BoardPieceGroup
         for(int i = 0; i < kPiecesPerPlayer; ++i)
         {
             BoardPosition initialPosition = BoardPosition.Create(PositionType.HOME, i, ownerIndex);
-           group._pieceList[i] = BoardPiece.Create(initialPosition, ownerIndex);
+            BoardPiece piece = BoardPiece.Create(initialPosition, ownerIndex);
+            group._pieceList.Add(piece);
         }
         return group;
     }

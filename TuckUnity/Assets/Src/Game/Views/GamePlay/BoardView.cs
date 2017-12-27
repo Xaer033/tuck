@@ -5,31 +5,36 @@ using UnityEngine;
 using GhostGen;
 
 public class BoardView : UIView
-{
-
+{ 
     public Transform _pegsGroup;
+    public Transform _piecesGroup;
 
     private Board _board;
     private List<PegView> _pegList = new List<PegView>();
+    private List<PieceView> _pieceList = new List<PieceView>();
 
-	// Use this for initialization
-	void Start ()
+    public void SetBoard(Board board)
     {
-		
-	}
+        _board = board;
 
-
-    public Board board
-    {
-        set
+        List<BoardPosition> boardPosList = _board.GetBoardPositionList();
+        foreach (BoardPosition position in boardPosList)
         {
-            if(_board != value)
+            PegView pegView = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
+            _pegList.Add(pegView);
+        }
+
+        foreach(BoardPieceGroup group in _board.pieceGroupList)
+        {
+            foreach (BoardPiece piece in group.pieceList)
             {
-                _board = value;
-                invalidateFlag = InvalidationFlag.STATIC_DATA;
+                PieceView pieceView = Singleton.instance.cardResourceBank.CreatePieceView(piece.boardPosition, _piecesGroup);
+                _pieceList.Add(pieceView);
             }
         }
+        invalidateFlag = InvalidationFlag.STATIC_DATA;
     }
+    
 
     protected override void OnViewUpdate()
     {
@@ -37,13 +42,7 @@ public class BoardView : UIView
 
         if(IsInvalid(InvalidationFlag.STATIC_DATA) && _board != null)
         {
-            // Setup board
-            List<BoardPosition> boardPosList = _board.GetBoardPositionList();
-            foreach(BoardPosition position in boardPosList)
-            {
-                PegView v = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
-                _pegList.Add(v);
-            }
+           
         }
     }
 

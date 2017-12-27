@@ -11,7 +11,9 @@ public class CardResourceBank : ScriptableObject, IPostInit
     public CardView cardPrefab;
     public Texture2D iconAtlas;
 
-    public PegView pegPrefab; 
+    public PegView pegPrefab;
+    public PieceView piecePrefab;
+
     private Dictionary<string, Sprite> _iconMap = new Dictionary<string, Sprite>();
 
     public void PostInit()
@@ -44,10 +46,15 @@ public class CardResourceBank : ScriptableObject, IPostInit
 
     public PegView CreatePegView(BoardPosition position, Transform parent)
     {
-        Vector3 localPos = BoardPositionUtil.GetWorldPosition(position);
         PegView view = Instantiate<PegView>(pegPrefab, parent, false);
         view.boardPosition = position;
-        view.transform.localPosition = localPos;
+        return view;
+    }
+
+    public PieceView CreatePieceView(BoardPosition position, Transform parent)
+    {
+        PieceView view = Instantiate<PieceView>(piecePrefab, parent, false);
+        view.boardPosition = position;
         return view;
     }
 }

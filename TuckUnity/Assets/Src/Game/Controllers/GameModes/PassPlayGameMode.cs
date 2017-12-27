@@ -44,7 +44,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
         {
             _boardView = view as BoardView;
-            _boardView.board = _tuckMatchCore.matchState.board;
+            _boardView.SetBoard(_tuckMatchCore.matchState.board);
         });
     }
 

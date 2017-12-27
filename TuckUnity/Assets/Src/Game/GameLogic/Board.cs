@@ -10,8 +10,7 @@ public class Board
     public const int kGoalTrackEntranceIndex = 12;
     public const int kPegsPerEdge = 22;
     public const int kPegStepSize = 27;
-
-    //public const int 
+    
     public const int kMainTrackPipCount = 88;
 
     public List<BoardPieceGroup> pieceGroupList { get; private set; }
@@ -33,15 +32,15 @@ public class Board
         board._boardPositionList = new List<BoardPosition>(120);
 
         // Create Main track with starting pegs
-        int pCounter = 0;
         for(int i = 0; i < kMainTrackPipCount; ++i)
         {
             int owner = -1;
             PositionType type = PositionType.MAIN_TRACK;
 
             int snapTo = i - ((i + kPegsPerEdge) % kPegsPerEdge);
-            int startingPegIndex = ((i - snapTo) + 1) % kStartingPegIndex;
-            int goalStartIndex = ((i - snapTo) + 1) % kGoalTrackEntranceIndex;
+            int snapToPrefix = (i - snapTo) + 1;
+            int startingPegIndex =  snapToPrefix % kStartingPegIndex;
+            int goalStartIndex = snapToPrefix % kGoalTrackEntranceIndex;
 
             if (i != 0 && startingPegIndex == 0)
             {

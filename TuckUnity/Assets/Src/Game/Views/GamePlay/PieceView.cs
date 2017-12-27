@@ -7,7 +7,7 @@ using UnityEditor;
 using GhostGen;
 
 
-public class PegView : UIView
+public class PieceView : UIView
 {
     public Image _icon;
     // Debugging things
@@ -35,7 +35,6 @@ public class PegView : UIView
         }
     }
 
-
     protected override void OnViewUpdate()
     {
         base.OnViewUpdate();
@@ -47,14 +46,14 @@ public class PegView : UIView
                 _icon.color = _getColor(_boardPosition.type);
             }
 
-            _worldPosition = BoardPositionUtil.GetWorldPosition(_boardPosition);
-            transform.localPosition = _worldPosition;
-
             _positionType = _boardPosition.type;
             _trackIndex = _boardPosition.trackIndex;
             _ownerIndex = _boardPosition.ownerIndex;
+            _worldPosition = BoardPositionUtil.GetWorldPosition(_boardPosition);
+            transform.localPosition = _worldPosition;
         }
     }
+
 
     private Color _getColor(PositionType type)
     {
