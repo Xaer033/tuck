@@ -37,6 +37,12 @@ namespace GhostGen
             }
         }
 
+        public bool HasListener(string eventKey)
+        {
+            Assert.IsNotNull(_eventDictionary);
+            return _eventDictionary.ContainsKey(eventKey);
+        }
+
         public void RemoveAllListeners(string eventKey)
         {
             List<Action<GhostGen.GeneralEvent>> callbackList = null;

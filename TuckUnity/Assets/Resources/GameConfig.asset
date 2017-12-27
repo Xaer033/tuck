@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initalState: pass_and_play_gameplay
   guiManager: {fileID: 11400000, guid: 55f7c13c4ac0fee46a40f8e9f72478a3, type: 2}
+  cardResourceBank: {fileID: 11400000, guid: a1fd1df828248884ca34fd51eb34ae01, type: 2}

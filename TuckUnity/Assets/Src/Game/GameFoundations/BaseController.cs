@@ -1,6 +1,6 @@
 ﻿using GhostGen;
 
-public class BaseController
+public class BaseController : NotificationDispatcher
 {
     protected UIView _view;
 

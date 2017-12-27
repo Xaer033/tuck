@@ -35,7 +35,6 @@ public class CardDeck : object
         {
             JToken card = jsonDeck[i];
             deck._cardList.Add(CardDataFactory.CreateFromJToken(card));
-            
         }
         return deck;
     }
@@ -44,7 +43,6 @@ public class CardDeck : object
     {
         return JsonUtility.ToJson(deck, prettyPrint);
     }
-
 
     public CardData Pop()
     {

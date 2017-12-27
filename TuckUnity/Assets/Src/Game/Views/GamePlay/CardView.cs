@@ -21,8 +21,7 @@ public sealed class CardView :
     public EventTrigger eventTrigger;
 
     public int handIndex { get; set; }
-
-    //public PlayerHandView handView { get; set; }
+    public PlayerHandView handView { get; set; }
 
     public Transform handSlot { get; set; }
     public Transform dragLayer { get; set; }
@@ -50,12 +49,10 @@ public sealed class CardView :
         base.Update();
         _dragDropController.Step(Time.deltaTime);
     }
-
-    public Image _backgroundImg;
+    
     public Image _cardIcon;
-    public Image _cardTypeIcon;
-    public TextMeshProUGUI _titleLbl;
-    public TextMeshProUGUI _foodValueLbl;
+    public TextMeshProUGUI _valueTopLabel;
+    public TextMeshProUGUI _valueBottomLabel;
 
     private CardData _cardData = null;
 
@@ -83,7 +80,8 @@ public sealed class CardView :
         if ( _cardData != null && IsInvalid(InvalidationFlag.STATIC_DATA) )
         {
 
-            _titleLbl.text = _cardData.titleKey; // TODO: Localize!
+            _valueTopLabel.text = _cardData.titleKey; // TODO: Localize!
+            _valueBottomLabel.text = _cardData.titleKey;
             _cardIcon.name = _cardData.iconName;
 
             //CardResourceBank cardBank = Singleton.instance.cardResourceBank;
@@ -112,7 +110,7 @@ public sealed class CardView :
     
     public void OnEndDrag(PointerEventData e)
     {
-        //handView.canvasGroup.blocksRaycasts = true;
+        handView.canvasGroup.blocksRaycasts = true;
         _dragDropController.OnDragEnd(e, isDropSuccessfull);
     }
 }

@@ -8,19 +8,10 @@ using GhostGen;
 [CreateAssetMenu(menuName = "Mr.Tuck/Card Resource Bank")]
 public class CardResourceBank : ScriptableObject, IPostInit
 {
-    [System.Serializable]
-    public class IngredientCardSprites
-    {
-        public Sprite background;
-        public Sprite icon;
-    }
-    
-
     public CardView cardPrefab;
-
     public Texture2D iconAtlas;
 
-
+    public PegView pegPrefab; 
     private Dictionary<string, Sprite> _iconMap = new Dictionary<string, Sprite>();
 
     public void PostInit()
@@ -48,6 +39,15 @@ public class CardResourceBank : ScriptableObject, IPostInit
         CardView view = Instantiate<CardView>(cardPrefab, cParent, false);
         view.cardData = cardData;
 
+        return view;
+    }
+
+    public PegView CreatePegView(BoardPosition position, Transform parent)
+    {
+        Vector3 localPos = BoardPositionUtil.GetWorldPosition(position);
+        PegView view = Instantiate<PegView>(pegPrefab, parent, false);
+        view.boardPosition = position;
+        view.transform.localPosition = localPos;
         return view;
     }
 }

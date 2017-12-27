@@ -16,7 +16,8 @@ public class Singleton : MonoBehaviour
     public SessionFlags         sessionFlags        { get; private set; }
 
     public GuiManager           gui                 { get { return gameConfig.guiManager; } }
-    //public GameplayResources    gameplayResources   { get { return gameConfig.gameplayResources; } }
+    //public GameplayResources gameplayResources { get { return gameConfig.gameplayResources; } }
+    public CardResourceBank     cardResourceBank    { get { return gameConfig.cardResourceBank; } }    
     public NetworkManager       networkManager      { get; private set; }
 
     public NotificationDispatcher notificationDispatcher { get; private set; }
@@ -121,8 +122,11 @@ public class Singleton : MonoBehaviour
     {
         //AbstractPostInit[] postInits = GameObject.FindObjectsOfType<AbstractPostInit>();
 
+        gameConfig.PostInit();
         gui.PostInit();
         networkManager.PostInit();
+        cardResourceBank.PostInit();
+
         //System.Type typeOfMainClass = this.GetType();
         
         //PropertyInfo[] infoList = typeOfMainClass.GetProperties();

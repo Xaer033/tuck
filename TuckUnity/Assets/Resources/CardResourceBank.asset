@@ -11,5 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe4d380f63683041a36eae860164400, type: 3}
   m_Name: CardResourceBank
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 114550063531769214, guid: b053a6c473abcb145b40b564318dfb80,
+    type: 2}
   iconAtlas: {fileID: 2800000, guid: d48d40026eebad94ca36ec3b9e02be79, type: 3}
+  pegPrefab: {fileID: 114452267377191190, guid: b2ad19da8809ee942997d2d6b8243c55,
+    type: 2}
