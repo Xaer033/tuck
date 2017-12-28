@@ -5,7 +5,11 @@ using UnityEngine;
 using GhostGen;
 
 public class BoardView : UIView
-{ 
+{
+    public const float  kScale          = 300.0f;
+    public const int    kPegStepSize    = 27;
+
+
     public Transform _pegsGroup;
     public Transform _piecesGroup;
 
@@ -24,7 +28,8 @@ public class BoardView : UIView
             _pegList.Add(pegView);
         }
 
-        foreach(BoardPieceGroup group in _board.pieceGroupList)
+        List<BoardPieceGroup> pieceGroupList = _board.GetPieceGroupList();
+        foreach(BoardPieceGroup group in pieceGroupList)
         {
             foreach (BoardPiece piece in group.pieceList)
             {

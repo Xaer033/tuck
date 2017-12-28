@@ -4,33 +4,22 @@ using UnityEngine;
 
 public class Board
 {
-    public const float kScale = 300.0f;
+    public const int kStartingPegIndex          = 15;
+    public const int kGoalTrackEntranceIndex    = 12;
+    public const int kPegsPerEdge               = 22;
+    public const int kMainTrackPipCount         = 88;
+    public const int kTotalPegCount             = 120;
 
-    public const int kStartingPegIndex = 15;
-    public const int kGoalTrackEntranceIndex = 12;
-    public const int kPegsPerEdge = 22;
-    public const int kPegStepSize = 27;
-    
-    public const int kMainTrackPipCount = 88;
-
-    public List<BoardPieceGroup> pieceGroupList { get; private set; }
-
-
-    private BoardPosition[] _mainTrack;
-    private List<BoardPosition[]> _homeTrack;
-    private List<BoardPosition[]> _goalTrack;
-    private List<BoardPosition> _boardPositionList;
+    private List<BoardPosition>     _mainTrack          = new List<BoardPosition>(kMainTrackPipCount);
+    private List<BoardPosition[]>   _homeTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
+    private List<BoardPosition[]>   _goalTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
+    private List<BoardPosition>     _boardPositionList  = new List<BoardPosition>(120);
+    private List<BoardPieceGroup>   _pieceGroupList     = new List<BoardPieceGroup>(PlayerGroup.kMaxPlayerCount);
 
     public static Board Create(List<PlayerState> playerList)
     {
         Board board = new Board();
-
-        board._mainTrack = new BoardPosition[kMainTrackPipCount];
-        board._homeTrack = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
-        board._goalTrack = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
-        board.pieceGroupList = new List<BoardPieceGroup>(PlayerGroup.kMaxPlayerCount);    
-        board._boardPositionList = new List<BoardPosition>(120);
-
+        
         // Create Main track with starting pegs
         for(int i = 0; i < kMainTrackPipCount; ++i)
         {
@@ -53,7 +42,8 @@ public class Board
                 owner = i / Board.kPegsPerEdge; ;
             }
 
-            board._mainTrack[i] = BoardPosition.Create(type, i, owner);
+            BoardPosition position = BoardPosition.Create(type, i, owner);
+            board._mainTrack.Add(position);
         }
 
         board._boardPositionList.AddRange(board._mainTrack);
@@ -73,11 +63,10 @@ public class Board
             board._goalTrack.Add(goalTrack);
 
             board._boardPositionList.AddRange(homeTrack);
-            board._boardPositionList.AddRange(goalTrack);
-
+            board._boardPositionList.AddRange(goalTrack);     
 
             BoardPieceGroup group = BoardPieceGroup.Create(i);
-            board.pieceGroupList.Add(group);     
+            board._pieceGroupList.Add(group);     
         }
         
         return board;
@@ -86,6 +75,11 @@ public class Board
     public List<BoardPosition> GetBoardPositionList()
     {
         return _boardPositionList;
+    }
+
+    public List<BoardPieceGroup> GetPieceGroupList()
+    {
+        return _pieceGroupList;
     }
 
 }

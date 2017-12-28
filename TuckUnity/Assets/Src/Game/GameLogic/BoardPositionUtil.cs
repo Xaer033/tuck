@@ -14,14 +14,14 @@ public class BoardPositionUtil
        
         if(position.type == PositionType.HOME)
         {
-            center = dir * Board.kScale * 0.65f;
+            center = dir * BoardView.kScale * 0.65f;
             Vector3 offset = directions[position.trackIndex] * 2.0f;
 
             result = center + (((orthagonal * 5.0f) + offset) * Board.kPegStepSize);
         }
         else if(position.type == PositionType.GOAL_TRACK)
         {
-            center = dir * Board.kScale * 0.65f;
+            center = dir * BoardView.kScale * 0.65f;
             Vector3 offset = directions[position.trackIndex] * (position.trackIndex * Board.kPegStepSize);
 
             result = center + (dir * position.trackIndex * Board.kPegStepSize);
@@ -30,11 +30,11 @@ public class BoardPositionUtil
         {
             int orthoIndex = position.trackIndex / Board.kPegsPerEdge;
             int sideOffset = position.trackIndex % Board.kPegsPerEdge;
-            center = new Vector3(dir.x, dir.y, 0.0f) * Board.kScale;
+            center = new Vector3(dir.x, dir.y, 0.0f) * BoardView.kScale;
 
             float percentage = (float)sideOffset / (float)Board.kPegsPerEdge;
             float fullRange = percentage * 2.0f - 1.0f;
-            Vector3 offset = orthagonal * fullRange * Board.kScale;// Board.kPegStepSize * Board.kPegsPerEdge;
+            Vector3 offset = orthagonal * fullRange * BoardView.kScale;// Board.kPegStepSize * Board.kPegsPerEdge;
             result = center + offset;
         }
 
