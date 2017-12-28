@@ -43,7 +43,7 @@ public class PieceView : UIView
         {
             if(_icon != null)
             {
-                _icon.color = _getColor(_boardPosition.type);
+                _icon.color = _getColor(_boardPosition.ownerIndex);
             }
 
             _positionType = _boardPosition.type;
@@ -55,18 +55,17 @@ public class PieceView : UIView
     }
 
 
-    private Color _getColor(PositionType type)
+    private Color _getColor(int ownerIndex)
     {
-        switch (type)
+        switch (ownerIndex)
         {
-            case PositionType.GOAL_TRACK: return Color.blue;
-            case PositionType.HOME: return Color.red;
-            case PositionType.START_PEG: return Color.yellow;
-            case PositionType.MAIN_TRACK: return Color.grey;
-            case PositionType.GOAL_TRACK_ENTRANCE: return Color.green;
+            case 0: return Color.green;
+            case 1: return new Color(1.0f, 0.75f, 0.26f);
+            case 2: return new Color(1.0f, 0.1f, 0.1f);
+            case 3: return new Color(0.3f, 0.1f, 1.0f);
         }
 
-        Debug.LogError("Not handled top: " + type);
+        Debug.LogError("Not handled ownerIndex: " + ownerIndex);
         return Color.black;
 
     }

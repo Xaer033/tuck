@@ -2,7 +2,7 @@
 		{
 			"id"				: "ace_spades",
 			"titleKey"			: "1 or 11 or Escape!",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "leave_base",
@@ -21,7 +21,7 @@
 		{
 			"id"				: "two_spades",
 			"titleKey"			: "2",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -32,7 +32,7 @@
 		{
 			"id"				: "three_spades",
 			"titleKey"			: "3",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -43,7 +43,7 @@
 		{
 			"id"				: "four_spades",
 			"titleKey"			: "4",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "backwards",
@@ -54,7 +54,7 @@
 		{
 			"id"				: "five_spades",
 			"titleKey"			: "5",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -65,7 +65,7 @@
 		{
 			"id"				: "six_spades",
 			"titleKey"			: "6",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -76,7 +76,7 @@
 		{
 			"id"				: "seven_spades",
 			"titleKey"			: "7",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "split_stomp",
@@ -87,7 +87,7 @@
 		{
 			"id"				: "eight_spades",
 			"titleKey"			: "8",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -98,7 +98,7 @@
 		{
 			"id"				: "nine_spades",
 			"titleKey"			: "9",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -109,7 +109,7 @@
 		{
 			"id"				: "ten_spades",
 			"titleKey"			: "10",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "forwards",
@@ -120,7 +120,7 @@
 		{
 			"id"				: "jack_spades",
 			"titleKey"			: "swap",
-			"iconName"			: "Beef",
+			"iconName"			: "Steak",
 			"moveType"			: [
 				{
 					"type": "swap",
@@ -130,9 +130,43 @@
 		},
 		{
 			"id"				: "queen_spades",
-			"titleKey"			: "11",
+			"titleKey"			: "12",
+			"iconName"			: "Steak",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 12
+				}
+			]
+		},
+		{
+			"id"				: "king_spades",
+			"titleKey"			: "13 or escape",
+			"iconName"			: "Steak",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 13
+				},
+				{
+					"type": "leave_base",
+					"value":0
+				}
+			]
+		},
+		{
+			"id"				: "ace_clubs",
+			"titleKey"			: "1 or 11 or Escape!",
 			"iconName"			: "Beef",
 			"moveType"			: [
+				{
+					"type": "leave_base",
+					"value": 0
+				},
+				{
+					"type": "forwards",
+					"value": 1
+				},
 				{
 					"type": "forwards",
 					"value": 11
@@ -140,9 +174,440 @@
 			]
 		},
 		{
-			"id"				: "king_spades",
+			"id"				: "two_clubs",
+			"titleKey"			: "2",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 2
+				}
+			]
+		},
+		{
+			"id"				: "three_clubs",
+			"titleKey"			: "3",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 3
+				}
+			]
+		},
+		{
+			"id"				: "four_clubs",
+			"titleKey"			: "4",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "backwards",
+					"value": 4
+				}
+			]
+		},
+		{
+			"id"				: "five_clubs",
+			"titleKey"			: "5",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 5
+				}
+			]
+		},
+		{
+			"id"				: "six_clubs",
+			"titleKey"			: "6",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 6
+				}
+			]
+		},
+		{
+			"id"				: "seven_clubs",
+			"titleKey"			: "7",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "split_stomp",
+					"value": 7
+				}
+			]
+		},
+		{
+			"id"				: "eight_clubs",
+			"titleKey"			: "8",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 8
+				}
+			]
+		},
+		{
+			"id"				: "nine_clubs",
+			"titleKey"			: "9",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 9
+				}
+			]
+		},
+		{
+			"id"				: "ten_clubs",
+			"titleKey"			: "10",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 10
+				}
+			]
+		},
+		{
+			"id"				: "jack_clubs",
+			"titleKey"			: "swap",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "swap",
+					"value": 0
+				}
+			]
+		},
+		{
+			"id"				: "queen_clubs",
+			"titleKey"			: "12",
+			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 12
+				}
+			]
+		},
+		{
+			"id"				: "king_clubs",
 			"titleKey"			: "13 or escape",
 			"iconName"			: "Beef",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 13
+				},
+				{
+					"type": "leave_base",
+					"value":0
+				}
+			]
+		},
+		{
+			"id"				: "ace_diamonds",
+			"titleKey"			: "1 or 11 or Escape!",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "leave_base",
+					"value": 0
+				},
+				{
+					"type": "forwards",
+					"value": 1
+				},
+				{
+					"type": "forwards",
+					"value": 11
+				}
+			]
+		},
+		{
+			"id"				: "two_diamonds",
+			"titleKey"			: "2",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 2
+				}
+			]
+		},
+		{
+			"id"				: "three_diamonds",
+			"titleKey"			: "3",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 3
+				}
+			]
+		},
+		{
+			"id"				: "four_diamonds",
+			"titleKey"			: "4",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "backwards",
+					"value": 4
+				}
+			]
+		},
+		{
+			"id"				: "five_diamonds",
+			"titleKey"			: "5",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 5
+				}
+			]
+		},
+		{
+			"id"				: "six_diamonds",
+			"titleKey"			: "6",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 6
+				}
+			]
+		},
+		{
+			"id"				: "seven_diamonds",
+			"titleKey"			: "7",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "split_stomp",
+					"value": 7
+				}
+			]
+		},
+		{
+			"id"				: "eight_diamonds",
+			"titleKey"			: "8",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 8
+				}
+			]
+		},
+		{
+			"id"				: "nine_diamonds",
+			"titleKey"			: "9",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 9
+				}
+			]
+		},
+		{
+			"id"				: "ten_diamonds",
+			"titleKey"			: "10",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 10
+				}
+			]
+		},
+		{
+			"id"				: "jack_diamonds",
+			"titleKey"			: "swap",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "swap",
+					"value": 0
+				}
+			]
+		},
+		{
+			"id"				: "queen_diamonds",
+			"titleKey"			: "12",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 12
+				}
+			]
+		},
+		{
+			"id"				: "king_diamonds",
+			"titleKey"			: "13 or escape",
+			"iconName"			: "Avocado",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 13
+				},
+				{
+					"type": "leave_base",
+					"value":0
+				}
+			]
+		},
+		{
+			"id"				: "ace_hearts",
+			"titleKey"			: "1 or 11 or Escape!",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "leave_base",
+					"value": 0
+				},
+				{
+					"type": "forwards",
+					"value": 1
+				},
+				{
+					"type": "forwards",
+					"value": 11
+				}
+			]
+		},
+		{
+			"id"				: "two_hearts",
+			"titleKey"			: "2",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 2
+				}
+			]
+		},
+		{
+			"id"				: "three_hearts",
+			"titleKey"			: "3",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 3
+				}
+			]
+		},
+		{
+			"id"				: "four_hearts",
+			"titleKey"			: "4",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "backwards",
+					"value": 4
+				}
+			]
+		},
+		{
+			"id"				: "five_hearts",
+			"titleKey"			: "5",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 5
+				}
+			]
+		},
+		{
+			"id"				: "six_hearts",
+			"titleKey"			: "6",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 6
+				}
+			]
+		},
+		{
+			"id"				: "seven_hearts",
+			"titleKey"			: "7",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "split_stomp",
+					"value": 7
+				}
+			]
+		},
+		{
+			"id"				: "eight_hearts",
+			"titleKey"			: "8",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 8
+				}
+			]
+		},
+		{
+			"id"				: "nine_hearts",
+			"titleKey"			: "9",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 9
+				}
+			]
+		},
+		{
+			"id"				: "ten_hearts",
+			"titleKey"			: "10",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 10
+				}
+			]
+		},
+		{
+			"id"				: "jack_hearts",
+			"titleKey"			: "swap",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "swap",
+					"value": 0
+				}
+			]
+		},
+		{
+			"id"				: "queen_hearts",
+			"titleKey"			: "12",
+			"iconName"			: "Jalapeno",
+			"moveType"			: [
+				{
+					"type": "forwards",
+					"value": 12
+				}
+			]
+		},
+		{
+			"id"				: "king_hearts",
+			"titleKey"			: "13 or escape",
+			"iconName"			: "Jalapeno",
 			"moveType"			: [
 				{
 					"type": "forwards",

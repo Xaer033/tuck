@@ -72,7 +72,7 @@ public class CardDragDropController
         Vector3 mPos = Input.mousePosition;
         mPos.z = Singleton.instance.gui.mainCanvas.planeDistance;
         _inputOffset = _target.position - _camera.ScreenToWorldPoint(mPos);
-
+        _dragDelta = -(_target.rotation).eulerAngles;
         _target.SetParent(_dragLayer);
         
         _isDragging = true;
@@ -114,6 +114,7 @@ public class CardDragDropController
         _resetTween.SetEase(Ease.OutCubic);
         _resetTween.OnComplete(() =>
         {
+            _target.position = _slot.position;
             _resetTween = null;
         });
         

@@ -82,7 +82,7 @@ public sealed class CardView :
 
             _valueTopLabel.text = _cardData.titleKey; // TODO: Localize!
             _valueBottomLabel.text = _cardData.titleKey;
-            _cardIcon.name = _cardData.iconName;
+            _cardIcon.sprite = Singleton.instance.cardResourceBank.GetMainIcon(_cardData.iconName);
 
             //CardResourceBank cardBank = Singleton.instance.cardResourceBank;
             //_backgroundImg.sprite = cardBank.GetIngredientBG(ingredientData.cardType);
@@ -101,6 +101,7 @@ public sealed class CardView :
     public void OnBeginDrag(PointerEventData e)
     {
         _dragDropController.OnDragBegin(e);
+        handView.Hide(null);
     }
 
     public void OnDrag(PointerEventData e)
@@ -110,7 +111,12 @@ public sealed class CardView :
     
     public void OnEndDrag(PointerEventData e)
     {
-        handView.canvasGroup.blocksRaycasts = true;
-        _dragDropController.OnDragEnd(e, isDropSuccessfull);
+       // DispatchEvent(GameEventType.CARD_DROPPED, new Hashtable { { "success", isDropSuccessfull} });
+        handView.Show(() =>
+        {
+            handView.canvasGroup.blocksRaycasts = true;
+            _dragDropController.OnDragEnd(e, isDropSuccessfull);
+        });
+        
     }
 }

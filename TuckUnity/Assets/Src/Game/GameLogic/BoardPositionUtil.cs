@@ -17,18 +17,17 @@ public class BoardPositionUtil
             center = dir * BoardView.kScale * 0.65f;
             Vector3 offset = directions[position.trackIndex] * 2.0f;
 
-            result = center + (((orthagonal * 5.0f) + offset) * Board.kPegStepSize);
+            result = center + (((orthagonal * 5.0f) + offset) * BoardView.kPegStepSize);
         }
         else if(position.type == PositionType.GOAL_TRACK)
         {
             center = dir * BoardView.kScale * 0.65f;
-            Vector3 offset = directions[position.trackIndex] * (position.trackIndex * Board.kPegStepSize);
+            //Vector3 offset = directions[position.trackIndex] * (position.trackIndex * BoardView.kPegStepSize);
 
-            result = center + (dir * position.trackIndex * Board.kPegStepSize);
+            result = center + (dir * position.trackIndex * BoardView.kPegStepSize);
         }
         else
         {
-            int orthoIndex = position.trackIndex / Board.kPegsPerEdge;
             int sideOffset = position.trackIndex % Board.kPegsPerEdge;
             center = new Vector3(dir.x, dir.y, 0.0f) * BoardView.kScale;
 

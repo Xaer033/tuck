@@ -9,10 +9,9 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     //private PassAndPlayFieldController  _playFieldController        = new PassAndPlayFieldController();
     //private GameOverPopupController     _gameOverPopupController    = new GameOverPopupController();
     private TuckMatchCore _tuckMatchCore;
-
+    private PlayFieldController _playFieldController = new PlayFieldController();
     private List<PlayerState> _playerList = new List<PlayerState>(PlayerGroup.kMaxPlayerCount);
 
-    private BoardView _boardView;
 
     public void Start()
     {
@@ -31,6 +30,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         _setupCallbacks();
 
         CardDeck deck = CardDeck.FromFile("Decks/StandardDeck");
+        deck.Shuffle();
 
         //Temp make player state
         for (int i = 0; i < PlayerGroup.kMaxPlayerCount; ++i)
@@ -39,13 +39,8 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         }
 
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
-
-        ViewFactory viewFactory = Singleton.instance.gui.viewFactory;
-        viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
-        {
-            _boardView = view as BoardView;
-            _boardView.SetBoard(_tuckMatchCore.matchState.board);
-        });
+        _playFieldController.Start(_tuckMatchCore.matchState);
+        
     }
 
     public void Step(double deltaTime)

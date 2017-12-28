@@ -6,23 +6,24 @@ using UnityEngine;
 using GhostGen;
 
 
-public class Singleton : MonoBehaviour 
+public class Singleton : MonoBehaviour
 {
     [SerializeField]
     private bool firstScene = false;
 
-    public GameConfig           gameConfig          { get; private set; }
-    public GameStateMachine     gameStateMachine    { get; private set; }
-    public SessionFlags         sessionFlags        { get; private set; }
+    public GameConfig gameConfig { get; private set; }
+    public GameStateMachine gameStateMachine { get; private set; }
+    public SessionFlags sessionFlags { get; private set; }
 
-    public GuiManager           gui                 { get { return gameConfig.guiManager; } }
+    public GuiManager gui { get { return gameConfig.guiManager; } }
     //public GameplayResources gameplayResources { get { return gameConfig.gameplayResources; } }
-    public CardResourceBank     cardResourceBank    { get { return gameConfig.cardResourceBank; } }    
-    public NetworkManager       networkManager      { get; private set; }
+    public CardResourceBank cardResourceBank { get { return gameConfig.cardResourceBank; } }
+    public NetworkManager networkManager { get; private set; }
 
     public NotificationDispatcher notificationDispatcher { get; private set; }
-    
+
     private IStateFactory _stateFactory;
+    private Transform _sceneRoot;
 
     private static object _lock = new object();
 
@@ -31,7 +32,7 @@ public class Singleton : MonoBehaviour
 
     public void Awake()
     {
-        if(firstScene)
+        if (firstScene)
         {
             _instance = this;
             _initialize();
@@ -128,7 +129,7 @@ public class Singleton : MonoBehaviour
         cardResourceBank.PostInit();
 
         //System.Type typeOfMainClass = this.GetType();
-        
+
         //PropertyInfo[] infoList = typeOfMainClass.GetProperties();
         //for(int i = 0; i < infoList.Length; ++i)
         //{
@@ -136,12 +137,29 @@ public class Singleton : MonoBehaviour
         //    if(typeof(IPostInit).IsAssignableFrom(propertyInfo.GetType()))
         //    {
         //        object instanceOfProperty = propertyInfo.GetValue(this);
-                
+
         //        System.Type typeofMainProperty = instanceOfProperty.GetType();
         //        MethodInfo methodOfMainProperty = typeofMainProperty.GetMethod("PostInit");
         //        methodOfMainProperty.Invoke(instanceOfProperty, new object[0]);
         //    }
         //}
+    }
+
+    public Transform sceneRoot
+    {
+        get
+        {
+            if(!_sceneRoot)
+            {
+                GameObject obj = GameObject.FindGameObjectWithTag("Root");
+                if(obj)
+                {
+                    _sceneRoot = obj.transform;
+                }
+            }
+
+            return _sceneRoot;
+        }
     }
 
     public void OnDestroy()

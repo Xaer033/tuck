@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4443933480776226}
   - component: {fileID: 33129274255637136}
   - component: {fileID: 23769997214596602}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224194468933859118}
   - component: {fileID: 114814260314397156}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PieceTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 224968988577292104}
   - component: {fileID: 222069287274317246}
   - component: {fileID: 114936257851121918}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

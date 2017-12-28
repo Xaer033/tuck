@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224190600262897496}
   - component: {fileID: 222616848378047018}
   - component: {fileID: 114454605980613018}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224822459032554888}
   - component: {fileID: 114452267377191190}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PegTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

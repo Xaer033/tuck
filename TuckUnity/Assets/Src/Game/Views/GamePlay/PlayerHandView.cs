@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
+using System;
 using System.Collections;
 using GhostGen;
 using DG.Tweening;
 
 public class PlayerHandView : UIView
 {
+    public const float kHandTweenDuration = 0.15f;
+
     public Transform[] cardSlotList;
+
+    public RectTransform handTransform;
 
     public CanvasGroup canvasGroup;
     public Transform dragCardLayer;
     public Image dragBlocker;
 
-    private CardView[] _cardViewList;
+    private CardView[] _cardViewList = new CardView[PlayerState.kFirstHandSize];
+    private Tween _handTween;
+    private Vector3 _shownPosition;
+    private Vector3 _hiddenPosition;
 
     void Awake()
     {
-        _cardViewList = new CardView[PlayerState.kFirstHandSize];
         blockCardDrag = false;
-    }
-    
-    void Start()
-    {
-        
+
+        _shownPosition = handTransform.anchoredPosition;
+        _hiddenPosition = new Vector3(0, -100, 0);
     }
 
     public bool blockCardDrag
@@ -62,6 +67,44 @@ public class PlayerHandView : UIView
         }
     }
 
+    public void Show(Action onComplete)
+    {
+        _killHandTween();
+
+        _handTween = handTransform.DOAnchorPos3D(_shownPosition, kHandTweenDuration)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                if (onComplete != null)
+                {
+                    onComplete();
+                }
+            });
+    }
+
+    public void Hide(Action onComplete)
+    {
+        _killHandTween();
+
+        _handTween = handTransform.DOAnchorPos3D(_hiddenPosition, kHandTweenDuration * 2.0f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                if (onComplete != null)
+                {
+                    onComplete();
+                }
+            });
+    }
+
+    private void _killHandTween()
+    {
+        if(_handTween != null)
+        {
+            _handTween.Kill(true);
+            _handTween = null;
+        }
+    }
 
     protected override void OnViewUpdate()
     {
@@ -85,10 +128,12 @@ public class PlayerHandView : UIView
         if (cardView == null) { return null; }
         _boundsCheck(handIndex);
 
-        cardView.transform.SetParent(cardSlotList[handIndex]);
+        Transform slot = cardSlotList[handIndex];
+        cardView.transform.SetParent(slot);
         cardView.transform.localPosition = Vector3.zero;
+        cardView.transform.rotation = slot.rotation;
         cardView.handView = this;
-        cardView.handSlot = cardSlotList[handIndex];
+        cardView.handSlot = slot;
         cardView.dragLayer = dragCardLayer;
         cardView.handIndex = handIndex;
         return cardView;
