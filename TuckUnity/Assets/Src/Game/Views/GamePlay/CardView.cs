@@ -111,7 +111,7 @@ public sealed class CardView :
     
     public void OnEndDrag(PointerEventData e)
     {
-       // DispatchEvent(GameEventType.CARD_DROPPED, new Hashtable { { "success", isDropSuccessfull} });
+        DispatchEvent(GameEventType.CARD_DROPPED, true, new Hashtable { { "success", isDropSuccessfull } });
         handView.Show(() =>
         {
             handView.canvasGroup.blocksRaycasts = true;

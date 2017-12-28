@@ -29,6 +29,12 @@ public class PlayerHandView : UIView
 
         _shownPosition = handTransform.anchoredPosition;
         _hiddenPosition = new Vector3(0, -100, 0);
+
+        //AddListener(GameEventType.CARD_DROPPED, (e) =>
+        //{
+        //    Debug.Log("BubbleInfo: " + e.currentTarget + ", " + e.target);
+        //    Debug.Log("Bubble Working? : " +  e.data["success"]);
+        //});
     }
 
     public bool blockCardDrag

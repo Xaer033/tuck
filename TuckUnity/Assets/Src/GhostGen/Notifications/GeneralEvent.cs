@@ -10,6 +10,8 @@ namespace GhostGen
     {
         public string type;
         public object target;
+        public object currentTarget;
         public Hashtable data;
+        public bool isBubbling;        
     }
 }

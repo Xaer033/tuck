@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEngine;
 
 namespace GhostGen
 {
@@ -9,6 +10,7 @@ namespace GhostGen
         void RemoveListener(string eventKey, Action<GhostGen.GeneralEvent> callback);
         bool HasListener(string eventKey);
         void RemoveAllListeners(string eventKey);
-        void DispatchEvent(string eventKey, Hashtable eventData = null);
+        bool DispatchEvent(string eventKey, bool bubble = false, Hashtable eventData = null);
+        bool DispatchEvent(GeneralEvent e);
     }
 }
