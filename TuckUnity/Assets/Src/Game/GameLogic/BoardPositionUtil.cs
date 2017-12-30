@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardPositionUtil
 {
-    public static Vector3 GetWorldPosition(BoardPosition position)
+    public static Vector3 GetViewPosition(BoardPosition position)
     {
         Vector3 result = Vector3.zero;
         Vector3 dir = _getDirectionVector(position);

@@ -13,7 +13,6 @@ public class PegView : UIView
     public PositionType _positionType;
     public int _trackIndex;
     public int _ownerIndex;
-    public Vector3 _worldPosition;
     // -----------
 
     private BoardPosition _boardPosition;
@@ -46,9 +45,9 @@ public class PegView : UIView
                 _icon.color = _getColor(_boardPosition.type);
             }
 
-            _worldPosition = BoardPositionUtil.GetWorldPosition(_boardPosition);
-            transform.localPosition = _worldPosition;
-
+            transform.localPosition = BoardPositionUtil.GetViewPosition(_boardPosition);
+           
+            // DebugInfo
             _positionType = _boardPosition.type;
             _trackIndex = _boardPosition.trackIndex;
             _ownerIndex = _boardPosition.ownerIndex;

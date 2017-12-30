@@ -6,7 +6,7 @@ public class TuckMatchCore
 {
     public TuckMatchState matchState { get; private set; }
 
-    private CommandFactory _commandFactory = new CommandFactory();
+    //private CommandFactory _commandFactory = new CommandFactory();
 
 
     public static TuckMatchCore Create(

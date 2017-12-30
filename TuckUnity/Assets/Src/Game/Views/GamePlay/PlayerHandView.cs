@@ -37,6 +37,8 @@ public class PlayerHandView : UIView
         //});
     }
 
+    public int playerIndex { get; set; }
+
     public bool blockCardDrag
     {
         set
@@ -45,6 +47,8 @@ public class PlayerHandView : UIView
         }
     }
     
+
+
     public void SetCardAtIndex(int index, CardView card)
     {
         _boundsCheck(index);
@@ -142,6 +146,8 @@ public class PlayerHandView : UIView
         cardView.handSlot = slot;
         cardView.dragLayer = dragCardLayer;
         cardView.handIndex = handIndex;
+        cardView.ownerIndex = playerIndex;
+
         return cardView;
     }
 

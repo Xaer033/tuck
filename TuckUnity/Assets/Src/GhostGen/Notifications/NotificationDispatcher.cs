@@ -54,7 +54,7 @@ namespace GhostGen
             return _eventDictionary.ContainsKey(eventKey);
         }
 
-        public void RemoveAllListeners(string eventKey)
+        public void RemoveAllListenersOfEvent(string eventKey)
         {
             List<Action<GhostGen.GeneralEvent>> callbackList = null;
             if (_eventDictionary.TryGetValue(eventKey, out callbackList))
@@ -63,7 +63,12 @@ namespace GhostGen
             }
         }
 
-        public bool DispatchEvent(string eventKey, bool bubbles = false, Hashtable eventData = null)
+        public void RemoveAllListeners()
+        {
+            _eventDictionary.Clear();
+        }
+
+        public bool DispatchEvent(string eventKey, bool bubbles = false, object eventData = null)
         {
             //TODO pool these event objects and reuse them
             GhostGen.GeneralEvent e = new GhostGen.GeneralEvent();

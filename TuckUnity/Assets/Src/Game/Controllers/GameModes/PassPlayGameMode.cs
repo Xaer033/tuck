@@ -32,15 +32,14 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         CardDeck deck = CardDeck.FromFile("Decks/StandardDeck");
         deck.Shuffle();
 
-        //Temp make player state
+        /// TODO: TEMP, make player state
         for (int i = 0; i < PlayerGroup.kMaxPlayerCount; ++i)
         {
             _playerList.Add(PlayerState.Create(i, ""));
         }
 
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
-        _playFieldController.Start(_tuckMatchCore.matchState);
-        
+        _playFieldController.Start(_tuckMatchCore.matchState);        
     }
 
     public void Step(double deltaTime)
@@ -51,7 +50,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     public void CleanUp()
     {
         //_playFieldController.RemoveView();
-        RemoveAllListeners(GameEventType.GAME_OVER);
+        RemoveAllListenersOfEvent(GameEventType.GAME_OVER);
     }
 
     private void onGameOver(bool gameOverPopup = true)

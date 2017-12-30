@@ -11,7 +11,7 @@ namespace GhostGen
         public string type;
         public object target;
         public object currentTarget;
-        public Hashtable data;
+        public object data;
         public bool isBubbling;        
     }
 }

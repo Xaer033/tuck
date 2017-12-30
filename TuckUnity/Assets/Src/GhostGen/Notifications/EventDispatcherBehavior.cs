@@ -21,11 +21,15 @@ namespace GhostGen
         {
             return dispatcher.HasListener(eventKey);
         }
-        public void RemoveAllListeners(string eventKey)
+        public void RemoveAllListenersOfEvent(string eventKey)
         {
-            dispatcher.RemoveAllListeners(eventKey);
+            dispatcher.RemoveAllListenersOfEvent(eventKey);
         }
-        public bool DispatchEvent(string eventKey, bool bubbles = false, Hashtable eventData = null)
+        public void RemoveAllListeners()
+        {
+            dispatcher.RemoveAllListeners();
+        }
+        public bool DispatchEvent(string eventKey, bool bubbles = false, object eventData = null)
         {
             return dispatcher.DispatchEvent(eventKey, bubbles, eventData);
         }

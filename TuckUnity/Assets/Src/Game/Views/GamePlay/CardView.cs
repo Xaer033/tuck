@@ -21,6 +21,8 @@ public sealed class CardView :
     public EventTrigger eventTrigger;
 
     public int handIndex { get; set; }
+    public int ownerIndex { get; set; }
+
     public PlayerHandView handView { get; set; }
 
     public Transform handSlot { get; set; }
@@ -111,12 +113,11 @@ public sealed class CardView :
     
     public void OnEndDrag(PointerEventData e)
     {
-        DispatchEvent(GameEventType.CARD_DROPPED, true, new Hashtable { { "success", isDropSuccessfull } });
+        DispatchEvent(GameEventType.END_CARD_DRAG, true, isDropSuccessfull);
         handView.Show(() =>
         {
             handView.canvasGroup.blocksRaycasts = true;
             _dragDropController.OnDragEnd(e, isDropSuccessfull);
-        });
-        
+        });        
     }
 }

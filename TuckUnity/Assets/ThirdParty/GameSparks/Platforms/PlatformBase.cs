@@ -379,8 +379,8 @@ namespace GameSparks.Platforms
                     case RuntimePlatform.XboxOne:
                         return "XBOXONE";
 
-                    case RuntimePlatform.SamsungTVPlayer:
-                        return "SAMSUNGTV";
+                    //case RuntimePlatform.SamsungTVPlayer:
+                    //    return "SAMSUNGTV";
 
                     case RuntimePlatform.WiiU:
                         return "WIIU";

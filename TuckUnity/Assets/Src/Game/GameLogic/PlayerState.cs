@@ -43,6 +43,8 @@ public class PlayerState
     public string       name                { get; private set; }
     public int          id                  { get; private set; }
 
+    public int          partnerIndex        { get; private set; }
+
     //public int          score               { get; set; }
     public int          numCardsPlayed      { get { return cardsPlayedStack.Count; } }
 

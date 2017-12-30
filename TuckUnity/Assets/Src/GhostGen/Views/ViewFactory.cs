@@ -114,6 +114,7 @@ namespace GhostGen
             if(view != null)
             {
                 view.OnViewDispose();
+                view.RemoveAllListeners();
                 GameObject.Destroy(view.gameObject);
                 view = null;
             }
