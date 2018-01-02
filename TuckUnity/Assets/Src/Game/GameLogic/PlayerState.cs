@@ -20,6 +20,8 @@ public class PlayerStateSerializable : System.Object
     public int index = -1;
     public int id = -1;
     public string name;
+    public int teamIndex = 0;
+    public int partnerIndex = 0;
 
     static public PlayerStateSerializable Create(PlayerState state)
     {
@@ -28,6 +30,7 @@ public class PlayerStateSerializable : System.Object
         serial.index = state.index;
         serial.name = state.name;
         serial.id = state.id;
+        serial.teamIndex = state.teamIndex;
         return serial;
     }
     
@@ -43,7 +46,8 @@ public class PlayerState
     public string       name                { get; private set; }
     public int          id                  { get; private set; }
 
-    public int          partnerIndex        { get; private set; }
+    public int          teamIndex           { get; private set; }
+    //public int          partnerIndex        { get; private set; }
 
     //public int          score               { get; set; }
     public int          numCardsPlayed      { get { return cardsPlayedStack.Count; } }
@@ -52,7 +56,7 @@ public class PlayerState
     public Stack<CardData> cardsPlayedStack { get; private set; }
     
 
-    public static PlayerState Create(int playerIndex, string name, int id = -1)
+    public static PlayerState Create(int playerIndex, string name, int teamIndex, int id = -1)
     {
         PlayerState player = new PlayerState();
         player.hand = PlayerHand.Create(kFirstHandSize);
@@ -60,12 +64,13 @@ public class PlayerState
         player.index = playerIndex;
         player.name = name;
         player.id = id;
+        player.teamIndex = teamIndex;
         //player.score = 0;
         return player;
     }
 
     public static PlayerState Create(PlayerStateSerializable serialState)
     {
-        return PlayerState.Create(serialState.index, serialState.name, serialState.id);
+        return PlayerState.Create(serialState.index, serialState.name, serialState.teamIndex, serialState.id);
     }
 }

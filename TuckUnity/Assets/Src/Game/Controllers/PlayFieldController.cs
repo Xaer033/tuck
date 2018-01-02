@@ -26,7 +26,7 @@ public class PlayFieldController : BaseController
     private CardResourceBank _gameplayResources;
     private PlayFieldState _playfieldState;
 
-    private Dictionary<int, TradeRequest> _tradeEscrow = new Dictionary<int, TradeRequest>(PlayerGroup.kMaxPlayerCount);
+    private Dictionary<int, TradeRequest> _tradeEscrow = new Dictionary<int, TradeRequest>(2);
 
     public PlayFieldController()
     {
@@ -159,11 +159,12 @@ public class PlayFieldController : BaseController
         bool result = false;
 
         PlayerState player = _matchState.playerGroup.GetPlayerByIndex(playerIndex);
-        TradeRequest trade = TradeRequest.Create(player.index, player.partnerIndex, handSlotIndex);
+        TradeRequest trade = TradeRequest.Create(player.index, player.teamIndex, handSlotIndex);
 
         if (_tradeEscrow.ContainsKey(player.index))
         {
             result = false;
+
         }
         else
         {
@@ -171,19 +172,27 @@ public class PlayFieldController : BaseController
             result = true;
             Debug.Log("Size: " + _tradeEscrow.Count);
 
-            _matchState.playerGroup.SetNextActivePlayer();
-            _setupPlayerHand(activePlayer.index);
-
             if (_tradeEscrow.Count == _matchState.playerGroup.playerCount)
             {
-               // TODO: Apply trade transaction
+                // TODO: Apply trade transaction
+                List<TradeRequest> listEscrow = new List<TradeRequest>();
+                foreach(KeyValuePair<int, TradeRequest> pair in _tradeEscrow)
+                {
+                    listEscrow.Add(pair.Value);
+                }
+
+                DispatchEvent(GameEventType.APPLY_TRADE, false, listEscrow);
             }
             else
             {
                 //Temporary
             }
+
+
         }
 
+        _matchState.playerGroup.SetNextActivePlayer();
+        _setupPlayerHand(activePlayer.index);
         return result;
     }
 }

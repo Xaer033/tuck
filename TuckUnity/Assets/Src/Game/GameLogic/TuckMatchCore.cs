@@ -6,7 +6,7 @@ public class TuckMatchCore
 {
     public TuckMatchState matchState { get; private set; }
 
-    //private CommandFactory _commandFactory = new CommandFactory();
+    private CommandFactory _commandFactory = new CommandFactory();
 
 
     public static TuckMatchCore Create(
@@ -23,4 +23,14 @@ public class TuckMatchCore
 
     private TuckMatchCore() { }
 
+
+    public void ApplyTrade(List<TradeRequest> tradeList)
+    {
+        ICommand command = TradeCards.Create(
+            tradeList,
+            matchState.playerGroup,
+            matchState.teams);
+
+        _commandFactory.Execute(command);
+    }
 }

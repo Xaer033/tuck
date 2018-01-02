@@ -21,24 +21,19 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         //_playerList.Clear();
         //_playerList.AddRange(context.playerList);
 
-        //_gameMatchCore = GameMatchCore.Create(
-        //    _playerList,
-        //    context.customerDeck, 
-        //    context.ingredientDeck);
-
-        //_playFieldController.Start(_gameMatchCore.matchState);
-        _setupCallbacks();
-
+      
         CardDeck deck = CardDeck.FromFile("Decks/StandardDeck");
         deck.Shuffle();
 
         /// TODO: TEMP, make player state
         for (int i = 0; i < PlayerGroup.kMaxPlayerCount; ++i)
         {
-            _playerList.Add(PlayerState.Create(i, ""));
+            _playerList.Add(PlayerState.Create(i, "", i % 2));
         }
 
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
+
+        _addCallbacks();
         _playFieldController.Start(_tuckMatchCore.matchState);        
     }
 
@@ -49,8 +44,10 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
 
     public void CleanUp()
     {
-        //_playFieldController.RemoveView();
-        RemoveAllListenersOfEvent(GameEventType.GAME_OVER);
+        _removeCallbacks();
+
+        _playFieldController.RemoveView();
+        RemoveAllListeners();
     }
 
     private void onGameOver(bool gameOverPopup = true)
@@ -72,13 +69,29 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         }
     }
     
-    private void _setupCallbacks()
+    private void _addCallbacks()
     {
+        _playFieldController.AddListener(GameEventType.APPLY_TRADE, onApplyTrade);
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
         //_playFieldController.onEndTurn          = onEndTurn;
         //_playFieldController.onUndoTurn         = onUndoTurn;
         //_playFieldController.onGameOver         = onGameOver;
+    }
+
+    private void _removeCallbacks()
+    {
+        _playFieldController.RemoveListener(GameEventType.APPLY_TRADE, onApplyTrade);
+        //_playFieldController.onPlayOnCustomer   = onPlayCard;
+        //_playFieldController.onResolveScore     = onResolveScore;
+        //_playFieldController.onEndTurn          = onEndTurn;
+        //_playFieldController.onUndoTurn         = onUndoTurn;
+        //_playFieldController.onGameOver         = onGameOver;
+    }
+    private void onApplyTrade(GeneralEvent e)
+    {
+        List<TradeRequest> requestList = e.data as List<TradeRequest>;
+        _tuckMatchCore.ApplyTrade(requestList);
     }
     
 }
