@@ -1,0 +1,11 @@
+{
+    "name": "GameAssembly",
+    "references": [
+        "GhostGenAssemblies",
+        "ThirdPartyAssembly"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

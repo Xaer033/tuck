@@ -1,0 +1,8 @@
+{
+    "name": "ThirdPartyAssembly",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

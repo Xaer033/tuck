@@ -13,6 +13,7 @@ public class PassPlaySetupController : BaseController
         _onStart = onStart;
         _onCancel = onCancel;
 
+
         viewFactory.CreateAsync<PassPlaySetupView>("GUI/GameSetup/PassPlaySetupView", (passView) =>
         {
             _passPlaySetup = passView as PassPlaySetupView;

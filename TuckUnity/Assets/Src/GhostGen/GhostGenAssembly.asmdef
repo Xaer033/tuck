@@ -1,0 +1,10 @@
+{
+    "name": "GhostGenAssemblies",
+    "references": [
+        "ThirdPartyAssembly"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

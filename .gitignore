@@ -2,6 +2,7 @@ Builds/
 TuckUnity/.vs/
 TuckUnity/Library/
 TuckUnity/Temp/
+TuckUnity/obj/
 TuckUnity/TuckUnity.Editor.csproj
 TuckUnity/TuckUnity.Plugins.csproj
 TuckUnity/TuckUnity.csproj

@@ -1,0 +1,3 @@
+[submodule "TuckUnity/Assets/ThirdParty/Post_Processing"]
+	path = TuckUnity/Assets/ThirdParty/Post_Processing
+	url = https://github.com/Unity-Technologies/PostProcessing.git
