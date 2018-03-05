@@ -24,6 +24,11 @@ public class TuckMatchCore
     private TuckMatchCore() { }
 
 
+    public void AddTradeRequest(TradeRequest request)
+    {
+        //ICommand command = TradeRequestCommand.Create(_r)
+    }
+
     public void ApplyTrade(List<TradeRequest> tradeList)
     {
         ICommand command = TradeCards.Create(
@@ -32,5 +37,10 @@ public class TuckMatchCore
             matchState.teams);
 
         _commandFactory.Execute(command);
+    }
+
+    public bool Undo()
+    {
+        return _commandFactory.Undo();
     }
 }

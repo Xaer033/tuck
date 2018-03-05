@@ -72,6 +72,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void _addCallbacks()
     {
         _playFieldController.AddListener(GameEventType.APPLY_TRADE, onApplyTrade);
+        _playFieldController.AddListener(GameEventType.UNDO, onUndoTurn);
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
         //_playFieldController.onEndTurn          = onEndTurn;
@@ -82,6 +83,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void _removeCallbacks()
     {
         _playFieldController.RemoveListener(GameEventType.APPLY_TRADE, onApplyTrade);
+        _playFieldController.RemoveListener(GameEventType.UNDO, onUndoTurn);
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
         //_playFieldController.onEndTurn          = onEndTurn;
@@ -93,5 +95,10 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         List<TradeRequest> requestList = e.data as List<TradeRequest>;
         _tuckMatchCore.ApplyTrade(requestList);
     }
+    private void onUndoTurn(GeneralEvent e)
+    {
+        _tuckMatchCore.Undo();
+    }
+
     
 }

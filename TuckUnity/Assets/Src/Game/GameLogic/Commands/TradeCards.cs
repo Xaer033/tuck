@@ -45,26 +45,14 @@ public class TradeCards : ICommand
             TradeRequest req2 = _teamTradeEscrow[i][1];
             _swap(req1, req2);
         }
-
-        //foreach(PlayerState player in playerGroup.playerList)
-        //{
-
-        //}
-
-        //foreach (TradeRequest request in tradeList)
-        //{
-        //    PlayerState p = playerGroup.GetPlayerByIndex(request.playerIndex);
-        //    CardData card = p.hand.PopCard(request.handSlotIndex);
-        //    cards.Add(card);
-        //}
     }
 
     public void Undo()
     {
         for (int i = 0; i < teamCollection.teams.Count; ++i)
         {
-            TradeRequest req1 = _teamTradeEscrow[i][0];
-            TradeRequest req2 = _teamTradeEscrow[i][1];
+            TradeRequest req1 = _teamTradeEscrow[i][1];
+            TradeRequest req2 = _teamTradeEscrow[i][0];
             _swap(req1, req2);
         }
     }

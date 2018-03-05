@@ -17,11 +17,14 @@ public class PlayerHandView : UIView
     public CanvasGroup canvasGroup;
     public Transform dragCardLayer;
     public Image dragBlocker;
+    public Button toggleButton;
 
     private CardView[] _cardViewList = new CardView[PlayerState.kFirstHandSize];
     private Tween _handTween;
     private Vector3 _shownPosition;
     private Vector3 _hiddenPosition;
+
+    private bool _handHidden;
 
     void Awake()
     {
@@ -29,6 +32,8 @@ public class PlayerHandView : UIView
 
         _shownPosition = handTransform.anchoredPosition;
         _hiddenPosition = new Vector3(0, -100, 0);
+
+        toggleButton.onClick.AddListener(onToggleButton);
 
         //AddListener(GameEventType.CARD_DROPPED, (e) =>
         //{
@@ -81,6 +86,8 @@ public class PlayerHandView : UIView
     {
         _killHandTween();
 
+        _handHidden = false;
+
         _handTween = handTransform.DOAnchorPos3D(_shownPosition, kHandTweenDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>
@@ -95,6 +102,8 @@ public class PlayerHandView : UIView
     public void Hide(Action onComplete)
     {
         _killHandTween();
+
+        _handHidden = true;
 
         _handTween = handTransform.DOAnchorPos3D(_hiddenPosition, kHandTweenDuration * 2.0f)
             .SetEase(Ease.OutQuad)
@@ -155,6 +164,18 @@ public class PlayerHandView : UIView
     {
         Debug.Assert(index >= 0, "Index is less than 0!");
         Debug.Assert(index < PlayerHand.kDefaultHandSize, "Index is greater than slot container size");
+    }
+
+    private void onToggleButton()
+    {
+        if(_handHidden)
+        {
+            Show(null);
+        }
+        else
+        {
+            Hide(null);
+        }
     }
 }
 

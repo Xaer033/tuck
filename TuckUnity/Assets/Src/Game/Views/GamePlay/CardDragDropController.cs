@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class CardDragDropController
 {
-    const int kMaxSmoothFrame = 7;
+    const int kMaxSmoothFrame = 10;
     const float kDragScale = 1.1f;
 
     private Transform _target;

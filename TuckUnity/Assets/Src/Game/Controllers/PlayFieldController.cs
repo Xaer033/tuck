@@ -24,6 +24,7 @@ public class PlayFieldController : BaseController
     private BoardView _boardView;
     private PlayerHandView _playerHandView;
     private CardResourceBank _gameplayResources;
+    private GameHudView _gameHudView;
     private PlayFieldState _playfieldState;
 
     private Dictionary<int, TradeRequest> _tradeEscrow = new Dictionary<int, TradeRequest>(2);
@@ -52,6 +53,16 @@ public class PlayFieldController : BaseController
             _setupPlayerHand(activePlayer.index);
         });
 
+        viewFactory.CreateAsync<GameHudView>("GUI/GamePlay/GameHudView", (view) =>
+        {
+            _gameHudView = view as GameHudView;
+            _gameHudView.AddListener(GameEventType.UNDO, (x) =>
+            {
+                DispatchEvent(GameEventType.UNDO);
+                _setupPlayerHand(activePlayer.index);
+            });
+        });
+
         _changeState(PlayFieldState.PARTNER_TRADE);
     }
 
@@ -74,7 +85,6 @@ public class PlayFieldController : BaseController
 
     private void _setupPlayerHand(int playerIndex)
     {
-
         _playerHandView.playerIndex = playerIndex;
         PlayerState player = _matchState.playerGroup.GetPlayerByIndex(playerIndex);
         
@@ -187,8 +197,6 @@ public class PlayFieldController : BaseController
             {
                 //Temporary
             }
-
-
         }
 
         _matchState.playerGroup.SetNextActivePlayer();
