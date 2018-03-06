@@ -50,6 +50,11 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         RemoveAllListeners();
     }
 
+    private TuckMatchState matchState
+    {
+        get { return _tuckMatchCore.matchState; }
+    }
+
     private void onGameOver(bool gameOverPopup = true)
     {
         if (!gameOverPopup)
@@ -71,8 +76,9 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     
     private void _addCallbacks()
     {
-        _playFieldController.AddListener(GameEventType.APPLY_TRADE, onApplyTrade);
         _playFieldController.AddListener(GameEventType.UNDO, onUndoTurn);
+        _playFieldController.AddListener(GameEventType.TRADE_CARD, onPushTradeRequest);
+
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
         //_playFieldController.onEndTurn          = onEndTurn;
@@ -82,23 +88,31 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
 
     private void _removeCallbacks()
     {
-        _playFieldController.RemoveListener(GameEventType.APPLY_TRADE, onApplyTrade);
         _playFieldController.RemoveListener(GameEventType.UNDO, onUndoTurn);
+        _playFieldController.RemoveListener(GameEventType.TRADE_CARD, onPushTradeRequest);
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
         //_playFieldController.onEndTurn          = onEndTurn;
         //_playFieldController.onUndoTurn         = onUndoTurn;
         //_playFieldController.onGameOver         = onGameOver;
     }
-    private void onApplyTrade(GeneralEvent e)
+
+    private void onPushTradeRequest(GeneralEvent e)
     {
-        List<TradeRequest> requestList = e.data as List<TradeRequest>;
-        _tuckMatchCore.ApplyTrade(requestList);
+        TradeRequest request = e.data as TradeRequest;
+        _tuckMatchCore.AddTradeRequest(request);
+
+        if(matchState.escrow.hasAllAssets)
+        {
+            _tuckMatchCore.ApplyTrade();
+            //Change game state
+        }
+
+        _tuckMatchCore.NextPlayerTurn();
     }
+
     private void onUndoTurn(GeneralEvent e)
     {
         _tuckMatchCore.Undo();
     }
-
-    
 }

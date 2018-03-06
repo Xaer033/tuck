@@ -18,21 +18,35 @@ public class TradeEscrow
             command._sortedEscrow[i] = new List<TradeRequest>();
         }
 
-        foreach (TradeRequest request in command._escrow)
-        {
-            command._sortedEscrow[request.teamIndex].Add(request);
-        }
-
         return command;
+    }
+
+    public bool hasAllAssets
+    {
+        get { return _escrow.Count == _playerGroup.playerCount; }
+    }
+
+    public bool HasAsset(TradeRequest request)
+    {
+        return _escrow.Contains(request);
     }
 
     public void AddRequest(TradeRequest request)
     {
         _escrow.Add(request);
     }
+    public void RemoveRequest(TradeRequest request)
+    {
+        _escrow.Remove(request);
+    }
 
     public void ApplyTrade()
     {
+        foreach (TradeRequest request in _escrow)
+        {
+            _sortedEscrow[request.teamIndex].Add(request);
+        }
+
         for (int i = 0; i < _sortedEscrow.Length; ++i)
         {
             TradeRequest req1 = _sortedEscrow[i][0];

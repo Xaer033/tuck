@@ -1,9 +1,6 @@
 {
-    "name": "GameAssembly",
-    "references": [
-        "GhostGenAssemblies",
-        "ThirdPartyAssembly"
-    ],
+    "name": "Main_Assembly",
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

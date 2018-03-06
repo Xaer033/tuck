@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{55D8534E-3BB5-CF98-72A4-37734A2DE704}</ProjectGuid>
+    <ProjectGuid>{DC84B37E-153F-790F-41AB-3BDC1E92FD4F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>ThirdPartyAssembly</AssemblyName>
+    <AssemblyName>Main_Assembly</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -46,6 +46,86 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Src\Game\Controllers\GameModes\IGameModeController.cs" />
+     <Compile Include="Assets\Src\Game\Controllers\GameModes\PassPlayGameMode.cs" />
+     <Compile Include="Assets\Src\Game\Controllers\Menus\MainMenuController.cs" />
+     <Compile Include="Assets\Src\Game\Controllers\Menus\PassPlaySetupController.cs" />
+     <Compile Include="Assets\Src\Game\Controllers\PlayFieldController.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\BaseController.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\CardResourceBank.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\GameConfig.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\GuiManager.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\NetworkOpCodes.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\SessionFlags.cs" />
+     <Compile Include="Assets\Src\Game\GameFoundations\Singleton.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Board.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\BoardPiece.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\BoardPieceGroup.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\BoardPosition.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\BoardPositionUtil.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\CardData.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\CardDeck.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\AddTradeRequestCommand.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\ChangePlayerTurn.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\CommandFactory.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\ICommand.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\TradeCardsCommand.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\GameContext.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\GameEventType.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\PlayerGroup.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\PlayerHand.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\PlayerState.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\PlayFieldViewUtils.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\TeamCollection.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\TradeEscrow.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\TradeRequest.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\TuckMatchCore.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\TuckMatchState.cs" />
+     <Compile Include="Assets\Src\Game\States\GameplayState.cs" />
+     <Compile Include="Assets\Src\Game\States\IntroState.cs" />
+     <Compile Include="Assets\Src\Game\States\MainMenuState.cs" />
+     <Compile Include="Assets\Src\Game\States\MultiplayerSetupState.cs" />
+     <Compile Include="Assets\Src\Game\States\PassAndPlaySetupState.cs" />
+     <Compile Include="Assets\Src\Game\States\TuckStateFactory.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\BoardView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\CardDragDropController.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\CardView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\GameHudView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\PegView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\PieceView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\PlayerHandView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GamePlay\PlayerUtil.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\MultiplayerLobbyController.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\MultiplayerLobbyView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\MultiplayerRoomController.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\MultiplayerRoomView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\PassPlaySetupView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\PlayerInputSetup.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\RoomItemView.cs" />
+     <Compile Include="Assets\Src\Game\Views\GameSetup\RoomPlayerItemView.cs" />
+     <Compile Include="Assets\Src\Game\Views\MainMenuView.cs" />
+     <Compile Include="Assets\Src\GhostGen\Editor\EventForwarderEditor.cs" />
+     <Compile Include="Assets\Src\GhostGen\Extentions\EnumExtentions.cs" />
+     <Compile Include="Assets\Src\GhostGen\GameState\GameState.cs" />
+     <Compile Include="Assets\Src\GhostGen\GameState\GameStateMachine.cs" />
+     <Compile Include="Assets\Src\GhostGen\GameState\IStateFactory.cs" />
+     <Compile Include="Assets\Src\GhostGen\GeneralUtilities\IPostInit.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\EventForwarder.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\FontBank.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\FontManager.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\IListItemView.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\ListScrollRect.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\ListScrollRectHelper.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\ScreenFader.cs" />
+     <Compile Include="Assets\Src\GhostGen\GuiUtilities\TapToTrigger.cs" />
+     <Compile Include="Assets\Src\GhostGen\Networking\NetworkManager.cs" />
+     <Compile Include="Assets\Src\GhostGen\Notifications\EventDispatcherBehavior.cs" />
+     <Compile Include="Assets\Src\GhostGen\Notifications\GeneralEvent.cs" />
+     <Compile Include="Assets\Src\GhostGen\Notifications\IEventDispatcher.cs" />
+     <Compile Include="Assets\Src\GhostGen\Notifications\NotificationDispatcher.cs" />
+     <Compile Include="Assets\Src\GhostGen\Views\InvalidationFlag.cs" />
+     <Compile Include="Assets\Src\GhostGen\Views\UIView.cs" />
+     <Compile Include="Assets\Src\GhostGen\Views\ViewFactory.cs" />
      <Compile Include="Assets\ThirdParty\GameSparks\Editor\GameSparksEditorFormUpload.cs" />
      <Compile Include="Assets\ThirdParty\GameSparks\Editor\GameSparksPopUp.cs" />
      <Compile Include="Assets\ThirdParty\GameSparks\Editor\GameSparksRestApi.cs" />
@@ -159,38 +239,100 @@
      <Compile Include="Assets\ThirdParty\PhotonChatApi\ChatUserStatus.cs" />
      <Compile Include="Assets\ThirdParty\PhotonChatApi\IChatClientListener.cs" />
      <Compile Include="Assets\ThirdParty\Plugins\WebSocket\WebSocket.cs" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\FinalPass.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Waveform.compute" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Uber.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Texture3DLerp.compute" />
      <None Include="Assets\ThirdParty\GameSparks\Plugins\GameSparksRT.xml" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\ThirdParty\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\CopyStd.shader" />
+     <None Include="Assets\Resources\Decks\StandardDeck.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Bloom.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\xRLib.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MultiScaleVOUpsample.compute" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\ThirdParty\Photon Unity Networking\link.xml" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\ThirdParty\DOTween\DOTween50.xml" />
      <None Include="Assets\ThirdParty\codeandweb.com\Editor\SettingsTexturePackerImporter.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\PSSL.hlsl" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Vectorscope.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\GaussianDownsample.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.hlsl" />
      <None Include="Assets\ThirdParty\GameSparks\README.txt" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\DepthOfField.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\DiscardAlpha.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Lut3DBaker.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Dithering.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Colors.hlsl" />
      <None Include="Assets\ThirdParty\Plugins\Photon3Unity3D.xml" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\Vulkan.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\GrainBaker.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ExposureHistogram.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Editor\Trackball.shader" />
      <None Include="Assets\ThirdParty\Plugins\release_history.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\LightMeter.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\D3D12.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\OpenGL.hlsl" />
+     <None Include="Assets\MainAssembly.asmdef" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\DiskKernels.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MultiScaleVODownsample2.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ScalableAO.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\ACES.hlsl" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MultiScaleVODownsample1.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\StdLib.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MultiScaleVO.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\DepthOfField.hlsl" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\FastApproximateAntialiasing.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Fog.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MultiScaleVORender.compute" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\ThirdParty\ThirdPartyAssembly.asmdef" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ScalableAO.shader" />
      <None Include="Assets\ThirdParty\JsonDotNet\link.xml" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\MotionBlur.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.shader" />
      <None Include="Assets\ThirdParty\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Texture2DLerp.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\DeferredFog.shader" />
      <None Include="Assets\ThirdParty\DOTween\DOTween46.xml" />
      <None Include="Assets\ThirdParty\DOTween\DOTween43.xml" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\D3D9.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Lut2DBaker.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\AutoExposure.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Overlays.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\Metal.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Distortion.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Vectorscope.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\TemporalAntialiasing.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasingBridge.hlsl" />
      <None Include="Assets\ThirdParty\Photon Unity Networking\readme.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\Copy.shader" />
      <None Include="Assets\ThirdParty\GameSparks\link.xml" />
      <None Include="Assets\ThirdParty\DOTween\readme.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\D3D11.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Editor\ConvertToLog.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Waveform.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\API\XboxOne.hlsl" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Sampling.hlsl" />
      <None Include="Assets\ThirdParty\codeandweb.com\Readme.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Editor\CurveGrid.shader" />
      <None Include="Assets\ThirdParty\Photon Unity Networking\changelog.txt" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Histogram.compute" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Debug\Histogram.shader" />
+     <None Include="Assets\ThirdParty\Post_Processing\PostProcessing\Shaders\Builtins\ExposureHistogram.compute" />
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.1.0b9/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
  </Reference>

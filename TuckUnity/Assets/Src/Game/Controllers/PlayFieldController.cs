@@ -26,9 +26,7 @@ public class PlayFieldController : BaseController
     private CardResourceBank _gameplayResources;
     private GameHudView _gameHudView;
     private PlayFieldState _playfieldState;
-
-    private Dictionary<int, TradeRequest> _tradeEscrow = new Dictionary<int, TradeRequest>(2);
-
+    
     public PlayFieldController()
     {
         _gameplayResources = Singleton.instance.cardResourceBank;
@@ -156,7 +154,6 @@ public class PlayFieldController : BaseController
         {
             addTradeCard(droppedCard.ownerIndex, droppedCard.handIndex);
         }
-        
     }
 
     private void onPlayCardDrop(GeneralEvent e)
@@ -171,35 +168,16 @@ public class PlayFieldController : BaseController
         PlayerState player = _matchState.playerGroup.GetPlayerByIndex(playerIndex);
         TradeRequest trade = TradeRequest.Create(player.index, player.teamIndex, handSlotIndex);
 
-        if (_tradeEscrow.ContainsKey(player.index))
+        if(_matchState.escrow.HasAsset(trade))
         {
             result = false;
-
         }
         else
         {
-            _tradeEscrow[player.index] = trade;
+            DispatchEvent(GameEventType.TRADE_CARD, false, trade);
             result = true;
-            Debug.Log("Size: " + _tradeEscrow.Count);
-
-            if (_tradeEscrow.Count == _matchState.playerGroup.playerCount)
-            {
-                // TODO: Apply trade transaction
-                List<TradeRequest> listEscrow = new List<TradeRequest>();
-                foreach(KeyValuePair<int, TradeRequest> pair in _tradeEscrow)
-                {
-                    listEscrow.Add(pair.Value);
-                }
-
-                DispatchEvent(GameEventType.APPLY_TRADE, false, listEscrow);
-            }
-            else
-            {
-                //Temporary
-            }
         }
-
-        _matchState.playerGroup.SetNextActivePlayer();
+          
         _setupPlayerHand(activePlayer.index);
         return result;
     }
