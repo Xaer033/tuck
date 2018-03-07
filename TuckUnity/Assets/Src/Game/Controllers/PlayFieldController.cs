@@ -92,6 +92,7 @@ public class PlayFieldController : BaseController
             CardData cardData = player.hand.GetCard(i);
             CardView view = _gameplayResources.CreateCardView(cardData, _playerHandView.transform);
             _playerHandView.SetCardAtIndex(i, view);
+            view.Validate();
         }
     }
 
