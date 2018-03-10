@@ -19,7 +19,7 @@ public class PlayerHandView : UIView
     public Image dragBlocker;
     public Button toggleButton;
 
-    private CardView[] _cardViewList = new CardView[PlayerState.kFirstHandSize];
+    private CardView[] _cardViewList = new CardView[PlayerHand.kFirstHandSize];
     private Tween _handTween;
     private Vector3 _shownPosition;
     private Vector3 _hiddenPosition;
@@ -163,7 +163,7 @@ public class PlayerHandView : UIView
     private void _boundsCheck(int index)
     {
         Debug.Assert(index >= 0, "Index is less than 0!");
-        Debug.Assert(index < PlayerHand.kDefaultHandSize, "Index is greater than slot container size");
+        Debug.Assert(index < PlayerHand.kFirstHandSize, "Index is greater than slot container size");
     }
 
     private void onToggleButton()

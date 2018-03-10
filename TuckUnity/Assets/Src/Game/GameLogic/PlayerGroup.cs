@@ -12,26 +12,36 @@ public class PlayerGroup
     
     public List<PlayerState> playerList { get; private set; }
 
-
     public static PlayerGroup Create(List<PlayerState> playerList, CardDeck cardDeck)
     {
         PlayerGroup group = new PlayerGroup();
         group.playerList = playerList;
-        for (int i = 0; i < group.playerCount; ++i)
-        {
-            for (int j = 0; j < PlayerState.kFirstHandSize; ++j)
-            {
-                CardData cardData = cardDeck.Pop();
-                PlayerState playerState = group.GetPlayerByIndex(i);
-                playerState.hand.SetCard(j, cardData);
-            }
-        }
+
+        group.DistributeNewHand(PlayerHand.kFirstHandSize, cardDeck);
 
         return group;
     }
 
     private PlayerGroup() { }
     
+    public void DistributeNewHand(int handSize, CardDeck deck)
+    {
+        for (int i = 0; i < playerCount; ++i)
+        {
+            for (int j = 0; j < handSize; ++j)
+            {
+                if(deck.isEmpty)
+                {
+                    Debug.LogError("Ran out of cards while trying to deal hand!");
+                    return;
+                }
+
+                CardData cardData = deck.Pop();
+                PlayerState playerState = GetPlayerByIndex(i);
+                playerState.hand.SetCard(j, cardData);
+            }
+        }
+    }
 
     public PlayerState activePlayer
     {

@@ -39,15 +39,12 @@ public class PlayerStateSerializable : System.Object
 public class PlayerState
 {
     public const int    kMaxCardsPerTurn = 1;
-    public const int    kFirstHandSize = 5;
-    public const int    kNonFirstHandSize = 4;
 
     public int          index               { get; private set; }
     public string       name                { get; private set; }
     public int          id                  { get; private set; }
 
     public int          teamIndex           { get; private set; }
-    //public int          partnerIndex        { get; private set; }
 
     //public int          score               { get; set; }
     public int          numCardsPlayed      { get { return cardsPlayedStack.Count; } }
@@ -59,7 +56,7 @@ public class PlayerState
     public static PlayerState Create(int playerIndex, string name, int teamIndex, int id = -1)
     {
         PlayerState player = new PlayerState();
-        player.hand = PlayerHand.Create(kFirstHandSize);
+        player.hand = PlayerHand.Create();
         player.cardsPlayedStack = new Stack<CardData>();
         player.index = playerIndex;
         player.name = name;

@@ -34,7 +34,8 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
 
         _addCallbacks();
-        _playFieldController.Start(_tuckMatchCore.matchState);        
+        _playFieldController.Start(_tuckMatchCore.matchState); 
+
     }
 
     public void Step(double deltaTime)
@@ -105,14 +106,20 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         if(matchState.escrow.hasAllAssets)
         {
             _tuckMatchCore.ApplyTrade();
-            //Change game state
+            _changeGameMatchMode(GameMatchMode.PLAYER_TURN);
         }
 
-        _tuckMatchCore.NextPlayerTurn();
+        _tuckMatchCore.ApplyNextPlayerTurn();
     }
 
     private void onUndoTurn(GeneralEvent e)
     {
         _tuckMatchCore.Undo();
+    }
+
+    private void _changeGameMatchMode(GameMatchMode mode)
+    {
+        _tuckMatchCore.ApplyChangeMatchMode(mode);
+        _playFieldController.ChangeMatchMode(mode);
     }
 }

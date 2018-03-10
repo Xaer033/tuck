@@ -6,8 +6,6 @@ using GhostGen;
 
 public class PlayFieldController : BaseController
 {
-    
-
     const int kLocalPlayerIndex = 0; // TODO: Temporary until we have real multiplayer
 
     private TuckMatchState _matchState;
@@ -51,10 +49,12 @@ public class PlayFieldController : BaseController
                 _setupPlayerHand(activePlayer.index);
             });
         });
-
-        _changeState(GameMatchMode.PARTNER_TRADE);
     }
 
+    public bool ChangeMatchMode(GameMatchMode m)
+    {
+        return _changeGameMode(m);
+    }
 
     private PlayerState activePlayer
     {
@@ -77,17 +77,20 @@ public class PlayFieldController : BaseController
         _playerHandView.playerIndex = playerIndex;
         PlayerState player = _matchState.playerGroup.GetPlayerByIndex(playerIndex);
         
-        for (int i = 0; i < PlayerState.kFirstHandSize; ++i)
+        for (int i = 0; i < PlayerHand.kFirstHandSize; ++i)
         {
             _playerHandView.RemoveCardByIndex(i);
             CardData cardData = player.hand.GetCard(i);
-            CardView view = _gameplayResources.CreateCardView(cardData, _playerHandView.transform);
-            _playerHandView.SetCardAtIndex(i, view);
-            view.Validate();
+            if(cardData != null)
+            {
+                CardView view = _gameplayResources.CreateCardView(cardData, _playerHandView.transform);
+                _playerHandView.SetCardAtIndex(i, view);
+                view.Validate();
+            }
         }
     }
 
-    private bool _changeState(GameMatchMode newState, object changeStateData = null)
+    private bool _changeGameMode(GameMatchMode newState, object changeStateData = null)
     {
         GameMatchMode oldState = _playfieldState;
         _playfieldState = newState;

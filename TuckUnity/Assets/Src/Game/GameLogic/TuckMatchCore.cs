@@ -35,13 +35,13 @@ public class TuckMatchCore
         _commandFactory.Execute(command);
     }
 
-    public void NextPlayerTurn()
+    public void ApplyNextPlayerTurn()
     {
         ICommand command = ChangePlayerTurn.Create(matchState.playerGroup);
         _commandFactory.Execute(command);
     }
 
-    public void ChangeMatchMode_(GameMatchMode newMode)
+    public void ApplyChangeMatchMode(GameMatchMode newMode)
     {
         ICommand command = ChangeMatchMode.Create(matchState, newMode);
         _commandFactory.Execute(command);
@@ -50,5 +50,10 @@ public class TuckMatchCore
     public bool Undo()
     {
         return _commandFactory.Undo();
+    }
+
+    public bool Redo()
+    {
+        return _commandFactory.Redo();
     }
 }

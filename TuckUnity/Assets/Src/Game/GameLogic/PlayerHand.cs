@@ -8,17 +8,17 @@ using System;
 
 public class PlayerHand
 {
-    public const int kDefaultHandSize = 5;
+    public const int kFirstHandSize = 5;
+    public const int kNonFirstHandSize = 4;
 
     private CardData[] _cards;
     private int _handSize;
 
-    public static PlayerHand Create(int handSize)
+    public static PlayerHand Create()
     {
-        int kHandSize = (handSize <= 0) ? kDefaultHandSize : handSize;
         PlayerHand hand = new PlayerHand();
-        hand._handSize = kHandSize;
-        hand._cards = new CardData[kHandSize];
+        hand._handSize = kFirstHandSize;
+        hand._cards = new CardData[kFirstHandSize];
         return hand;
 
     }
