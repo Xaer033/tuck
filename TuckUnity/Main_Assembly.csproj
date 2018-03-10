@@ -66,12 +66,14 @@
      <Compile Include="Assets\Src\Game\GameLogic\CardData.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\CardDeck.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\Commands\AddTradeRequestCommand.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\Commands\ChangeMatchMode.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\Commands\ChangePlayerTurn.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\Commands\CommandFactory.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\Commands\ICommand.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\Commands\TradeCardsCommand.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\GameContext.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\GameEventType.cs" />
+     <Compile Include="Assets\Src\Game\GameLogic\GameMatchMode.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\PlayerGroup.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\PlayerHand.cs" />
      <Compile Include="Assets\Src\Game\GameLogic\PlayerState.cs" />

@@ -41,6 +41,12 @@ public class TuckMatchCore
         _commandFactory.Execute(command);
     }
 
+    public void ChangeMatchMode_(GameMatchMode newMode)
+    {
+        ICommand command = ChangeMatchMode.Create(matchState, newMode);
+        _commandFactory.Execute(command);
+    }
+
     public bool Undo()
     {
         return _commandFactory.Undo();

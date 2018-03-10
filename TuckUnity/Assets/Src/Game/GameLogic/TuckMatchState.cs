@@ -9,6 +9,8 @@ public class TuckMatchState
     public CardDeck         cardDeck        { get; private set; }
     public TeamCollection   teams           { get; private set; }
     public TradeEscrow      escrow          { get; private set; }
+    
+    public GameMatchMode    gameMatchMode   { get; set; }
 
     public static TuckMatchState Create(
         List<PlayerState> playerList, 
@@ -21,6 +23,8 @@ public class TuckMatchState
         state.board = Board.Create(playerList);
         state.teams = TeamCollection.Create(playerList);
         state.escrow = TradeEscrow.Create(state.teams, state.playerGroup);
+        state.gameMatchMode = GameMatchMode.INITIAL;
+
         return state;
     }
     

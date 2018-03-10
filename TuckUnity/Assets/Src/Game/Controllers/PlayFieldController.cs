@@ -6,16 +6,7 @@ using GhostGen;
 
 public class PlayFieldController : BaseController
 {
-    public enum PlayFieldState
-    {
-        NONE,
-        INITIAL,
-        SHUFFLE_AND_REDISTRIBUTE,
-        PARTNER_TRADE,
-        PLAYER_TURN,
-        REDISTRIBUTE,
-        GAME_OVER
-    }
+    
 
     const int kLocalPlayerIndex = 0; // TODO: Temporary until we have real multiplayer
 
@@ -25,7 +16,7 @@ public class PlayFieldController : BaseController
     private PlayerHandView _playerHandView;
     private CardResourceBank _gameplayResources;
     private GameHudView _gameHudView;
-    private PlayFieldState _playfieldState;
+    private GameMatchMode _playfieldState;
     
     public PlayFieldController()
     {
@@ -61,7 +52,7 @@ public class PlayFieldController : BaseController
             });
         });
 
-        _changeState(PlayFieldState.PARTNER_TRADE);
+        _changeState(GameMatchMode.PARTNER_TRADE);
     }
 
 
@@ -96,19 +87,19 @@ public class PlayFieldController : BaseController
         }
     }
 
-    private bool _changeState(PlayFieldState newState, object changeStateData = null)
+    private bool _changeState(GameMatchMode newState, object changeStateData = null)
     {
-        PlayFieldState oldState = _playfieldState;
+        GameMatchMode oldState = _playfieldState;
         _playfieldState = newState;
 
         switch(_playfieldState)
         {
-            case PlayFieldState.INITIAL:                    return _initialState(changeStateData);
-            case PlayFieldState.SHUFFLE_AND_REDISTRIBUTE:   return _shuffleAndRedist(changeStateData);
-            case PlayFieldState.PARTNER_TRADE:              return _partnerTrade(changeStateData);
-            case PlayFieldState.REDISTRIBUTE:               return _redistribute(changeStateData);
-            case PlayFieldState.PLAYER_TURN:                return _playerTurn(changeStateData);
-            case PlayFieldState.GAME_OVER:                  return _gameOver(changeStateData);
+            case GameMatchMode.INITIAL:                    return _initialState(changeStateData);
+            case GameMatchMode.SHUFFLE_AND_REDISTRIBUTE:   return _shuffleAndRedist(changeStateData);
+            case GameMatchMode.PARTNER_TRADE:              return _partnerTrade(changeStateData);
+            case GameMatchMode.REDISTRIBUTE:               return _redistribute(changeStateData);
+            case GameMatchMode.PLAYER_TURN:                return _playerTurn(changeStateData);
+            case GameMatchMode.GAME_OVER:                  return _gameOver(changeStateData);
         }
 
         Debug.LogErrorFormat("Could not change state to: {0}", newState);
@@ -143,7 +134,7 @@ public class PlayFieldController : BaseController
 
     private void onTradeCardDrop(GeneralEvent e)
     {
-        if(_playfieldState != PlayFieldState.PARTNER_TRADE)
+        if(_playfieldState != GameMatchMode.PARTNER_TRADE)
         {
             return;
         }
