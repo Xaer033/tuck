@@ -18,7 +18,7 @@ public class ChangeMatchMode : ICommand
 
     public bool isLinked
     {
-        get { return false; }
+        get { return true; }
     }
 
     public void Execute()

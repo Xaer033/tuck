@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Assertions;
 using GhostGen;
 
 public class PlayFieldController : BaseController
@@ -14,8 +15,8 @@ public class PlayFieldController : BaseController
     private PlayerHandView _playerHandView;
     private CardResourceBank _gameplayResources;
     private GameHudView _gameHudView;
-    private GameMatchMode _playfieldState;
-    
+    private GameMatchMode _oldMatchMode;
+
     public PlayFieldController()
     {
         _gameplayResources = Singleton.instance.cardResourceBank;
@@ -43,17 +44,14 @@ public class PlayFieldController : BaseController
         viewFactory.CreateAsync<GameHudView>("GUI/GamePlay/GameHudView", (view) =>
         {
             _gameHudView = view as GameHudView;
-            _gameHudView.AddListener(GameEventType.UNDO, (x) =>
-            {
-                DispatchEvent(GameEventType.UNDO);
-                _setupPlayerHand(activePlayer.index);
-            });
+            _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
+            _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);
         });
     }
 
     public bool ChangeMatchMode(GameMatchMode m)
     {
-        return _changeGameMode(m);
+        return _gameModeChanged(m);
     }
 
     private PlayerState activePlayer
@@ -62,6 +60,12 @@ public class PlayFieldController : BaseController
         {
             return _matchState.playerGroup.activePlayer;
         }
+    }
+
+    private void onForwardEventAndRefreshHand(GeneralEvent e)
+    {
+        DispatchEvent(e.type);
+        _setupPlayerHand(activePlayer.index);
     }
 
     private PlayerState localPlayer
@@ -88,14 +92,21 @@ public class PlayFieldController : BaseController
                 view.Validate();
             }
         }
+
+        if(_boardView)
+        {
+            _boardView.viewIndex = playerIndex;
+        }
     }
 
-    private bool _changeGameMode(GameMatchMode newState, object changeStateData = null)
+    private bool _gameModeChanged(object changeStateData = null)
     {
-        GameMatchMode oldState = _playfieldState;
-        _playfieldState = newState;
+        GameMatchMode currentMode = _matchState.gameMatchMode;
+        Debug.LogFormat("Update PlayField game mode From: {0} to {1}", _oldMatchMode, currentMode);
+        Assert.IsFalse(currentMode == _oldMatchMode, "Should not be updating mode to the same state!");
+        _oldMatchMode = currentMode;
 
-        switch(_playfieldState)
+        switch (currentMode)
         {
             case GameMatchMode.INITIAL:                    return _initialState(changeStateData);
             case GameMatchMode.SHUFFLE_AND_REDISTRIBUTE:   return _shuffleAndRedist(changeStateData);
@@ -105,7 +116,7 @@ public class PlayFieldController : BaseController
             case GameMatchMode.GAME_OVER:                  return _gameOver(changeStateData);
         }
 
-        Debug.LogErrorFormat("Could not change state to: {0}", newState);
+        Debug.LogErrorFormat("Could not change state to: {0}", currentMode);
         return false;
     }
 
@@ -137,7 +148,7 @@ public class PlayFieldController : BaseController
 
     private void onTradeCardDrop(GeneralEvent e)
     {
-        if(_playfieldState != GameMatchMode.PARTNER_TRADE)
+        if( _matchState.gameMatchMode != GameMatchMode.PARTNER_TRADE)
         {
             return;
         }

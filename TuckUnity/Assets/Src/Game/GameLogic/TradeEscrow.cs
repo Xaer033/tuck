@@ -7,7 +7,8 @@ public class TradeEscrow
     private List<TradeRequest>[] _sortedEscrow = new List<TradeRequest>[TeamCollection.kTeamCount];
     private List<TradeRequest> _escrow = new List<TradeRequest>();
     private PlayerGroup _playerGroup;
-
+    private Dictionary<int, CardData> _assetStash = new Dictionary<int, CardData>(PlayerGroup.kMaxPlayerCount);
+    
     public static TradeEscrow Create(TeamCollection teamCollection, PlayerGroup playerGroup)
     {
         TradeEscrow command = new TradeEscrow();
@@ -33,6 +34,10 @@ public class TradeEscrow
 
     public void AddRequest(TradeRequest request)
     {
+        //PlayerState player = _playerGroup.GetPlayerByIndex(request.playerIndex);
+        //CardData card = player.hand.PopCard(request.handSlot);
+        //_assetStash[player.index] = card;
+
         _escrow.Add(request);
     }
     public void RemoveRequest(TradeRequest request)

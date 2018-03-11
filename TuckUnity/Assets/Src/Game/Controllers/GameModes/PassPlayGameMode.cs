@@ -5,7 +5,7 @@ using UnityEngine;
 using GhostGen;
 
 public class PassPlayGameMode : NotificationDispatcher, IGameModeController
-{
+{   
     //private PassAndPlayFieldController  _playFieldController        = new PassAndPlayFieldController();
     //private GameOverPopupController     _gameOverPopupController    = new GameOverPopupController();
     private TuckMatchCore _tuckMatchCore;
@@ -34,8 +34,11 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
 
         _addCallbacks();
-        _playFieldController.Start(_tuckMatchCore.matchState); 
 
+        _playFieldController.Start(_tuckMatchCore.matchState);
+        _changeGameMatchMode(GameMatchMode.INITIAL);
+        _changeGameMatchMode(GameMatchMode.SHUFFLE_AND_REDISTRIBUTE);
+        _changeGameMatchMode(GameMatchMode.PARTNER_TRADE);
     }
 
     public void Step(double deltaTime)
@@ -78,6 +81,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void _addCallbacks()
     {
         _playFieldController.AddListener(GameEventType.UNDO, onUndoTurn);
+        _playFieldController.AddListener(GameEventType.REDO, onRedoTurn);
         _playFieldController.AddListener(GameEventType.TRADE_CARD, onPushTradeRequest);
 
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
@@ -90,6 +94,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void _removeCallbacks()
     {
         _playFieldController.RemoveListener(GameEventType.UNDO, onUndoTurn);
+        _playFieldController.RemoveListener(GameEventType.REDO, onRedoTurn);
         _playFieldController.RemoveListener(GameEventType.TRADE_CARD, onPushTradeRequest);
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
         //_playFieldController.onResolveScore     = onResolveScore;
@@ -115,6 +120,11 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void onUndoTurn(GeneralEvent e)
     {
         _tuckMatchCore.Undo();
+    }
+
+    private void onRedoTurn(GeneralEvent e)
+    {
+        _tuckMatchCore.Redo();
     }
 
     private void _changeGameMatchMode(GameMatchMode mode)

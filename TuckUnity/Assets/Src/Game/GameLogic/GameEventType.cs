@@ -8,5 +8,6 @@ public class GameEventType
     public const string END_CARD_DRAG   = "end_card_drag";
     public const string APPLY_TRADE     = "apply_trade";
     public const string UNDO            = "undo";
+    public const string REDO            = "redo";
     public const string TOGGLE_HAND     = "toggle_hand";
 }
