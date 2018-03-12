@@ -20,27 +20,17 @@ public class BoardView : UIView
     private int _viewIndex = 0;
     private Sequence _cameraTween;
 
-    public void SetBoard(Board board)
+    public Board board
     {
-        _board = board;
-
-        List<BoardPosition> boardPosList = _board.GetBoardPositionList();
-        foreach (BoardPosition position in boardPosList)
+        get { return _board; }
+        set
         {
-            PegView pegView = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
-            _pegList.Add(pegView);
-        }
-
-        List<BoardPieceGroup> pieceGroupList = _board.GetPieceGroupList();
-        foreach(BoardPieceGroup group in pieceGroupList)
-        {
-            foreach (BoardPiece piece in group.pieceList)
+            if(_board != value)
             {
-                PieceView pieceView = Singleton.instance.cardResourceBank.CreatePieceView(piece.boardPosition, _piecesGroup);
-                _pieceList.Add(pieceView);
+                _board = value;
+                invalidateFlag = InvalidationFlag.STATIC_DATA;
             }
         }
-        invalidateFlag = InvalidationFlag.STATIC_DATA;
     }
 
     public int viewIndex
@@ -61,14 +51,30 @@ public class BoardView : UIView
         }
     }
     
-
     protected override void OnViewUpdate()
     {
         base.OnViewUpdate();
 
         if(IsInvalid(InvalidationFlag.STATIC_DATA) && _board != null)
         {
-           
+            destroyBoardView();
+
+            List<BoardPosition> boardPosList = _board.GetBoardPositionList();
+            foreach(BoardPosition position in boardPosList)
+            {
+                PegView pegView = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
+                _pegList.Add(pegView);
+            }
+
+            List<BoardPieceGroup> pieceGroupList = _board.GetPieceGroupList();
+            foreach(BoardPieceGroup group in pieceGroupList)
+            {
+                foreach(BoardPiece piece in group.pieceList)
+                {
+                    PieceView pieceView = Singleton.instance.cardResourceBank.CreatePieceView(piece.boardPosition, _piecesGroup);
+                    _pieceList.Add(pieceView);
+                }
+            }
         }
 
         if(IsInvalid(InvalidationFlag.DYNAMIC_DATA))
@@ -91,14 +97,33 @@ public class BoardView : UIView
 
     private void tweenCameraTo(Transform target)
     {
+        const float kDuration = 1.0f;
+
         if(_camera && target)
         {
-            Tween moveTween = _camera.transform.DOLocalMove(target.localPosition, 1.0f);
-            Tween rotTween = _camera.transform.DOLocalRotate(target.localEulerAngles, 1.0f);
+            Tween moveTween = _camera.transform.DOLocalMove(target.localPosition, kDuration);
+            Tween rotTween = _camera.transform.DOLocalRotate(target.localEulerAngles, kDuration);
+
             _cameraTween = DOTween.Sequence();
             _cameraTween.Insert(0, moveTween);
             _cameraTween.Insert(0, rotTween);
             _cameraTween.Play();
+        }
+    }
+
+    private void destroyBoardView()
+    {
+        _pegList.Clear();
+        _pieceList.Clear();
+
+        for(int i = _pegsGroup.childCount - 1; i > 0; --i)
+        {
+            GameObject.Destroy(_pegsGroup.GetChild(i).gameObject);
+        }
+
+        for(int i = _piecesGroup.childCount - 1; i > 0; --i)
+        {
+            GameObject.Destroy(_piecesGroup.GetChild(i).gameObject);
         }
     }
 }

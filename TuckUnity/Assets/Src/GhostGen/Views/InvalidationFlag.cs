@@ -8,9 +8,10 @@ namespace GhostGen
     public enum InvalidationFlag
     {
         NONE            = 1 << 0,
-        STATIC_DATA     = 1 << 2,
-        DYNAMIC_DATA    = 1 << 3,
+        STATIC_DATA     = 1 << 1,
+        DYNAMIC_DATA    = 1 << 2,
+        RESIZE          = 1 << 3,
 
-        ALL = STATIC_DATA | DYNAMIC_DATA
+        ALL = STATIC_DATA | DYNAMIC_DATA | RESIZE
     }
 }

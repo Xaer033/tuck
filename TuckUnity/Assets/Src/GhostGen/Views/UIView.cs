@@ -18,12 +18,12 @@ namespace GhostGen
         public InvalidationFlag invalidateFlag
         {
             get { return _invalidateFlag; }
-            set { _invalidateFlag = value; }
+            set { _invalidateFlag |= value; }
         }
         
         public void Validate(InvalidationFlag flag = InvalidationFlag.ALL)
         {
-            invalidateFlag |= flag;
+            invalidateFlag = flag;
             OnViewUpdate();
         }
 
@@ -54,8 +54,8 @@ namespace GhostGen
 
         protected bool IsInvalid(InvalidationFlag flag)
         {
-            if (flag.IsFlagSet(InvalidationFlag.ALL)) { return true; }
-            if(_invalidateFlag.IsFlagSet(InvalidationFlag.ALL)) { return true; }
+            if(flag == InvalidationFlag.ALL) { return true; }
+            if(_invalidateFlag == InvalidationFlag.ALL) { return true; }
 
             return _invalidateFlag.IsFlagSet(flag);         
         }
@@ -67,7 +67,7 @@ namespace GhostGen
                 OnViewUpdate();
             }
 
-            invalidateFlag = InvalidationFlag.NONE;
+            _invalidateFlag = InvalidationFlag.NONE;
         }
     }
 }

@@ -60,7 +60,7 @@ public class PlayerHandView : UIView
         if(card != _cardViewList[index])
         {
             _cardViewList[index] = _processCardView(index, card);
-            invalidateFlag |= InvalidationFlag.STATIC_DATA;
+            invalidateFlag = InvalidationFlag.STATIC_DATA;
         }
     }
 

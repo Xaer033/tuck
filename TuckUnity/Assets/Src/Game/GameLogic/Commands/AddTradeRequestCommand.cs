@@ -23,11 +23,11 @@ public class AddTradeRequestCommand : ICommand
 
     public void Execute()
     {
-        escrow.AddRequest(request);
+        escrow.AddAsset(request);
     }
 
     public void Undo()
     {
-        escrow.RemoveRequest(request);
+        escrow.RemoveAsset(request);
     }
 }

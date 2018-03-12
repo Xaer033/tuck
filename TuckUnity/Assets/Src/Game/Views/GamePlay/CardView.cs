@@ -65,7 +65,7 @@ public sealed class CardView :
             if (_cardData != value)
             {
                 _cardData = value;
-                invalidateFlag |= InvalidationFlag.STATIC_DATA;
+                invalidateFlag = InvalidationFlag.STATIC_DATA;
             }
         }
 

@@ -20,6 +20,10 @@ public class TuckMatchCore
 
     private TuckMatchCore() { }
 
+    public void ClearCommands()
+    {
+        _commandFactory.Clear();
+    }
 
     public void AddTradeRequest(TradeRequest request)
     {

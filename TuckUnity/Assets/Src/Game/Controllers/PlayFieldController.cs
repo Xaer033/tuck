@@ -29,7 +29,8 @@ public class PlayFieldController : BaseController
         viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
         {
             _boardView = view as BoardView;
-            _boardView.SetBoard(_matchState.board);
+            _boardView.board = _matchState.board;
+
         }, Singleton.instance.sceneRoot);
 
         viewFactory.CreateAsync<PlayerHandView>("GUI/GamePlay/PlayerHandView", (view) =>
@@ -45,7 +46,8 @@ public class PlayFieldController : BaseController
         {
             _gameHudView = view as GameHudView;
             _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
-            _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);
+            _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);        
+            _gameHudView.AddListener(GameEventType.FINISH_TURN, onForwardEventAndRefreshHand);
         });
     }
 
@@ -148,18 +150,18 @@ public class PlayFieldController : BaseController
 
     private void onTradeCardDrop(GeneralEvent e)
     {
-        if( _matchState.gameMatchMode != GameMatchMode.PARTNER_TRADE)
+        PointerEventData data = (e.data as PointerEventData);
+        CardView droppedCard = data.pointerDrag.GetComponent<CardView>();
+
+        if( _matchState.gameMatchMode != GameMatchMode.PARTNER_TRADE 
+         || droppedCard == null
+         || _matchState.escrow.HasAssetFromPlayer(droppedCard.ownerIndex))
         {
             return;
         }
 
-        Debug.Log("SwapCard: " + e.data);
-        PointerEventData data = (e.data as PointerEventData);
-        CardView droppedCard = data.pointerDrag.GetComponent<CardView>();
-        if(droppedCard != null)
-        {
-            addTradeCard(droppedCard.ownerIndex, droppedCard.handIndex);
-        }
+        Debug.Log("SwapCard: " + droppedCard);
+        addTradeCard(droppedCard.ownerIndex, droppedCard.handIndex);
     }
 
     private void onPlayCardDrop(GeneralEvent e)
@@ -185,6 +187,7 @@ public class PlayFieldController : BaseController
         }
           
         _setupPlayerHand(activePlayer.index);
+        _playerHandView.Show(null);
         return result;
     }
 }

@@ -10,4 +10,5 @@ public class GameEventType
     public const string UNDO            = "undo";
     public const string REDO            = "redo";
     public const string TOGGLE_HAND     = "toggle_hand";
+    public const string FINISH_TURN     = "finish_turn";
 }
