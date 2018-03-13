@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 public enum PositionType
 {
@@ -12,7 +10,7 @@ public enum PositionType
 }
 
 [System.Serializable]
-public struct BoardPosition
+public struct BoardPosition : IEquatable<BoardPosition>
 {
     public PositionType type { get; private set; }
     public int trackIndex { get; private set; }
@@ -47,5 +45,37 @@ public struct BoardPosition
         pos.trackIndex = trackIndex;
         pos.ownerIndex = playerIndex;
         return pos;
+    }
+
+    public bool Equals(BoardPosition other)
+    {
+        return IsSame(this, other);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if(ReferenceEquals(null, obj))
+            return false;
+        if(obj.GetType() != typeof(BoardPosition))
+            return false;
+        return Equals((BoardPosition)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return (trackIndex.GetHashCode() * type.GetHashCode() * 397) ^ ownerIndex.GetHashCode();
+        }
+    }
+
+    public static bool operator ==(BoardPosition left, BoardPosition right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(BoardPosition left, BoardPosition right)
+    {
+        return !left.Equals(right);
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class BoardPiece
 {
-    public BoardPosition boardPosition;
     public bool justLeftHome;
+    public BoardPosition boardPosition;
 
     public int ownerIndex { get; private set; }
     public Board board { get; private set; }
@@ -24,7 +24,9 @@ public class BoardPiece
     {
         get
         {
-            return !justLeftHome;// || boardPosition
+            return justLeftHome
+                || boardPosition.type == PositionType.GOAL_TRACK
+                || boardPosition.type == PositionType.HOME;
         }
     }
 	

@@ -13,8 +13,9 @@ public class Board
     private List<BoardPosition>     _mainTrack          = new List<BoardPosition>(kMainTrackPipCount);
     private List<BoardPosition[]>   _homeTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
     private List<BoardPosition[]>   _goalTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
-    private List<BoardPosition>     _boardPositionList  = new List<BoardPosition>(120);
+    private List<BoardPosition>     _boardPositionList  = new List<BoardPosition>(kTotalPegCount);
     private List<BoardPieceGroup>   _pieceGroupList     = new List<BoardPieceGroup>(PlayerGroup.kMaxPlayerCount);
+    private Dictionary<BoardPosition, BoardPiece> _positionPieceMap = new Dictionary<BoardPosition, BoardPiece>(kTotalPegCount);
 
     public static Board Create(List<PlayerState> playerList)
     {
@@ -82,4 +83,22 @@ public class Board
         return _pieceGroupList;
     }
 
+    public void SetPiecePosition(BoardPiece piece, BoardPosition pos )
+    {
+        piece.boardPosition = pos;        
+        _positionPieceMap[pos] = piece;
+    }
+
+    public BoardPiece GetPieceAtPosition(BoardPosition pos)
+    {
+        BoardPiece piece = null;
+        _positionPieceMap.TryGetValue(pos, out piece);
+        return piece;
+    }
+
+    public bool IsPositionOccupied(BoardPosition position, out BoardPiece piece)
+    {
+        piece = GetPieceAtPosition(position);
+        return piece != null;
+    }
 }
