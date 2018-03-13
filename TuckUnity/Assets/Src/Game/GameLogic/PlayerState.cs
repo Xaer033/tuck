@@ -36,6 +36,7 @@ public class PlayerStateSerializable : System.Object
     
 }
 
+[System.Serializable]
 public class PlayerState
 {
     public const int    kMaxCardsPerTurn = 1;
