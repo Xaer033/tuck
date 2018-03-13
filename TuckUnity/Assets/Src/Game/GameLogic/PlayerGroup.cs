@@ -17,18 +17,19 @@ public class PlayerGroup
         PlayerGroup group = new PlayerGroup();
         group.playerList = playerList;
 
-        group.DistributeNewHand(PlayerHand.kFirstHandSize, cardDeck);
+        group.DealNewHand(0, PlayerHand.kFirstHandSize, cardDeck);
+
 
         return group;
     }
 
     private PlayerGroup() { }
     
-    public void DistributeNewHand(int handSize, CardDeck deck)
+    public void DealNewHand(int dealingPlayerIndex, int handSize, CardDeck deck)
     {
-        for (int i = 0; i < playerCount; ++i)
+        for(int handIndex = 0; handIndex < handSize; ++handIndex)
         {
-            for (int j = 0; j < handSize; ++j)
+            for(int playerIndex = 0; playerIndex < playerCount; ++playerIndex)
             {
                 if(deck.isEmpty)
                 {
@@ -36,9 +37,9 @@ public class PlayerGroup
                     return;
                 }
 
+                PlayerState player = GetPlayerByIndex(playerIndex);
                 CardData cardData = deck.Pop();
-                PlayerState playerState = GetPlayerByIndex(i);
-                playerState.hand.SetCard(j, cardData);
+                player.hand.SetCard(handIndex, cardData);
             }
         }
     }
