@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GhostGen;
-
+using TMPro;
 
 public class PegView : UIView
 {
     public Image _icon;
+    public TextMeshProUGUI _debugNumber;
+
     // Debugging things
     public PositionType _positionType;
     public int _trackIndex;
@@ -51,6 +53,12 @@ public class PegView : UIView
             _positionType = _boardPosition.type;
             _trackIndex = _boardPosition.trackIndex;
             _ownerIndex = _boardPosition.ownerIndex;
+
+            if(_debugNumber != null)
+            {
+                _debugNumber.text = _trackIndex.ToString();
+                _debugNumber.color = _trackIndex % 2 == 0 ? Color.green : Color.red;
+            }
         }
     }
 

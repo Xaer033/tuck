@@ -15,13 +15,16 @@ public class BoardPieceGroup
         get { return _pieceList; }
     }
 
-    public static BoardPieceGroup Create(int ownerIndex)
+    public Board board { get; private set; }
+
+    public static BoardPieceGroup Create(Board board, int ownerIndex)
     {
         BoardPieceGroup group = new BoardPieceGroup();
+        group.board = board;
         for(int i = 0; i < kPiecesPerPlayer; ++i)
         {
             BoardPosition initialPosition = BoardPosition.Create(PositionType.HOME, i, ownerIndex);
-            BoardPiece piece = BoardPiece.Create(initialPosition, ownerIndex);
+            BoardPiece piece = BoardPiece.Create(board, initialPosition, ownerIndex);
             group._pieceList.Add(piece);
         }
         return group;

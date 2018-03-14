@@ -9,12 +9,14 @@ public class Board
     public const int kPegsPerEdge               = 22;
     public const int kMainTrackPipCount         = 88;
     public const int kTotalPegCount             = 120;
+    public const int kPerPlayerGoalCount        = 4;
 
     private List<BoardPosition>     _mainTrack          = new List<BoardPosition>(kMainTrackPipCount);
     private List<BoardPosition[]>   _homeTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
     private List<BoardPosition[]>   _goalTrack          = new List<BoardPosition[]>(PlayerGroup.kMaxPlayerCount);
     private List<BoardPosition>     _boardPositionList  = new List<BoardPosition>(kTotalPegCount);
     private List<BoardPieceGroup>   _pieceGroupList     = new List<BoardPieceGroup>(PlayerGroup.kMaxPlayerCount);
+    private List<BoardPosition>     _startingPositions  = new List<BoardPosition>(PlayerGroup.kMaxPlayerCount);
     private Dictionary<BoardPosition, BoardPiece> _positionPieceMap = new Dictionary<BoardPosition, BoardPiece>(kTotalPegCount);
 
     public static Board Create(List<PlayerState> playerList)
@@ -45,6 +47,10 @@ public class Board
 
             BoardPosition position = BoardPosition.Create(type, i, owner);
             board._mainTrack.Add(position);
+            if(type == PositionType.START_PEG)
+            {
+                board._startingPositions.Add(position);
+            }
         }
 
         board._boardPositionList.AddRange(board._mainTrack);
@@ -66,7 +72,7 @@ public class Board
             board._boardPositionList.AddRange(homeTrack);
             board._boardPositionList.AddRange(goalTrack);     
 
-            BoardPieceGroup group = BoardPieceGroup.Create(i);
+            BoardPieceGroup group = BoardPieceGroup.Create(board, i);
             board._pieceGroupList.Add(group);     
         }
         
@@ -95,6 +101,53 @@ public class Board
         _positionPieceMap.TryGetValue(pos, out piece);
         return piece;
     }
+
+    public BoardPosition GetStartingPosition(int playerIndex)
+    {
+        return _startingPositions[playerIndex];
+    }
+
+    public bool GetNextForwardPositions(BoardPosition position, int playerIndex, ref List<BoardPosition> result)
+    {
+        bool positionsFound = false;
+        BoardPosition goalPos;
+        BoardPosition trackPos;
+
+        switch(position.type)
+        {
+            case PositionType.GOAL_TRACK_ENTRANCE:
+                {
+                    goalPos = _goalTrack[playerIndex][0];
+                    trackPos = _mainTrack[(position.trackIndex + 1) % _mainTrack.Count];
+                    result.Add(goalPos);
+                    result.Add(trackPos);
+                    positionsFound = true;
+                }
+                break;
+            case PositionType.GOAL_TRACK:
+                {
+                    if(position.trackIndex < kPerPlayerGoalCount - 1)
+                    {
+                        int goalIndex = position.trackIndex + 1;
+                        goalPos = _goalTrack[playerIndex][goalIndex];
+                        result.Add(goalPos);
+                        positionsFound = true;
+                    }
+                }
+                break;
+
+            case PositionType.MAIN_TRACK:
+            case PositionType.START_PEG:
+                {
+                    int index = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + 1);
+                    result.Add(_mainTrack[index]);
+                    positionsFound = true;
+                }
+                break;
+        }
+        return positionsFound;
+    }
+
 
     public bool IsPositionOccupied(BoardPosition position, out BoardPiece piece)
     {

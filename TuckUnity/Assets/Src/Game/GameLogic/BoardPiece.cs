@@ -12,9 +12,10 @@ public class BoardPiece
     public Board board { get; private set; }
 
 
-    public static BoardPiece Create(BoardPosition initialPos, int ownerIndex)
+    public static BoardPiece Create(Board board, BoardPosition initialPos, int ownerIndex)
     {
         BoardPiece piece = new BoardPiece();
+        piece.board = board;
         piece.boardPosition = initialPos;
         piece.ownerIndex = ownerIndex;
         return piece;

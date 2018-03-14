@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class BoardPositionUtil
 {
+    public static int GetWrappedMainTrackIndex(int index)
+    {
+        return index % Board.kMainTrackPipCount;
+    }
+
     public static Vector3 GetViewPosition(BoardPosition position)
     {
+        const float kGoalTrackOffset = 75.0f;
+
         Vector3 result = Vector3.zero;
         Vector3 dir = _getDirectionVector(position);
         Vector3 orthagonal = new Vector3(dir.y, -dir.x, 0.0f);
@@ -24,7 +31,7 @@ public class BoardPositionUtil
             center = dir * BoardView.kScale * 0.65f;
             //Vector3 offset = directions[position.trackIndex] * (position.trackIndex * BoardView.kPegStepSize);
 
-            result = center + (dir * position.trackIndex * BoardView.kPegStepSize);
+            result = center + (dir * kGoalTrackOffset) - (dir * position.trackIndex * BoardView.kPegStepSize);
         }
         else
         {
@@ -33,15 +40,10 @@ public class BoardPositionUtil
 
             float percentage = (float)sideOffset / (float)Board.kPegsPerEdge;
             float fullRange = percentage * 2.0f - 1.0f;
-            Vector3 offset = orthagonal * fullRange * BoardView.kScale;// Board.kPegStepSize * Board.kPegsPerEdge;
+            Vector3 offset = orthagonal * fullRange * BoardView.kScale;
             result = center + offset;
         }
-
-        //if ((i + 1) % kPegsPerEdge == 0)
-        //{
-        //    sideIndex++;
-        //}
-
+       
         return result;
     }
 
