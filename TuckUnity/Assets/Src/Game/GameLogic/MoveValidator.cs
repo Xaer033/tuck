@@ -28,20 +28,23 @@ public class MoveValidator
             switch(moveType)
             {
                 case MoveType.FORWARDS:
-                    handleForwardMovement(piece, moveData, ref result);
+                case MoveType.BACKWARDS:
+                    handleNormalMovement(piece, moveData, ref result);
                     break;
+
+                
             }
         }
         //Lots of work to do here!
         return result;   
     }
     
-    private void handleForwardMovement(
+    private void handleNormalMovement(
         BoardPiece piece, 
         PieceMovementData movementData, 
         ref List<MovePath> result)
     {
-        int forwardValue = movementData.value;
+        int movementDistance = movementData.value;
 
         switch(piece.boardPosition.type)
         {
@@ -49,19 +52,21 @@ public class MoveValidator
             case PositionType.GOAL_TRACK:
             case PositionType.GOAL_TRACK_ENTRANCE:
             case PositionType.MAIN_TRACK:
-                getPath(forwardValue, piece, true, ref result);
+                getPath(movementDistance, piece, movementDistance > 0, ref result);
                 break;
         }
     }
 
     private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
     {
-        if(pathIndex >=0 || pathIndex < result.Count)
+
+        if(pathIndex >= 0 || pathIndex < result.Count)
         {
             result[pathIndex].Add(currentPosition);
         }
 
-        if(count > 0)
+        int distance = Math.Abs(count);
+        if(distance > 0)
         {
             List<BoardPosition> nextPositions = new List<BoardPosition>(2);
             if(_board.GetNextPositions(currentPosition, playerIndex, forward, ref nextPositions))
@@ -78,7 +83,7 @@ public class MoveValidator
 
                 for(int i= 0; i < nextPositions.Count; ++i)
                 {
-                    recurseGetPath(count - 1, pathIndex + i, playerIndex, nextPositions[i], forward, ref result);
+                    recurseGetPath(distance - 1, pathIndex + i, playerIndex, nextPositions[i], forward, ref result);
                 }
             }
             else
@@ -95,7 +100,7 @@ public class MoveValidator
         _invalidPathStack.Clear();
         result.Add(new MovePath());
 
-        recurseGetPath(distance, piece.ownerIndex, 0, piece.boardPosition, true, ref result);
+        recurseGetPath(distance, piece.ownerIndex, 0, piece.boardPosition, forward, ref result);
 
         // Post process
         while(_invalidPathStack.Count > 0)

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GhostGen;
 
-public class Board
+public class Board : NotificationDispatcher
 {
     public const int kStartingPegIndex          = 15;
     public const int kGoalTrackEntranceIndex    = 12;
@@ -119,7 +120,7 @@ public class Board
         {
             case PositionType.GOAL_TRACK_ENTRANCE:
                 {
-                    if(position.ownerIndex == playerIndex)
+                    if(position.ownerIndex == playerIndex && forward)
                     {
                         goalPos = _goalTrack[playerIndex][0];
                         result.Add(goalPos);
@@ -135,8 +136,13 @@ public class Board
                     {
                         int goalIndex = position.trackIndex + nextIndex;
                         goalPos = _goalTrack[playerIndex][goalIndex];
-                        result.Add(goalPos);
-                        positionsFound = true;
+
+                        BoardPiece tmpPiece;
+                        if(!IsPositionOccupied(goalPos, out tmpPiece))
+                        {
+                            result.Add(goalPos);
+                            positionsFound = true;
+                        }
                     }
                 }
                 break;
@@ -144,6 +150,7 @@ public class Board
             case PositionType.START_PEG:
                 {
                     int index = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + nextIndex);
+
                     result.Add(_mainTrack[index]);
                     positionsFound = true;
                 }

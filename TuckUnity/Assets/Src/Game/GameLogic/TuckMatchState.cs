@@ -37,8 +37,8 @@ public class TuckMatchState
         card.titleKey = "5";
         card.pieceMovementList = new PieceMovementData[1];
         card.pieceMovementList[0] = new PieceMovementData();
-        card.pieceMovementList[0].type = "forwards";
-        card.pieceMovementList[0].value = 6;
+        card.pieceMovementList[0].type = MoveType.BACKWARDS;
+        card.pieceMovementList[0].value = -4;
         var pathList = state.validator.GetValidPositions(piece, card);
 
         return state;
