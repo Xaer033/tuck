@@ -28,6 +28,19 @@ public struct BoardPosition : IEquatable<BoardPosition>
         return "Type: " + type.ToString() + ", \nTrackIndex: " + trackIndex + "\nOwnerIndex:" + ownerIndex;
     }
 
+    public static BoardPosition Invalid
+    {
+        get
+        {
+            return Create(PositionType.HOME, -1, -1);
+        }
+    }
+
+    public static bool IsInvalid(BoardPosition pos)
+    {
+        return pos.trackIndex == -1 && pos.type == PositionType.HOME && pos.ownerIndex == -1;
+    }
+
     public static bool IsSame(BoardPosition a, BoardPosition b)
     {
         return  a.type == b.type && 

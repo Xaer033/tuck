@@ -9,30 +9,38 @@ using GhostGen;
 public class PieceView : UIView
 {
     public Image _icon;
+
     // Debugging things
     public PositionType _positionType;
     public int _trackIndex;
     public int _ownerIndex;
     // -----------
-
-    private BoardPosition _boardPosition;
     
+    private BoardPiece _piece;
+
     public BoardPosition boardPosition
     {
         get
         {
-            return _boardPosition;
-        }
-        set
-        {
-            if(!BoardPosition.IsSame(_boardPosition, value))
-            {
-                _boardPosition = value;
-                invalidateFlag = InvalidationFlag.DYNAMIC_DATA;
-            }
+            return _piece.boardPosition;
         }
     }
 
+    public BoardPiece piece
+    {
+        get
+        {
+            return _piece;
+        }
+        set
+        {
+            if(_piece != value)
+            {
+                _piece = value;
+                invalidateFlag = InvalidationFlag.DYNAMIC_DATA;                        
+            }
+        }
+    }
     protected override void OnViewUpdate()
     {
         base.OnViewUpdate();
@@ -41,14 +49,14 @@ public class PieceView : UIView
         {
             if(_icon != null)
             {
-                _icon.color = PlayerUtil.GetColor(_boardPosition.ownerIndex);
+                _icon.color = PlayerUtil.GetColor(piece.ownerIndex);
             }
 
-            transform.localPosition = BoardPositionUtil.GetViewPosition(_boardPosition);
+            transform.localPosition = BoardPositionUtil.GetViewPosition(boardPosition);
             // DebugInfo
-            _positionType = _boardPosition.type;
-            _trackIndex = _boardPosition.trackIndex;
-            _ownerIndex = _boardPosition.ownerIndex;
+            _positionType = boardPosition.type;
+            _trackIndex = boardPosition.trackIndex;
+            _ownerIndex = piece.ownerIndex;
         }
     }
 }

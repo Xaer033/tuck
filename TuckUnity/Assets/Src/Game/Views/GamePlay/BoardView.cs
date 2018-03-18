@@ -62,8 +62,11 @@ public class BoardView : UIView
             List<BoardPosition> boardPosList = _board.GetBoardPositionList();
             foreach(BoardPosition position in boardPosList)
             {
-                PegView pegView = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
-                _pegList.Add(pegView);
+                if(!BoardPosition.IsInvalid(position))
+                {
+                    PegView pegView = Singleton.instance.cardResourceBank.CreatePegView(position, _pegsGroup);
+                    _pegList.Add(pegView);
+                }
             }
 
             List<BoardPieceGroup> pieceGroupList = _board.GetPieceGroupList();
@@ -71,7 +74,7 @@ public class BoardView : UIView
             {
                 foreach(BoardPiece piece in group.pieceList)
                 {
-                    PieceView pieceView = Singleton.instance.cardResourceBank.CreatePieceView(piece.boardPosition, _piecesGroup);
+                    PieceView pieceView = Singleton.instance.cardResourceBank.CreatePieceView(piece, _piecesGroup);
                     _pieceList.Add(pieceView);
                 }
             }

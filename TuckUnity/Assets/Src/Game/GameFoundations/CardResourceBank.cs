@@ -51,10 +51,10 @@ public class CardResourceBank : ScriptableObject, IPostInit
         return view;
     }
 
-    public PieceView CreatePieceView(BoardPosition position, Transform parent)
+    public PieceView CreatePieceView(BoardPiece piece, Transform parent)
     {
         PieceView view = Instantiate<PieceView>(piecePrefab, parent, false);
-        view.boardPosition = position;
+        view.piece = piece;
         return view;
     }
 }

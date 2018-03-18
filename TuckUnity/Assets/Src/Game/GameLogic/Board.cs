@@ -107,39 +107,43 @@ public class Board
         return _startingPositions[playerIndex];
     }
 
-    public bool GetNextForwardPositions(BoardPosition position, int playerIndex, ref List<BoardPosition> result)
+    public bool GetNextPositions(BoardPosition position, int playerIndex, bool forward, ref List<BoardPosition> result)
     {
         bool positionsFound = false;
         BoardPosition goalPos;
         BoardPosition trackPos;
 
+        int nextIndex = (forward) ? 1 : -1;
+
         switch(position.type)
         {
             case PositionType.GOAL_TRACK_ENTRANCE:
                 {
-                    goalPos = _goalTrack[playerIndex][0];
-                    trackPos = _mainTrack[(position.trackIndex + 1) % _mainTrack.Count];
-                    result.Add(goalPos);
+                    if(position.ownerIndex == playerIndex)
+                    {
+                        goalPos = _goalTrack[playerIndex][0];
+                        result.Add(goalPos);
+                    }
+                    trackPos = _mainTrack[(position.trackIndex + nextIndex) % _mainTrack.Count];
                     result.Add(trackPos);
                     positionsFound = true;
                 }
                 break;
             case PositionType.GOAL_TRACK:
                 {
-                    if(position.trackIndex < kPerPlayerGoalCount - 1)
+                    if(position.trackIndex < kPerPlayerGoalCount - 1 && forward)
                     {
-                        int goalIndex = position.trackIndex + 1;
+                        int goalIndex = position.trackIndex + nextIndex;
                         goalPos = _goalTrack[playerIndex][goalIndex];
                         result.Add(goalPos);
                         positionsFound = true;
                     }
                 }
                 break;
-
             case PositionType.MAIN_TRACK:
             case PositionType.START_PEG:
                 {
-                    int index = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + 1);
+                    int index = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + nextIndex);
                     result.Add(_mainTrack[index]);
                     positionsFound = true;
                 }

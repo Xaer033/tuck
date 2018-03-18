@@ -13,6 +13,11 @@ public class BoardPositionUtil
     {
         const float kGoalTrackOffset = 75.0f;
 
+        if(BoardPosition.IsInvalid(position))
+        {
+            return Vector3.zero;
+        }
+
         Vector3 result = Vector3.zero;
         Vector3 dir = _getDirectionVector(position);
         Vector3 orthagonal = new Vector3(dir.y, -dir.x, 0.0f);

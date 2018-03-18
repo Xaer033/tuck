@@ -15,7 +15,6 @@ public class TuckMatchCore
 
         // Also no commands for starting player hands
         core.matchState = TuckMatchState.Create(playerList, cardDeck);
-
         return core;
     }
 
