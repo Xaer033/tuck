@@ -115,7 +115,8 @@ public class Board : NotificationDispatcher
         BoardPosition trackPos;
 
         int nextIndex = (forward) ? 1 : -1;
-
+        int nextWrappedIndex = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + nextIndex);
+        Debug.Log("Test: " + BoardPositionUtil.GetWrappedMainTrackIndex(-1));
         switch(position.type)
         {
             case PositionType.GOAL_TRACK_ENTRANCE:
@@ -124,8 +125,7 @@ public class Board : NotificationDispatcher
                     {
                         goalPos = _goalTrack[playerIndex][0];
                         result.Add(goalPos);
-                    }
-                    trackPos = _mainTrack[(position.trackIndex + nextIndex) % _mainTrack.Count];
+                    }trackPos = _mainTrack[nextWrappedIndex];
                     result.Add(trackPos);
                     positionsFound = true;
                 }
@@ -149,9 +149,7 @@ public class Board : NotificationDispatcher
             case PositionType.MAIN_TRACK:
             case PositionType.START_PEG:
                 {
-                    int index = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + nextIndex);
-
-                    result.Add(_mainTrack[index]);
+                    result.Add(_mainTrack[nextWrappedIndex]);
                     positionsFound = true;
                 }
                 break;

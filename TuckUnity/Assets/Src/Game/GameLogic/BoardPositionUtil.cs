@@ -6,7 +6,7 @@ public class BoardPositionUtil
 {
     public static int GetWrappedMainTrackIndex(int index)
     {
-        return index % Board.kMainTrackPipCount;
+        return (index > 0) ? index % Board.kMainTrackPipCount : Board.kMainTrackPipCount + index;
     }
 
     public static Vector3 GetViewPosition(BoardPosition position)
