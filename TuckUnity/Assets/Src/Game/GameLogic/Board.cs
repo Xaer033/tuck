@@ -112,11 +112,19 @@ public class Board : NotificationDispatcher
     {
         bool positionsFound = false;
         BoardPosition goalPos;
-        BoardPosition trackPos;
 
         int nextIndex = (forward) ? 1 : -1;
         int nextWrappedIndex = BoardPositionUtil.GetWrappedMainTrackIndex(position.trackIndex + nextIndex);
-        Debug.Log("Test: " + BoardPositionUtil.GetWrappedMainTrackIndex(-1));
+
+        bool isBlockingTrack = false;
+        BoardPosition mainTrackPos = _mainTrack[nextWrappedIndex];
+
+        BoardPiece blockingPiece;
+        if(IsPositionOccupied(mainTrackPos, out blockingPiece))
+        {
+            isBlockingTrack = mainTrackPos.type == PositionType.START_PEG && blockingPiece.justLeftHome;
+        }
+
         switch(position.type)
         {
             case PositionType.GOAL_TRACK_ENTRANCE:
@@ -125,9 +133,23 @@ public class Board : NotificationDispatcher
                     {
                         goalPos = _goalTrack[playerIndex][0];
                         result.Add(goalPos);
-                    }trackPos = _mainTrack[nextWrappedIndex];
-                    result.Add(trackPos);
-                    positionsFound = true;
+                    }
+
+                    if(!isBlockingTrack)
+                    {
+                        result.Add(mainTrackPos);
+                        positionsFound = true;
+                    }
+                }
+                break;
+            case PositionType.MAIN_TRACK:
+            case PositionType.START_PEG:
+                {
+                    if(!isBlockingTrack)
+                    {
+                        result.Add(mainTrackPos);
+                        positionsFound = true;
+                    }
                 }
                 break;
             case PositionType.GOAL_TRACK:
@@ -144,13 +166,6 @@ public class Board : NotificationDispatcher
                             positionsFound = true;
                         }
                     }
-                }
-                break;
-            case PositionType.MAIN_TRACK:
-            case PositionType.START_PEG:
-                {
-                    result.Add(_mainTrack[nextWrappedIndex]);
-                    positionsFound = true;
                 }
                 break;
         }

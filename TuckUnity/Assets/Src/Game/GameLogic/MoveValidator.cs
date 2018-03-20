@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 public class MoveValidator
@@ -15,46 +14,94 @@ public class MoveValidator
         return validator;
     }
 
-    public List<MovePath> GetValidPositions(BoardPiece piece, CardData card)
+    public bool GetValidPaths(BoardPiece piece, CardData card, ref List<MovePath> result)
     {
         Assert.IsNotNull(piece);
         Assert.IsNotNull(card);
+        Assert.IsNotNull(result);
 
-        var result = new List<MovePath>();
         for(int i = 0; i < card.pieceMovementList.Length; ++i)
         {
             PieceMovementData moveData = card.pieceMovementList[i];
-            string moveType = moveData.type;
-            switch(moveType)
-            {
-                case MoveType.FORWARDS:
-                case MoveType.BACKWARDS:
-                    handleNormalMovement(piece, moveData, ref result);
-                    break;
-
-                
-            }
+            GetValidPaths(piece, moveData, ref result);
         }
         //Lots of work to do here!
-        return result;   
+        return result.Count > 0;   
     }
-    
-    private void handleNormalMovement(
+
+    public bool GetValidPaths(BoardPiece piece, PieceMovementData moveData, ref List<MovePath> result)
+    {
+        Assert.IsNotNull(piece);
+        Assert.IsNotNull(moveData);
+        Assert.IsNotNull(result);
+
+        bool hasPath = false;
+
+        string moveType = moveData.type;
+        switch(moveType)
+        {
+            case MoveType.FORWARDS:
+            case MoveType.BACKWARDS:
+                hasPath = handleNormalMovement(piece, moveData, ref result);
+                break;
+
+            case MoveType.LEAVE_BASE:
+                hasPath = handleHomeMovement(piece, moveData, ref result);
+                break;
+        }
+
+        return hasPath;
+    }
+
+    private bool handleHomeMovement(
+        BoardPiece piece,
+        PieceMovementData movementData,
+        ref List<MovePath> result)
+    {
+        if(piece.boardPosition.type != PositionType.HOME)
+        {
+            return false;
+        }
+        
+        int ownerIndex = piece.ownerIndex;
+        bool startingPegValid = true;
+
+        BoardPosition startingPeg = _board.GetStartingPosition(ownerIndex);
+
+        BoardPiece blockingPiece;
+        if(_board.IsPositionOccupied(startingPeg, out blockingPiece))
+        {
+            startingPegValid = !blockingPiece.justLeftHome;
+        }
+
+        if(startingPegValid)
+        {
+            MovePath path = new MovePath();
+            path.Add(startingPeg);
+            result.Add(path);
+        }
+
+        return result.Count > 0;
+    }
+
+    private bool handleNormalMovement(
         BoardPiece piece, 
         PieceMovementData movementData, 
         ref List<MovePath> result)
     {
+        bool hasPath = false;
         int movementDistance = movementData.value;
-
-        switch(piece.boardPosition.type)
+        
+        if(piece.boardPosition.type == PositionType.HOME)
         {
-            case PositionType.HOME: return; // Can't move forward when piece is at home!
-            case PositionType.GOAL_TRACK:
-            case PositionType.GOAL_TRACK_ENTRANCE:
-            case PositionType.MAIN_TRACK:
-                getPath(movementDistance, piece, movementDistance > 0, ref result);
-                break;
+            hasPath = false;
         }
+        else
+        {
+            hasPath = getPathList(movementDistance, piece, movementData.type == MoveType.FORWARDS, ref result);
+        }
+        
+        return hasPath;
     }
 
     private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
@@ -95,7 +142,7 @@ public class MoveValidator
         return true;
     }
 
-    private bool getPath(int distance, BoardPiece piece, bool forward, ref List<MovePath> result)
+    private bool getPathList(int distance, BoardPiece piece, bool forward, ref List<MovePath> result)
     {
         _invalidPathStack.Clear();
         result.Add(new MovePath());
@@ -113,7 +160,7 @@ public class MoveValidator
         {
             result[i].RemoveAt(0);
         }
-        return true;
+        return result.Count > 0;
     }
 
 }

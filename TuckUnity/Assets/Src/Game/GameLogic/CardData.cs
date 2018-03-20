@@ -1,9 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Assertions;
-
-
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 public enum CardColor
 {
@@ -26,15 +22,6 @@ public class MoveType
     public const string SPLIT_STOMP = "split_stomp"; // Can split move between multiple pieces & destroy any piece along the way
     public const string SWAP = "swap"; // Swaps any two pieces not in a safe zone
     public const string LEAVE_BASE = "leave_base"; // Can escape home base
-    //public const string MULTI_VALUE = "multi_value";
-}
-
-public interface IMoveModifier
-{
-    string moveType { get; }
-
-    void GetMoveablePieces();
-    
 }
 
 [System.Serializable]
@@ -42,39 +29,6 @@ public class PieceMovementData
 {
     public string type;
     public int value;
-}
-
-public class CardUtility
-{
-    
-    //public static CardType TypeFromString(string cardType)
-    //{
-    //    switch(cardType.ToLower())
-    //    {
-    //        case "meat": return CardType.Meat;
-    //        case "veggie": return CardType.Veggie;
-    //        case "topping": return CardType.Topping;
-    //        case "customer": return CardType.Customer;
-    //    }
-
-    //    Debug.LogError(string.Format("We don't handle card type: {0}!", cardType));
-    //    return CardType.None;
-    //}
-
-    //public static int ApplyModifier(string modifier, int originalScore)
-    //{
-    //    if(string.IsNullOrEmpty(modifier))
-    //    {
-    //        return originalScore;
-    //    }
-
-    //    switch(modifier)
-    //    {
-    //        case PointModifier.X2: return originalScore * 2;
-    //    }
-        
-    //    return originalScore;
-    //}
 }
 
 [System.Serializable]

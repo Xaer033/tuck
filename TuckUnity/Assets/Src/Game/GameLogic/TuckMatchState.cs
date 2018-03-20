@@ -28,18 +28,20 @@ public class TuckMatchState
 
         state.gameMatchMode = GameMatchMode.INITIAL;
 
-        var board = state.board;
-        var piece = state.board.GetPieceGroupList()[0].GetPiece(0);
+        var pathList = new List<MovePath>();
 
-        board.SetPiecePosition(piece, BoardPosition.Create(PositionType.MAIN_TRACK, 10));
-        CardData card = new CardData();
-        card.id = "thing";
-        card.titleKey = "5";
-        card.pieceMovementList = new PieceMovementData[1];
-        card.pieceMovementList[0] = new PieceMovementData();
-        card.pieceMovementList[0].type = MoveType.BACKWARDS;
-        card.pieceMovementList[0].value = -4;
-        var pathList = state.validator.GetValidPositions(piece, card);
+        var board = state.board;
+
+        var blockingPiece = state.board.GetPieceGroupList()[0].GetPiece(1);
+        board.SetPiecePosition(blockingPiece, board.GetStartingPosition(0));
+        blockingPiece.justLeftHome = true;
+
+        var piece = state.board.GetPieceGroupList()[0].GetPiece(0);
+        var pieceMovement = new PieceMovementData();
+        pieceMovement.type = MoveType.LEAVE_BASE;
+
+        pathList.Clear();
+        state.validator.GetValidPaths(piece, pieceMovement, ref pathList);
 
         return state;
     }
