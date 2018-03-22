@@ -1,33 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AddTradeRequestCommand : ICommand
+﻿namespace GameCommands
 {
-    public TradeEscrow   escrow     { get; private set; }
-    public TradeRequest  request    { get; private set; }
-    
-    public static AddTradeRequestCommand Create(TradeEscrow escrow, TradeRequest request)
+    public class AddTradeRequestCommand : ICommand
     {
-        AddTradeRequestCommand command = new AddTradeRequestCommand();
-        command.escrow = escrow;
-        command.request = request;
+        private TradeEscrow escrow;
+        private TradeRequest request;
 
-        return command;
-    }
+        public static AddTradeRequestCommand Create(TradeEscrow escrow, TradeRequest request)
+        {
+            AddTradeRequestCommand command = new AddTradeRequestCommand();
+            command.escrow = escrow;
+            command.request = request;
 
-    public bool isLinked
-    {
-        get { return false; }
-    }
+            return command;
+        }
 
-    public void Execute()
-    {
-        escrow.AddAsset(request);
-    }
+        public bool isLinked
+        {
+            get { return false; }
+        }
 
-    public void Undo()
-    {
-        escrow.RemoveAsset(request);
+        public void Execute()
+        {
+            escrow.AddAsset(request);
+        }
+
+        public void Undo()
+        {
+            escrow.RemoveAsset(request);
+        }
     }
 }

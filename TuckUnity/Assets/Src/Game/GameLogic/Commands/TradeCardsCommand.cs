@@ -1,33 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TradeCardsCommand : ICommand
+﻿namespace GameCommands
 {
-    public TradeEscrow escrow { get; set; }
-
-    public static TradeCardsCommand Create(TradeEscrow escrow)
+    public class TradeCardsCommand : ICommand
     {
-        TradeCardsCommand command = new TradeCardsCommand();
-        command.escrow = escrow;
-        return command;
-    }
+        private TradeEscrow escrow;
 
-    public bool isLinked
-    {
-        get
+        public static TradeCardsCommand Create(TradeEscrow escrow)
         {
-            return false;
+            TradeCardsCommand command = new TradeCardsCommand();
+            command.escrow = escrow;
+            return command;
         }
-    }
 
-    public void Execute()
-    {
-        escrow.ApplyTrade();
-    }
+        public bool isLinked
+        {
+            get { return false;  }
+        }
 
-    public void Undo()
-    {
-        escrow.UndoTrade();
+        public void Execute()
+        {
+            escrow.ApplyTrade();
+        }
+
+        public void Undo()
+        {
+            escrow.UndoTrade();
+        }
     }
 }

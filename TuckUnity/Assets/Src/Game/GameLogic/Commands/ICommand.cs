@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICommand
+namespace GameCommands
 {
-    bool isLinked { get; }
+    public interface ICommand
+    {
+        bool isLinked { get; }
 
-    void Execute();
-    void Undo();
+        void Execute();
+        void Undo();
+    }
 }

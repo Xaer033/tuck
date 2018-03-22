@@ -7,11 +7,12 @@ public class MoveRequest
     public int playerIndex      { get; private set; }
     public int pieceIndex       { get; private set; }
     public int handIndex        { get; private set; }
+    public int pathIndex        { get; private set; }
 
     public PieceMovementData movement { get; private set; }
 
 
-    public static MoveRequest Create(int playerIndex, int handIndex, PieceMovementData movementData)
+    public static MoveRequest Create(int playerIndex, int handIndex, int pathIndex, PieceMovementData movementData)
     {
         MoveRequest request = new MoveRequest();
         request.playerIndex = playerIndex;
