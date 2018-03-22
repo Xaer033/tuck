@@ -4,6 +4,7 @@ using System.Reflection;
 
 using UnityEngine;
 using GhostGen;
+using Zenject;
 
 
 public class Singleton : MonoBehaviour
@@ -22,7 +23,9 @@ public class Singleton : MonoBehaviour
 
     public NotificationDispatcher notificationDispatcher { get; private set; }
 
-    private IStateFactory _stateFactory;
+    [Inject]
+    public IStateFactory _stateFactory;
+
     private Transform _sceneRoot;
 
     private static object _lock = new object();
@@ -107,8 +110,7 @@ public class Singleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         gameConfig = Resources.Load<GameConfig>("GameConfig");
-
-        _stateFactory = new TuckStateFactory();
+        
         gameStateMachine = new GameStateMachine(_stateFactory);
         sessionFlags = new SessionFlags();
         notificationDispatcher = new NotificationDispatcher();
