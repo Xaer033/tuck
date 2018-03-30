@@ -16,7 +16,8 @@ public class BoardPiece
     {
         BoardPiece piece = new BoardPiece();
         piece.board = board;
-        piece.boardPosition = initialPos;
+        //piece.boardPosition = initialPos;
+        board.SetPiecePosition(piece, initialPos);
         piece.ownerIndex = ownerIndex;
         return piece;
     }

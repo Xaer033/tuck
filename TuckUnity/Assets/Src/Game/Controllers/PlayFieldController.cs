@@ -28,14 +28,14 @@ public class PlayFieldController : BaseController
 
         viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
         {
-            _boardView = view as BoardView;
+            _boardView = view;
             _boardView.board = _matchState.board;
 
         }, Singleton.instance.sceneRoot);
 
         viewFactory.CreateAsync<PlayerHandView>("GUI/GamePlay/PlayerHandView", (view) =>
         {
-            _playerHandView = view as PlayerHandView;
+            _playerHandView = view;
             _playerHandView.AddListener(GameEventType.TRADE_CARD, onTradeCardDrop);
             _playerHandView.AddListener(GameEventType.PLAY_CARD, onPlayCardDrop);
 
@@ -44,7 +44,7 @@ public class PlayFieldController : BaseController
 
         viewFactory.CreateAsync<GameHudView>("GUI/GamePlay/GameHudView", (view) =>
         {
-            _gameHudView = view as GameHudView;
+            _gameHudView = view;
             _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
             _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);        
             _gameHudView.AddListener(GameEventType.FINISH_TURN, onForwardEventAndRefreshHand);

@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MoveRequest
 {
     public int playerIndex      { get; private set; }
-    public int pieceIndex       { get; private set; }
     public int handIndex        { get; private set; }
-    public int pathIndex        { get; private set; }
 
-    public PieceMovementData movement { get; private set; }
+    public List<PiecePathData> piecePathList { get; private set; }
 
+    public class PiecePathData
+    {
+        public int pieceIndex;
+        public MovePath path;
+    }
 
-    public static MoveRequest Create(int playerIndex, int handIndex, int pathIndex, PieceMovementData movementData)
+    public static MoveRequest Create(int playerIndex, int handIndex, List<PiecePathData> pieceMoveList)
     {
         MoveRequest request = new MoveRequest();
         request.playerIndex = playerIndex;
         request.handIndex = handIndex;
-        request.movement = movementData;
+        request.piecePathList = pieceMoveList;
+
         return request;
     }
 }

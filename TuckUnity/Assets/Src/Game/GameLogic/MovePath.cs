@@ -30,6 +30,11 @@ public class MovePath
         _path.RemoveAt(index);
     }
 
+    public void Reverse()
+    {
+        _path.Reverse();
+    }
+
     public BoardPosition Get(int index)
     {
         if(index < 0 || index >= _path.Count)
@@ -40,7 +45,7 @@ public class MovePath
         return _path[index];
     }
 
-    public void Start()
+    public void Reset()
     {
         _currentIndex = 0;
     }
@@ -60,7 +65,19 @@ public class MovePath
         }
     }
 
-    public BoardPosition Tail
+    public BoardPosition start
+    {
+        get
+        {
+            if(_path.Count == 0)
+            {
+                return BoardPosition.Invalid;
+            }
+
+            return _path[0];
+        }
+    }
+    public BoardPosition end
     {
         get
         {

@@ -12,9 +12,9 @@ public enum PositionType
 [System.Serializable]
 public struct BoardPosition : IEquatable<BoardPosition>
 {
-    public PositionType type { get; private set; }
-    public int trackIndex { get; private set; }
-    public int ownerIndex { get; private set; }
+    readonly public PositionType type;
+    readonly public int trackIndex;
+    readonly public int ownerIndex;
 
     //public BoardPosition()
     //{
@@ -49,15 +49,21 @@ public struct BoardPosition : IEquatable<BoardPosition>
     }
 
     public static BoardPosition Create(
-        PositionType type, 
-        int trackIndex, 
-        int playerIndex = -1)
+        PositionType p_type,
+        int p_trackIndex,
+        int p_playerIndex = -1)
     {
-        BoardPosition pos = new BoardPosition();
-        pos.type = type;
-        pos.trackIndex = trackIndex;
-        pos.ownerIndex = playerIndex;
-        return pos;
+        return new BoardPosition(p_type, p_trackIndex, p_playerIndex);
+    }
+
+    public BoardPosition(
+        PositionType p_type,
+        int p_trackIndex,
+        int p_playerIndex = -1)
+    {
+        type = p_type;
+        trackIndex = p_trackIndex;
+        ownerIndex = p_playerIndex;
     }
 
     public bool Equals(BoardPosition other)

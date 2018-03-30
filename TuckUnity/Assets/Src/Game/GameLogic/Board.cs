@@ -90,8 +90,18 @@ public class Board : NotificationDispatcher
         return _pieceGroupList;
     }
 
+    public void KillPiece(BoardPiece piece)
+    {
+        BoardPosition homePos = GetEmptyStartPosition(piece.ownerIndex);
+        if(!BoardPosition.IsInvalid(homePos))
+        {
+            SetPiecePosition(piece, homePos);
+        }
+    }
+
     public void SetPiecePosition(BoardPiece piece, BoardPosition pos )
     {
+        _positionPieceMap[piece.boardPosition] = null;
         piece.boardPosition = pos;        
         _positionPieceMap[pos] = piece;
     }
@@ -177,5 +187,20 @@ public class Board : NotificationDispatcher
     {
         piece = GetPieceAtPosition(position);
         return piece != null;
+    }
+
+    public BoardPosition GetEmptyStartPosition(int playerIndex)
+    {
+        BoardPosition[] positions = _homeTrack[playerIndex];
+        for(int i = 0; i < positions.Length; ++i)
+        {
+            BoardPosition pos = positions[i];
+            BoardPiece piece;
+            if(!IsPositionOccupied(pos, out piece))
+            {
+                return pos;
+            }
+        }
+        return BoardPosition.Invalid;
     }
 }

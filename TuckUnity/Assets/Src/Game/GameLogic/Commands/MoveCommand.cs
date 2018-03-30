@@ -12,7 +12,9 @@ namespace GameCommands
         private CardData playedCard;
         private PlayerState player;
 
-        private List<BoardPiece> killList = new List<BoardPiece>();
+        private List<BoardPiece> hitList = new List<BoardPiece>();
+        private Dictionary<BoardPiece, BoardPosition> killedPositionMap = new Dictionary<BoardPiece, BoardPosition>();
+        private List<MoveRequest.PiecePathData> piecePathList;
 
         public static MoveCommand Create(MoveRequest request, Board board, PlayerGroup group, MoveValidator validator)
         {
@@ -31,26 +33,62 @@ namespace GameCommands
 
         public void Execute()
         {
-
             player = playerGroup.GetPlayerByIndex(moveRequest.playerIndex);
+            Assert.IsNotNull(player);
             playedCard = player.hand.GetCard(moveRequest.handIndex);
             Assert.IsNotNull(playedCard);
 
-            if(moveRequest.movement != null)
+            if(moveRequest.piecePathList != null)
             {
-                BoardPieceGroup pieceGroup = board.GetPieceGroupList()[moveRequest.pieceIndex];
-                BoardPiece piece = pieceGroup.GetPiece(moveRequest.pieceIndex);
+                piecePathList = moveRequest.piecePathList;
+                for(int i = 0; i < piecePathList.Count; ++i)
+                {
+                    var piecePath = piecePathList[i];
+                    List<BoardPieceGroup> pieceGroupList = board.GetPieceGroupList();
+                    BoardPieceGroup pieceGroup = pieceGroupList[player.index];
+                    BoardPiece piece = pieceGroup.GetPiece(piecePath.pieceIndex);
 
-                //validator.GetValidPaths(piece, )
 
+                    bool isKiller = _isSplitStomp(playedCard);
+                    // Kill Other Pieces
+                    if(validator.GetPieceHitList(piecePath.path, isKiller, ref hitList))
+                    {
+                        _killPieces(hitList);
+                    }
+
+                    // Move Piece
+                    BoardPosition newPiecePos = piecePath.path.end;
+                    board.SetPiecePosition(piece, newPiecePos);
+
+                }
             }
-
-
         }
 
         public void Undo()
         {
 
+        }
+
+        private void _killPieces(List<BoardPiece> pieces)
+        {
+            for(int i = 0; i < pieces.Count; ++i)
+            {
+                BoardPiece piece = pieces[i];
+                killedPositionMap[piece] = piece.boardPosition;
+                board.KillPiece(piece);
+            }
+        }
+
+        private bool _isSplitStomp(CardData card)
+        {
+            foreach(var movement in card.pieceMovementList)
+            {
+                if(movement.type == MoveType.SPLIT_STOMP)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

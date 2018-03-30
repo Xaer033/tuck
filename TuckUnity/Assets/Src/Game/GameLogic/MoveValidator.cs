@@ -9,9 +9,39 @@ public class MoveValidator
 
     public static MoveValidator Create(Board board)
     {
-        MoveValidator validator = new MoveValidator();
-        validator._board = board;
+        MoveValidator validator = new MoveValidator()
+        {
+            _board = board
+        };
         return validator;
+    }
+
+    public bool GetPieceHitList(MovePath path, bool isSplitStomp, ref List<BoardPiece> hitList)
+    {
+        BoardPosition pos;
+        BoardPiece victim;
+
+        // Eat everything in the path V--V
+        if(isSplitStomp)
+        {
+            path.Reset();
+            while(path.GetNext(out pos))
+            {
+                if(_board.IsPositionOccupied(pos, out victim))
+                {                    
+                    hitList.Add(victim);
+                }
+            }
+        }
+        else // Only eat last victim in path V--V
+        {
+            pos = path.end;
+            if(_board.IsPositionOccupied(pos, out victim))
+            {
+                hitList.Add(victim);
+            }
+        }
+        return hitList.Count > 0;
     }
 
     public bool GetValidPaths(BoardPiece piece, CardData card, ref List<MovePath> result)
@@ -23,9 +53,10 @@ public class MoveValidator
         for(int i = 0; i < card.pieceMovementList.Length; ++i)
         {
             PieceMovementData moveData = card.pieceMovementList[i];
+
+            //Lots of work to do here!
             GetValidPaths(piece, moveData, ref result);
         }
-        //Lots of work to do here!
         return result.Count > 0;   
     }
 
@@ -106,7 +137,6 @@ public class MoveValidator
 
     private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
     {
-
         if(pathIndex >= 0 || pathIndex < result.Count)
         {
             result[pathIndex].Add(currentPosition);
