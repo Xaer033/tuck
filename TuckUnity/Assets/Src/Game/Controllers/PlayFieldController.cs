@@ -17,6 +17,9 @@ public class PlayFieldController : BaseController
     private GameHudView _gameHudView;
     private GameMatchMode _oldMatchMode;
 
+    private MoveRequest _currentMoveRequest;
+
+
     public PlayFieldController()
     {
         _gameplayResources = Singleton.instance.cardResourceBank;
@@ -141,6 +144,7 @@ public class PlayFieldController : BaseController
     }
     private bool _playerTurn(object changeStateData)
     {
+        Debug.Log("Player Turn!");
         return true;
     }
     private bool _gameOver(object changeStateData)
@@ -167,6 +171,8 @@ public class PlayFieldController : BaseController
     private void onPlayCardDrop(GeneralEvent e)
     {
         Debug.Log("PlayCard : " + e.data);
+        DispatchEvent(e); // Pass on
+        
     }
 
     private bool addTradeCard(int playerIndex, int handSlotIndex)

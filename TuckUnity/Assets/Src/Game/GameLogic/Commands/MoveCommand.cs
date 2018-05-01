@@ -34,6 +34,7 @@ namespace GameCommands
         public void Execute()
         {
             player = playerGroup.GetPlayerByIndex(moveRequest.playerIndex);
+
             Assert.IsNotNull(player);
             playedCard = player.hand.GetCard(moveRequest.handIndex);
             Assert.IsNotNull(playedCard);
@@ -59,14 +60,32 @@ namespace GameCommands
                     // Move Piece
                     BoardPosition newPiecePos = piecePath.path.end;
                     board.SetPiecePosition(piece, newPiecePos);
-
                 }
             }
         }
 
         public void Undo()
         {
+            //Un-kill things
+            foreach(var entry in killedPositionMap)
+            {
+                board.SetPiecePosition(entry.Key, entry.Value);
+            }
 
+            //Move back to the old positions
+            if(moveRequest.piecePathList != null)
+            {
+                piecePathList = moveRequest.piecePathList;
+                for(int i = 0; i < piecePathList.Count; ++i)
+                {
+                    var piecePath = piecePathList[i];
+                    List<BoardPieceGroup> pieceGroupList = board.GetPieceGroupList();
+                    BoardPieceGroup pieceGroup = pieceGroupList[player.index];
+                    BoardPiece piece = pieceGroup.GetPiece(piecePath.pieceIndex);
+
+                    board.SetPiecePosition(piece, piecePath.path.start);
+                }
+            }
         }
 
         private void _killPieces(List<BoardPiece> pieces)

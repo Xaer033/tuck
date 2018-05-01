@@ -24,7 +24,7 @@ public class Singleton : MonoBehaviour
     public NotificationDispatcher notificationDispatcher { get; private set; }
 
     [Inject]
-    public IStateFactory _stateFactory;
+    private IStateFactory _stateFactory;
 
     private Transform _sceneRoot;
 

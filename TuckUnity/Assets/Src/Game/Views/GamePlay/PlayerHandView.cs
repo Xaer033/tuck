@@ -35,10 +35,10 @@ public class PlayerHandView : UIView
 
         toggleButton.onClick.AddListener(onToggleButton);
 
-        //AddListener(GameEventType.CARD_DROPPED, (e) =>
+        //AddListener(GameEventType.PLAY_CARD, (e) =>
         //{
         //    Debug.Log("BubbleInfo: " + e.currentTarget + ", " + e.target);
-        //    Debug.Log("Bubble Working? : " +  e.data["success"]);
+        //    Debug.Log("Bubble Working? : " + e.data.ToString());
         //});
     }
 
@@ -52,8 +52,6 @@ public class PlayerHandView : UIView
         }
     }
     
-
-
     public void SetCardAtIndex(int index, CardView card)
     {
         _boundsCheck(index);
