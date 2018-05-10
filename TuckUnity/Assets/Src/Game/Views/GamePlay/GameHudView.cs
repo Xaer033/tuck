@@ -20,7 +20,6 @@ public class GameHudView : UIView
 
     public override void OnViewDispose()
     {
-
         _undoButton.onClick.RemoveListener(onUndoClicked);
         _redoButton.onClick.RemoveListener(onRedoClicked);
         _finishTurnButton.onClick.RemoveListener(onFinishClicked);
@@ -40,5 +39,4 @@ public class GameHudView : UIView
     {
         DispatchEvent(GameEventType.FINISH_TURN);
     }
-
 }

@@ -24,7 +24,7 @@ public class BoardPieceGroup
         for(int i = 0; i < kPiecesPerPlayer; ++i)
         {
             BoardPosition initialPosition = BoardPosition.Create(PositionType.HOME, i, ownerIndex);
-            BoardPiece piece = BoardPiece.Create(board, initialPosition, ownerIndex);
+            BoardPiece piece = BoardPiece.Create(board, initialPosition, ownerIndex, i);
             group._pieceList.Add(piece);
         }
         return group;

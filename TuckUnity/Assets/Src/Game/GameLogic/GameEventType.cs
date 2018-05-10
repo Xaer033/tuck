@@ -11,4 +11,6 @@ public class GameEventType
     public const string REDO            = "redo";
     public const string TOGGLE_HAND     = "toggle_hand";
     public const string FINISH_TURN     = "finish_turn";
+    public const string PEG_TAP         = "peg_tap";
+    public const string PIECE_TAP       = "piece_tap";
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using GhostGen;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using GhostGen;
 
 
-public class PieceView : UIView
+public class PieceView : UIView, IPointerClickHandler
 {
     public Image _icon;
 
@@ -41,6 +38,12 @@ public class PieceView : UIView
             }
         }
     }
+
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        DispatchEvent(GameEventType.PIECE_TAP, true, this);
+    }
+
     protected override void OnViewUpdate()
     {
         base.OnViewUpdate();

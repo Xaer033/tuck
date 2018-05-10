@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using System.Collections.Generic;
 
 public class MoveRequest
 {
-    public int playerIndex      { get; private set; }
-    public int handIndex        { get; private set; }
+    public int playerIndex      { get; set; }
+    public int handIndex        { get; set; }
 
-    public List<PiecePathData> piecePathList { get; private set; }
+    public List<PiecePathData> piecePathList { get; set; }
 
     public class PiecePathData
     {
+        public int ownerIndex;
         public int pieceIndex;
         public MovePath path;
     }

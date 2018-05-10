@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class MovePath
 {
-    private List<BoardPosition> _path = new List<BoardPosition>(13);
+    [SerializeField]
+    private List<BoardPosition> _path;
+
+    [SerializeField]
     private int _currentIndex;
-   
 
     public static MovePath Clone(MovePath path)
     {
         MovePath newPath = new MovePath();
         newPath._path.AddRange(path._path);
         return newPath;
+    }
+
+    public MovePath()
+    {
+        _currentIndex = 0;
+        _path = new List<BoardPosition>(13);
+    }
+
+    public MovePath(List<BoardPosition> pathList)
+    {
+        _currentIndex = 0;
+        _path = pathList;
     }
 
     public int positionCount

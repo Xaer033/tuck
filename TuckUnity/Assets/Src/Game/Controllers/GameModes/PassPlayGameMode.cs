@@ -34,13 +34,15 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
 
         _tuckMatchCore = TuckMatchCore.Create(_playerList, deck);
    
-        _playFieldController.Start(_tuckMatchCore.matchState);
+        _playFieldController.Start(_tuckMatchCore.matchState, ()=>
+        {
+            _changeGameMatchMode(GameMatchMode.INITIAL);
+            _changeGameMatchMode(GameMatchMode.SHUFFLE_AND_REDISTRIBUTE);
+            _changeGameMatchMode(GameMatchMode.PARTNER_TRADE);
 
-        _changeGameMatchMode(GameMatchMode.INITIAL);
-        _changeGameMatchMode(GameMatchMode.SHUFFLE_AND_REDISTRIBUTE);
-        _changeGameMatchMode(GameMatchMode.PARTNER_TRADE);
+            _tuckMatchCore.ClearCommands();
+        });
 
-        _tuckMatchCore.ClearCommands();
     }
 
     public void Step(double deltaTime)

@@ -12,9 +12,9 @@ public enum PositionType
 [System.Serializable]
 public struct BoardPosition : IEquatable<BoardPosition>
 {
-    readonly public PositionType type;
-    readonly public int trackIndex;
-    readonly public int ownerIndex;
+    public PositionType type;
+    public int trackIndex;
+    public int ownerIndex;
 
     //public BoardPosition()
     //{

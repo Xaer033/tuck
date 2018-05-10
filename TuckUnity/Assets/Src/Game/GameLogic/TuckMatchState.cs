@@ -25,8 +25,8 @@ public class TuckMatchState
         state.teams = TeamCollection.Create(playerList);
         state.escrow = TradeEscrow.Create(state.teams, state.playerGroup);
         state.validator = MoveValidator.Create(state.board);
-
         state.gameMatchMode = GameMatchMode.INITIAL;
+        
         return state;
     }
     

@@ -468,6 +468,8 @@ MonoBehaviour:
   dragCardLayer: {fileID: 224073840177080276}
   dragBlocker: {fileID: 114577965497640302}
   toggleButton: {fileID: 114311187132419660}
+  _tradeMat: {fileID: 1787526411508060}
+  _playCardMat: {fileID: 1679146655177864}
 --- !u!114 &114749416768789646
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,16 +9,16 @@ public class BoardPiece
     public BoardPosition boardPosition;
 
     public int ownerIndex { get; private set; }
+    public int index { get; private set; }
     public Board board { get; private set; }
 
-
-    public static BoardPiece Create(Board board, BoardPosition initialPos, int ownerIndex)
+    public static BoardPiece Create(Board board, BoardPosition initialPos, int ownerIndex, int pieceIndex)
     {
         BoardPiece piece = new BoardPiece();
         piece.board = board;
-        //piece.boardPosition = initialPos;
-        board.SetPiecePosition(piece, initialPos);
         piece.ownerIndex = ownerIndex;
+        piece.index = pieceIndex;
+        board.SetPiecePosition(piece, initialPos);
         return piece;
     }
 
@@ -31,5 +31,4 @@ public class BoardPiece
                 || boardPosition.type == PositionType.HOME;
         }
     }
-	
 }

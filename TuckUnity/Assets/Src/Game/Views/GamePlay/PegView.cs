@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using GhostGen;
+﻿using GhostGen;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PegView : UIView
+public class PegView : UIView, IPointerClickHandler
 {
     public Image _icon;
     public TextMeshProUGUI _debugNumber;
@@ -35,6 +33,10 @@ public class PegView : UIView
         }
     }
 
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        DispatchEvent(GameEventType.PEG_TAP, true, this);
+    }
 
     protected override void OnViewUpdate()
     {

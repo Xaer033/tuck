@@ -1,14 +1,21 @@
-﻿using System.Collections;
+﻿using GhostGen;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Assertions;
-using GhostGen;
+using UnityEngine.EventSystems;
 
 public class PlayFieldController : BaseController
 {
     const int kLocalPlayerIndex = 0; // TODO: Temporary until we have real multiplayer
 
+    enum PlayMoveState
+    {
+        PLAY_CARD,
+        SELECT_PAWNS,
+        SELECT_PATHS,
+    }
+    
     private TuckMatchState _matchState;
 
     private BoardView _boardView;
@@ -17,23 +24,30 @@ public class PlayFieldController : BaseController
     private GameHudView _gameHudView;
     private GameMatchMode _oldMatchMode;
 
-    private MoveRequest _currentMoveRequest;
+    private PlayMoveState _playMoveState;
 
+    private MoveRequest _currentMoveRequest;
+    private int _sevenCardSpacesLeft;
 
     public PlayFieldController()
     {
         _gameplayResources = Singleton.instance.cardResourceBank;
     }
 
-    public void Start(TuckMatchState state)
+    public void Start(TuckMatchState state, Action onViewsLoaded)
     {
         _matchState = state;
+
+        int viewsToLoadCount = 3;
 
         viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
         {
             _boardView = view;
             _boardView.board = _matchState.board;
+            _boardView.AddListener(GameEventType.PEG_TAP, onPegTapped);
+            _boardView.AddListener(GameEventType.PIECE_TAP, onPieceTapped);
 
+            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
         }, Singleton.instance.sceneRoot);
 
         viewFactory.CreateAsync<PlayerHandView>("GUI/GamePlay/PlayerHandView", (view) =>
@@ -41,8 +55,10 @@ public class PlayFieldController : BaseController
             _playerHandView = view;
             _playerHandView.AddListener(GameEventType.TRADE_CARD, onTradeCardDrop);
             _playerHandView.AddListener(GameEventType.PLAY_CARD, onPlayCardDrop);
-
+            
             _setupPlayerHand(activePlayer.index);
+
+            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
         });
 
         viewFactory.CreateAsync<GameHudView>("GUI/GamePlay/GameHudView", (view) =>
@@ -51,7 +67,17 @@ public class PlayFieldController : BaseController
             _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
             _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);        
             _gameHudView.AddListener(GameEventType.FINISH_TURN, onForwardEventAndRefreshHand);
+
+            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
         });
+    }
+
+    private void checkViewsLoaded(int count, Action callback)
+    {
+        if(count <= 0 && callback != null)
+        {
+            callback();
+        }
     }
 
     public bool ChangeMatchMode(GameMatchMode m)
@@ -104,14 +130,13 @@ public class PlayFieldController : BaseController
         }
     }
 
-    private bool _gameModeChanged(object changeStateData = null)
+    private bool _gameModeChanged(GameMatchMode newMode, object changeStateData = null)
     {
-        GameMatchMode currentMode = _matchState.gameMatchMode;
-        Debug.LogFormat("Update PlayField game mode From: {0} to {1}", _oldMatchMode, currentMode);
-        Assert.IsFalse(currentMode == _oldMatchMode, "Should not be updating mode to the same state!");
-        _oldMatchMode = currentMode;
+        Debug.LogFormat("Update PlayField game mode From: {0} to {1}", _oldMatchMode, newMode);
+        Assert.IsFalse(newMode == _oldMatchMode, "Should not be updating mode to the same state!");
+        _oldMatchMode = newMode;
 
-        switch (currentMode)
+        switch (newMode)
         {
             case GameMatchMode.INITIAL:                    return _initialState(changeStateData);
             case GameMatchMode.SHUFFLE_AND_REDISTRIBUTE:   return _shuffleAndRedist(changeStateData);
@@ -121,7 +146,7 @@ public class PlayFieldController : BaseController
             case GameMatchMode.GAME_OVER:                  return _gameOver(changeStateData);
         }
 
-        Debug.LogErrorFormat("Could not change state to: {0}", currentMode);
+        Debug.LogErrorFormat("Could not change state to: {0}", newMode);
         return false;
     }
 
@@ -136,6 +161,7 @@ public class PlayFieldController : BaseController
     }
     private bool _partnerTrade(object changeStateData)
     {
+        _playerHandView.tradeMatEnabled = true;
         return true;
     }
     private bool _redistribute(object changeStateData)
@@ -145,6 +171,13 @@ public class PlayFieldController : BaseController
     private bool _playerTurn(object changeStateData)
     {
         Debug.Log("Player Turn!");
+
+        _currentMoveRequest = new MoveRequest();
+        _currentMoveRequest.playerIndex = activePlayer.index;
+
+        _playMoveState = PlayMoveState.PLAY_CARD;
+        _playerHandView.playCardMatEnabled = true;
+        _playerHandView.tradeMatEnabled = false;
         return true;
     }
     private bool _gameOver(object changeStateData)
@@ -171,9 +204,60 @@ public class PlayFieldController : BaseController
     private void onPlayCardDrop(GeneralEvent e)
     {
         Debug.Log("PlayCard : " + e.data);
-        DispatchEvent(e); // Pass on
+
+        PointerEventData data = (e.data as PointerEventData);
+        CardView droppedCard = data.pointerDrag.GetComponent<CardView>();
+
+        if(_playMoveState == PlayMoveState.PLAY_CARD)
+        {
+            _playMoveState = PlayMoveState.SELECT_PAWNS;
+            _playerHandView.playCardMatEnabled = false;
+            _currentMoveRequest.handIndex = droppedCard.handIndex;
+
+
+            DispatchEvent(e); // Pass on
+        }
+    }
+
+    private bool isSplitStomp(CardData card)
+    {
+        foreach(var movement in card.pieceMovementList)
+        {
+            if(movement.type == MoveType.SPLIT_STOMP)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void onPegTapped(GeneralEvent e)
+    {
+        PegView peg = e.data as PegView;
+        Debug.Log("Peg: " + peg.ToString());
         
     }
+
+    private void onPieceTapped(GeneralEvent e)
+    {
+        PieceView pieceView = e.data as PieceView;
+        Debug.Log("Piece: " + pieceView.ToString());
+
+        if(_playMoveState == PlayMoveState.SELECT_PAWNS)
+        {
+            CardData currentCard = activePlayer.hand.GetCard(_currentMoveRequest.handIndex);
+            
+            var piecePath = new MoveRequest.PiecePathData();
+            piecePath.pieceIndex = pieceView.piece.index;
+
+            var pathList = new List<MovePath>();
+            if(_matchState.validator.GetValidPaths(pieceView.piece, currentCard, ref pathList))
+            {
+
+            }
+        }
+    }
+    
 
     private bool addTradeCard(int playerIndex, int handSlotIndex)
     {

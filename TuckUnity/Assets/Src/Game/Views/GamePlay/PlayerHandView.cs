@@ -18,6 +18,8 @@ public class PlayerHandView : UIView
     public Transform dragCardLayer;
     public Image dragBlocker;
     public Button toggleButton;
+    public GameObject _tradeMat;
+    public GameObject _playCardMat;
 
     private CardView[] _cardViewList = new CardView[PlayerHand.kFirstHandSize];
     private Tween _handTween;
@@ -34,12 +36,8 @@ public class PlayerHandView : UIView
         _hiddenPosition = new Vector3(0, -100, 0);
 
         toggleButton.onClick.AddListener(onToggleButton);
-
-        //AddListener(GameEventType.PLAY_CARD, (e) =>
-        //{
-        //    Debug.Log("BubbleInfo: " + e.currentTarget + ", " + e.target);
-        //    Debug.Log("Bubble Working? : " + e.data.ToString());
-        //});
+        _tradeMat.SetActive(false);
+        _playCardMat.SetActive(false);
     }
 
     public int playerIndex { get; set; }
@@ -52,6 +50,28 @@ public class PlayerHandView : UIView
         }
     }
     
+    public bool tradeMatEnabled
+    {
+        set
+        {
+            if(_tradeMat != null)
+            {
+                _tradeMat.SetActive(value);
+            }
+        }
+    }
+
+    public bool playCardMatEnabled
+    {
+        set
+        {
+            if(_playCardMat != null)
+            {
+                _playCardMat.SetActive(value);
+            }
+        }
+    }
+
     public void SetCardAtIndex(int index, CardView card)
     {
         _boundsCheck(index);
