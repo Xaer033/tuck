@@ -370,8 +370,8 @@ namespace GameSparks.Platforms
                     case RuntimePlatform.WSAPlayerARM:
                         return "WSA";
 
-                    case RuntimePlatform.TizenPlayer:
-                        return "TIZEN";
+                    // case RuntimePlatform.TizenPlayer:
+                    //     return "TIZEN";
 
                     case RuntimePlatform.PS4:
                         return "PS4";

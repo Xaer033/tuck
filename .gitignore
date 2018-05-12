@@ -8,3 +8,4 @@ TuckUnity/TuckUnity.Plugins.csproj
 TuckUnity/TuckUnity.csproj
 TuckUnity/TuckUnity.sln
 *.csproj
+TuckUnity/.vscode/

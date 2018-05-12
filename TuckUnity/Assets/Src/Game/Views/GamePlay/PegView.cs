@@ -8,7 +8,6 @@ public class PegView : UIView, IPointerClickHandler
 {
     public Image _icon;
     public TextMeshProUGUI _debugNumber;
-
     // Debugging things
     public PositionType _positionType;
     public int _trackIndex;
