@@ -7,9 +7,15 @@ namespace GhostGen
 {
     public class ViewFactory : IViewFactory<UIView>
     {
+        public Canvas canvas { get; set; }
+        
+        public class AsyncViewResult : MultiMap<string, UIView>
+        {
+        }
+        
         internal class AsyncBlock
         {
-            public static AsyncBlock Create<T>(string name, ResourceRequest p_request, Action<T> p_callback, Transform p_parent ) where T : UIView
+            public static AsyncBlock Create<T>(string name, ResourceRequest p_request, Action<T> p_callback, Transform p_parent) where T : UIView
             {
                 AsyncBlock block = new AsyncBlock();
                 block.name = name;
@@ -27,15 +33,13 @@ namespace GhostGen
 
             public ResourceRequest request;
             public Action<UIView> callback;
-            public Transform    parent;
+            public Transform parent;
             public string name;
-       
+
         }
         
-        public Canvas canvas { get; set; }
-
         private List<AsyncBlock> _asyncList = new List<AsyncBlock>();
-    
+        
         public ViewFactory(Canvas guiCanvas)
         {
             canvas = guiCanvas;
@@ -102,6 +106,44 @@ namespace GhostGen
             _asyncList.Add(block);
 
             return true;
+        }
+
+        public bool CreateAsyncList(List<AssetRequest> requestList, Action<AsyncViewResult> callback)
+        {
+            Assert.IsNotNull(requestList);
+            bool result = true;
+
+            AsyncViewResult resultMap = new AsyncViewResult();
+            int viewsToLoadCount = requestList.Count;
+
+            for(int i = 0; i < requestList.Count; ++i)
+            {
+                Assert.IsNotNull(requestList[i], "Request List item is null at index: " + i);
+
+                string path = requestList[i].path;
+                Transform parent = requestList[i].parent;
+
+                result = CreateAsync<UIView>(path, (view) =>
+                {
+                    viewsToLoadCount--;
+
+                    resultMap.Add(path, view);
+
+                    if(viewsToLoadCount <= 0 && callback != null)
+                    {
+                        callback(resultMap);
+                    }
+
+                }, parent);
+
+                if(!result)
+                {
+                    Debug.LogError("Error trying to create view: " + path);
+                    break;
+                }
+            }
+
+            return result;
         }
 
         public void RemoveView(UIView view)

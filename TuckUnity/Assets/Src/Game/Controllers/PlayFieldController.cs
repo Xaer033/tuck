@@ -37,47 +37,48 @@ public class PlayFieldController : BaseController
     public void Start(TuckMatchState state, Action onViewsLoaded)
     {
         _matchState = state;
+        
+        var assetList = new List<AssetRequest>() {
+            new AssetRequest("GUI/GamePlay/BoardView", Singleton.instance.sceneRoot),
+            new AssetRequest("GUI/GamePlay/PlayerHandView"),
+            new AssetRequest("GUI/GamePlay/GameHudView")
+        };
 
-        int viewsToLoadCount = 3;
-
-        viewFactory.CreateAsync<BoardView>("GUI/GamePlay/BoardView", (view) =>
+        viewFactory.CreateAsyncList(assetList, (uiMap) =>
         {
-            _boardView = view;
-            _boardView.board = _matchState.board;
-            _boardView.AddListener(GameEventType.PEG_TAP, onPegTapped);
-            _boardView.AddListener(GameEventType.PIECE_TAP, onPieceTapped);
+            foreach(var keyValue in uiMap)
+            {
+                switch(keyValue.Key)
+                {
+                    case "GUI/GamePlay/BoardView":
+                        _boardView = keyValue.Value as BoardView;
+                        _boardView.board = _matchState.board;
+                        _boardView.AddListener(GameEventType.PEG_TAP, onPegTapped);
+                        _boardView.AddListener(GameEventType.PIECE_TAP, onPieceTapped);
+                        break;
 
-            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
-        }, Singleton.instance.sceneRoot);
+                    case "GUI/GamePlay/PlayerHandView":
+                        _playerHandView = keyValue.Value as PlayerHandView;
+                        _playerHandView.AddListener(GameEventType.TRADE_CARD, onTradeCardDrop);
+                        _playerHandView.AddListener(GameEventType.PLAY_CARD, onPlayCardDrop);
 
-        viewFactory.CreateAsync<PlayerHandView>("GUI/GamePlay/PlayerHandView", (view) =>
-        {
-            _playerHandView = view;
-            _playerHandView.AddListener(GameEventType.TRADE_CARD, onTradeCardDrop);
-            _playerHandView.AddListener(GameEventType.PLAY_CARD, onPlayCardDrop);
-            
-            _setupPlayerHand(activePlayer.index);
+                        _setupPlayerHand(activePlayer.index);
+                        break;
 
-            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
+                    case "GUI/GamePlay/GameHudView":
+                        _gameHudView = keyValue.Value as GameHudView;
+                        _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
+                        _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);
+                        _gameHudView.AddListener(GameEventType.FINISH_TURN, onForwardEventAndRefreshHand);
+                        break;
+                }
+            }
+
+            if(onViewsLoaded != null)
+            {
+                onViewsLoaded();
+            }
         });
-
-        viewFactory.CreateAsync<GameHudView>("GUI/GamePlay/GameHudView", (view) =>
-        {
-            _gameHudView = view;
-            _gameHudView.AddListener(GameEventType.UNDO, onForwardEventAndRefreshHand);
-            _gameHudView.AddListener(GameEventType.REDO, onForwardEventAndRefreshHand);        
-            _gameHudView.AddListener(GameEventType.FINISH_TURN, onForwardEventAndRefreshHand);
-
-            checkViewsLoaded(--viewsToLoadCount, onViewsLoaded);
-        });
-    }
-
-    private void checkViewsLoaded(int count, Action callback)
-    {
-        if(count <= 0 && callback != null)
-        {
-            callback();
-        }
     }
 
     public bool ChangeMatchMode(GameMatchMode m)
