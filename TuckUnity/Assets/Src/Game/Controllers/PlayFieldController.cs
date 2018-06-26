@@ -44,7 +44,7 @@ public class PlayFieldController : BaseController
             new AssetRequest("GUI/GamePlay/GameHudView")
         };
 
-        viewFactory.CreateAsyncList(assetList, (uiMap) =>
+        viewFactory.CreateAsyncFromList(assetList, (uiMap) =>
         {
             foreach(var keyValue in uiMap)
             {
@@ -158,15 +158,20 @@ public class PlayFieldController : BaseController
     }
     private bool _shuffleAndRedist(object changeStateData)
     {
+        _playerHandView.playCardMatEnabled = false;
+        _playerHandView.tradeMatEnabled = false;
         return true;
     }
     private bool _partnerTrade(object changeStateData)
     {
+        _playerHandView.playCardMatEnabled = false;
         _playerHandView.tradeMatEnabled = true;
         return true;
     }
     private bool _redistribute(object changeStateData)
     {
+        _playerHandView.playCardMatEnabled = false;
+        _playerHandView.tradeMatEnabled = false;
         return true;
     }
     private bool _playerTurn(object changeStateData)

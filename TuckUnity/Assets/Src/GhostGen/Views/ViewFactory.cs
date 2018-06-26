@@ -83,12 +83,14 @@ namespace GhostGen
             return (T)Resources.Load<UIView>(viewPath);
         }
 
-        public T Create<T>(string viewPath, Transform parent = null) where T : UIView
+        public T Create<T>(AssetRequest request) where T : UIView
         {
-            UIView viewBase = Resources.Load<UIView>(viewPath);
+            Assert.IsFalse(String.IsNullOrEmpty(request.path));
+
+            UIView viewBase = Resources.Load<UIView>(request.path);
             Assert.IsNotNull(viewBase);
         
-            return (T)_createView(viewBase, parent);
+            return (T)_createView(viewBase, request.parent);
         }
 
         public T Create<T>(UIView prefab, Transform parent = null) where T : UIView
@@ -97,18 +99,35 @@ namespace GhostGen
             return (T)_createView(prefab, parent);
         }
 
-        public bool CreateAsync<T>(string viewPath, Action<T> callback, Transform parent = null) where T : UIView
+        public bool CreateAsync<T>(string viewPath, Action<T> callback) where T : UIView
         {
-            ResourceRequest request = Resources.LoadAsync<T>(viewPath);
+            Assert.IsFalse(String.IsNullOrEmpty(viewPath));
+            AssetRequest assetRequest = new AssetRequest(viewPath);
+            ResourceRequest request = Resources.LoadAsync<T>(assetRequest.path);
 
-            if (request == null) { return false; }
-            AsyncBlock block = AsyncBlock.Create<T>(viewPath, request, callback, parent);
+            if(request == null) { return false; }
+
+            AsyncBlock block = AsyncBlock.Create<T>(assetRequest.path, request, callback, assetRequest.parent);
             _asyncList.Add(block);
 
             return true;
         }
 
-        public bool CreateAsyncList(List<AssetRequest> requestList, Action<AsyncViewResult> callback)
+        public bool CreateAsync<T>(AssetRequest assetRequest, Action<T> callback) where T : UIView
+        {
+            Assert.IsFalse(String.IsNullOrEmpty(assetRequest.path));
+
+            ResourceRequest request = Resources.LoadAsync<T>(assetRequest.path);
+
+            if (request == null) { return false; }
+
+            AsyncBlock block = AsyncBlock.Create<T>(assetRequest.path, request, callback, assetRequest.parent);
+            _asyncList.Add(block);
+
+            return true;
+        }
+
+        public bool CreateAsyncFromList(List<AssetRequest> requestList, Action<AsyncViewResult> callback)
         {
             Assert.IsNotNull(requestList);
             bool result = true;
@@ -117,28 +136,25 @@ namespace GhostGen
             int viewsToLoadCount = requestList.Count;
 
             for(int i = 0; i < requestList.Count; ++i)
-            {
-                Assert.IsNotNull(requestList[i], "Request List item is null at index: " + i);
+            {           
+                AssetRequest request = requestList[i];
+                Assert.IsFalse(String.IsNullOrEmpty(request.path));
 
-                string path = requestList[i].path;
-                Transform parent = requestList[i].parent;
-
-                result = CreateAsync<UIView>(path, (view) =>
+                result = CreateAsync<UIView>(request, (view) =>
                 {
                     viewsToLoadCount--;
 
-                    resultMap.Add(path, view);
+                    resultMap.Add(request.path, view);
 
                     if(viewsToLoadCount <= 0 && callback != null)
                     {
                         callback(resultMap);
                     }
-
-                }, parent);
+                });
 
                 if(!result)
                 {
-                    Debug.LogError("Error trying to create view: " + path);
+                    Debug.LogError("Error trying to create view: " + request.path);
                     break;
                 }
             }

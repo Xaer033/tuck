@@ -1,10 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Collections.Generic;
-using GhostGen;
-using DG.Tweening;
+﻿using GhostGen;
 using System.Collections;
+using UnityEngine;
 
 public class MainMenuState : IGameState
 {

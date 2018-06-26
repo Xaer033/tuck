@@ -131,11 +131,13 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private void onUndoTurn(GeneralEvent e)
     {
         _tuckMatchCore.Undo();
+        _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
     }
 
     private void onRedoTurn(GeneralEvent e)
     {
         _tuckMatchCore.Redo();
+        _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
     }
 
     private void _changeGameMatchMode(GameMatchMode mode)
