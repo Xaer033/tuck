@@ -16,8 +16,8 @@ public class PassPlaySetupController : BaseController
 
         viewFactory.CreateAsync<PassPlaySetupView>("GUI/GameSetup/PassPlaySetupView", (passView) =>
         {
-            _passPlaySetup = passView as PassPlaySetupView;
-            view = _passPlaySetup;
+            _passPlaySetup = passView;
+            view = _passPlaySetup;            
 
             _passPlaySetup.startButton.onClick.AddListener(onStartButton);
             _passPlaySetup.cancelButton.onClick.AddListener(onCancelButton);

@@ -135,6 +135,7 @@ public class PlayFieldController : BaseController
     {
         Debug.LogFormat("Update PlayField game mode From: {0} to {1}", _oldMatchMode, newMode);
         Assert.IsFalse(newMode == _oldMatchMode, "Should not be updating mode to the same state!");
+
         _oldMatchMode = newMode;
 
         switch (newMode)

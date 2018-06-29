@@ -1,10 +1,8 @@
-﻿using System.Collections;
-
-namespace GhostGen
+﻿namespace GhostGen
 {
-	public interface IGameState
+    public interface IGameState
 	{
-		void Init(GameStateMachine stateMatchine, Hashtable changeStateData);
+		void Init(GameStateMachine stateMatchine, object changeStateData);
 
 		void Step(float deltaTime);
 

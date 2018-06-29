@@ -1,10 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using GhostGen;
-using DG.Tweening;
-using System;
+﻿using GhostGen;
 
 public class PassAndPlaySetupState : IGameState
 {
@@ -12,7 +6,7 @@ public class PassAndPlaySetupState : IGameState
     private ScreenFader _fader;
     private GameStateMachine _stateMachine;
 
-	public void Init( GameStateMachine stateMachine, Hashtable changeStateData)
+	public void Init( GameStateMachine stateMachine, object changeStateData)
 	{
         _stateMachine = stateMachine;
 

@@ -1,0 +1,12 @@
+{
+    "name": "GameAssemblies",
+    "references": [
+        "ThirdPartyAssemblies",
+        "GhostGenAssemblies",
+        "Unity.TextMeshPro"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

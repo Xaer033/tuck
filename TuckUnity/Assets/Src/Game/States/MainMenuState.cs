@@ -6,7 +6,7 @@ public class MainMenuState : IGameState
 {
     private MainMenuController _mainMenuController;
 
-	public void Init( GameStateMachine stateMachine, Hashtable changeStateData )
+	public void Init( GameStateMachine stateMachine, object changeStateData )
 	{
 		Debug.Log ("Entering In MainMenu State");
         _mainMenuController = new MainMenuController();

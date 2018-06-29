@@ -1,8 +1,6 @@
-﻿using System.Collections;
-
-namespace GhostGen
+﻿namespace GhostGen
 {
-	public class GameStateMachine
+    public class GameStateMachine
 	{
         private IStateFactory _stateFactory;
         private IGameState _currentState;
@@ -22,7 +20,7 @@ namespace GhostGen
 				_currentState.Step( p_deltaTime );
 		}
 
-		public void ChangeState( string stateId, Hashtable changeStateInfo = null )
+		public void ChangeState( string stateId, object changeStateInfo = null )
 		{
 			if (_currentId == stateId)
 				return;

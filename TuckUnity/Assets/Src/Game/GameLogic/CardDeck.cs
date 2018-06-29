@@ -85,10 +85,11 @@ public class CardDeck : object
 
     public void Shuffle(int randomSeed = -1)
     {
-        if(randomSeed == -1)
+        if(randomSeed < 0)
         {
             randomSeed = System.DateTime.UtcNow.Millisecond;
         }
+
         System.Random random = new System.Random(randomSeed);
         
         _cardList.Sort((a, b) =>

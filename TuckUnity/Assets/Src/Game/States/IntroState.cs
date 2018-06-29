@@ -10,7 +10,7 @@ public class IntroState : IGameState
     private GameStateMachine _stateMachine;
     private bool _gotoSplash = false;
 
-    public void Init( GameStateMachine stateMachine, Hashtable changeStateData )
+    public void Init( GameStateMachine stateMachine, object changeStateData )
 	{
 		Debug.Log ("Entering In Intro State");
         DOTween.Init(true, true, LogBehaviour.ErrorsOnly);

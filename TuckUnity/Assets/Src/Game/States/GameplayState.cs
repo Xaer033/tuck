@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+﻿using DG.Tweening;
 using GhostGen;
-using DG.Tweening;
+using System.Collections;
+using UnityEngine;
 
 public class GameplayState : IGameState
 {
@@ -12,7 +10,7 @@ public class GameplayState : IGameState
 
     private GameStateMachine    _stateMachine;
 
-    public void Init( GameStateMachine stateMachine, Hashtable changeStateData )
+    public void Init( GameStateMachine stateMachine, object changeStateData )
 	{       
         Debug.Log ("Entering In GamePlay State");
 
@@ -21,9 +19,16 @@ public class GameplayState : IGameState
         Tween introTween = Singleton.instance.gui.screenFader.FadeIn(1.0f);
         introTween.SetDelay(0.25f);
 
-        _gameModeController = createGameModeController();
+
+        GameContext context = Singleton.instance.sessionFlags.gameContext;
+        if(context == null)
+        {
+            context = GameContext.Create(GameMode.PASS_AND_PLAY);
+        }
+
+        _gameModeController = createGameModeController(context.gameMode);
         _gameModeController.AddListener(GameEventType.GAME_OVER, onGameOver);
-        _gameModeController.Start();
+        _gameModeController.Start(context);
     }
 
     
@@ -46,21 +51,15 @@ public class GameplayState : IGameState
         _stateMachine.ChangeState(TuckState.MAIN_MENU); ;
     }
 
-    private IGameModeController createGameModeController()
+    private IGameModeController createGameModeController(GameMode gameMode)
     {
-        GameContext context = Singleton.instance.sessionFlags.gameContext;
-        if(context == null)
-        {
-            context = GameContext.Create(GameMode.PASS_AND_PLAY);
-        }
-
-        switch(context.gameMode)
+        switch(gameMode)
         {
             case GameMode.SINGLE_PLAYER:    return null;
             case GameMode.PASS_AND_PLAY:    return new PassPlayGameMode();
-            //case GameMode.ONLINE:           return new OnlineGameMode();
+            case GameMode.ONLINE:           return null;
         }
-        Debug.LogErrorFormat("Not supported gametype {0}", context.gameMode);
+        Debug.LogErrorFormat("Not supported gametype {0}", gameMode.ToString());
         return null;
     }
 }

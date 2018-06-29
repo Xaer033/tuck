@@ -13,15 +13,10 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
     private List<PlayerState> _playerList = new List<PlayerState>(PlayerGroup.kMaxPlayerCount);
 
 
-    public void Start()
+    public void Start(GameContext context)
     {
         _addCallbacks();
-
-        GameContext context = Singleton.instance.sessionFlags.gameContext;
-        //_playerList.Clear();
-        //_playerList.AddRange(context.playerList);
-
-      
+        
         CardDeck deck = CardDeck.FromFile("Decks/StandardDeck");
         deck.Shuffle();
 

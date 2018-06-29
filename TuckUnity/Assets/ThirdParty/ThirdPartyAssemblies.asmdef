@@ -1,0 +1,11 @@
+{
+    "name": "ThirdPartyAssemblies",
+    "references": [
+        "com.unity.postprocessing.Runtime",
+        "Unity.TextMeshPro"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

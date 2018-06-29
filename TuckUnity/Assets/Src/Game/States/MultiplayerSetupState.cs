@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using GhostGen;
-using System;
-
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-using System.Collections;
-using UnityEngine;
+﻿using GhostGen;
 
 public class MultiplayerSetupState : IGameState
 {
@@ -15,7 +9,7 @@ public class MultiplayerSetupState : IGameState
     private MultiplayerRoomController _roomController;
     private NetworkManager _networkManager;
 
-    public void Init( GameStateMachine stateMachine, System.Collections.Hashtable changeStateData = null)
+    public void Init( GameStateMachine stateMachine, object changeStateData = null)
 	{
         _stateMachine = stateMachine;
 
