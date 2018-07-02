@@ -1,4 +1,6 @@
-﻿namespace GhostGen
+﻿using UnityEngine;
+
+namespace GhostGen
 {
     public class GameStateMachine
 	{
@@ -28,8 +30,22 @@
 			if( _currentState != null )
 				_currentState.Exit( );
 
+            if(_stateFactory == null)
+            {
+                Debug.LogError("State Factory is null!");
+                return;
+            }
+
 			_currentState = _stateFactory.CreateState( stateId );
+
+            if(_currentState == null)
+            {
+                Debug.LogError("New current state: " + stateId + " is null!");
+                return;
+            }
+
 			_currentState.Init(this, changeStateInfo);
+
 		}
 	}
 }

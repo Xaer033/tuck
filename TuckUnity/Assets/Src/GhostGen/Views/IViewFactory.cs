@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GhostGen
@@ -11,6 +12,7 @@ namespace GhostGen
 
         bool CreateAsync<T>(string viewPath, Action<T> callback) where T : B;
         bool CreateAsync<T>(AssetRequest request, Action<T> callback) where T : B;
+        bool CreateAsyncFromList(List<AssetRequest> requestList, Action<AsyncViewResult> callback);
 
         void Step();
         void RemoveView(B view);

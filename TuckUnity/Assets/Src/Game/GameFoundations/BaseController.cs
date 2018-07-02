@@ -4,7 +4,7 @@ public class BaseController : NotificationDispatcher
 {
     protected UIView _view;
 
-    protected ViewFactory viewFactory
+    protected IViewFactory<UIView> viewFactory
     {
         get
         {

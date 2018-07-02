@@ -260,7 +260,7 @@ public class PlayFieldController : BaseController
             var pathList = new List<MovePath>();
             if(_matchState.validator.GetValidPaths(pieceView.piece, currentCard, ref pathList))
             {
-
+                Debug.Log(pathList.Count);
             }
         }
     }

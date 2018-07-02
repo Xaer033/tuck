@@ -7,11 +7,7 @@ namespace GhostGen
 {
     public class ViewFactory : IViewFactory<UIView>
     {
-        public Canvas canvas { get; set; }
-        
-        public class AsyncViewResult : MultiMap<string, UIView>
-        {
-        }
+        public Canvas canvas { get; set; }       
         
         internal class AsyncBlock
         {

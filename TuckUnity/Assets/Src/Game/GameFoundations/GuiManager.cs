@@ -2,7 +2,7 @@
 using UnityEngine.Assertions;
 using GhostGen;
 
-[CreateAssetMenu(menuName = "GhostGen/Gui Manager")]
+[CreateAssetMenu(menuName = "Mr.Tuck/Gui Manager")]
 public class GuiManager : ScriptableObject, IPostInit
 {
     public Canvas       mainCanvas      { get; private set; }

@@ -79,6 +79,13 @@ public class MoveValidator
             case MoveType.LEAVE_BASE:
                 hasPath = handleHomeMovement(piece, moveData, ref result);
                 break;
+
+            //case MoveType.SWAP:
+            //    hasPath = handleSwapMovement(piece, moveData, ref result);
+            //    break;
+
+            //case MoveType.SPLIT_STOMP:
+            //    hasPath = handleSplitStompMovement()
         }
 
         return hasPath;
@@ -134,7 +141,7 @@ public class MoveValidator
         
         return hasPath;
     }
-
+    
     private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
     {
         if(pathIndex >= 0 || pathIndex < result.Count)
