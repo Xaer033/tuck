@@ -84,7 +84,12 @@ public class TuckMatchCore
 
     public void ApplyMoveCommand(MoveRequest request)
     {
-        ICommand command = MoveCommand.Create(request, matchState.board, matchState.playerGroup, matchState.validator);
+        ICommand command = MoveCommand.Create(
+            request, 
+            matchState.board, 
+            matchState.playerGroup, 
+            matchState.validator,
+            matchState.cardDeck);
         _commandFactory.Execute(command);
     }
 

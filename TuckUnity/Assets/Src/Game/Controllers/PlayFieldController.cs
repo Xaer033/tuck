@@ -11,6 +11,7 @@ public class PlayFieldController : BaseController
 
     enum PlayMoveState
     {
+        NONE,
         PLAY_CARD,
         SELECT_PAWNS,
         SELECT_PATHS,
@@ -27,6 +28,8 @@ public class PlayFieldController : BaseController
     private PlayMoveState _playMoveState;
 
     private MoveRequest _currentMoveRequest;
+    private List<MovePath> _tempMovePaths;
+    private MoveRequest.PiecePathData _tempPiecePath;
     private int _sevenCardSpacesLeft;
 
     public PlayFieldController()
@@ -84,6 +87,22 @@ public class PlayFieldController : BaseController
     public bool ChangeMatchMode(GameMatchMode m)
     {
         return _gameModeChanged(m);
+    }
+    
+    public void RefreshBoard()
+    {
+        if(_boardView != null)
+        {
+            _boardView.invalidateFlag = InvalidationFlag.ALL;
+        }
+    }
+
+    public void RefreshHand()
+    {
+        if(_playerHandView != null)
+        {
+            _playerHandView.invalidateFlag = InvalidationFlag.ALL;
+        }
     }
 
     private PlayerState activePlayer
@@ -145,6 +164,7 @@ public class PlayFieldController : BaseController
             case GameMatchMode.PARTNER_TRADE:              return _partnerTrade(changeStateData);
             case GameMatchMode.REDISTRIBUTE:               return _redistribute(changeStateData);
             case GameMatchMode.PLAYER_TURN:                return _playerTurn(changeStateData);
+            case GameMatchMode.CHANGE_ACTIVE_PLAYER:       return _changeActivePlayer(changeStateData); 
             case GameMatchMode.GAME_OVER:                  return _gameOver(changeStateData);
         }
 
@@ -179,14 +199,22 @@ public class PlayFieldController : BaseController
     {
         Debug.Log("Player Turn!");
 
-        _currentMoveRequest = new MoveRequest();
-        _currentMoveRequest.playerIndex = activePlayer.index;
+        _currentMoveRequest = MoveRequest.Create(activePlayer.index, 0, new List<MoveRequest.PiecePathData>());
 
         _playMoveState = PlayMoveState.PLAY_CARD;
         _playerHandView.playCardMatEnabled = true;
         _playerHandView.tradeMatEnabled = false;
         return true;
     }
+
+    private bool _changeActivePlayer(object changeStateData)
+    {
+        Debug.Log("ChangeActivePlayer Turn!");
+        _playerHandView.playCardMatEnabled = true;
+        _playerHandView.tradeMatEnabled = false;
+        return true;
+    }
+
     private bool _gameOver(object changeStateData)
     {
         return true;
@@ -220,8 +248,7 @@ public class PlayFieldController : BaseController
             _playMoveState = PlayMoveState.SELECT_PAWNS;
             _playerHandView.playCardMatEnabled = false;
             _currentMoveRequest.handIndex = droppedCard.handIndex;
-
-
+            
             DispatchEvent(e); // Pass on
         }
     }
@@ -243,6 +270,21 @@ public class PlayFieldController : BaseController
         PegView peg = e.data as PegView;
         Debug.Log("Peg: " + peg.ToString());
         
+        if(_playMoveState == PlayMoveState.SELECT_PATHS && _tempMovePaths != null && _tempPiecePath != null)
+        {
+            BoardPosition pos;
+
+            foreach(MovePath path in _tempMovePaths)
+            {
+                if(path.Contains(peg.boardPosition))
+                {
+                    _tempPiecePath.path = path;
+                    _currentMoveRequest.piecePathList.Add(_tempPiecePath);
+                    applyMoveRequest(_currentMoveRequest);
+                    break;
+                }
+            }
+        }
     }
 
     private void onPieceTapped(GeneralEvent e)
@@ -254,17 +296,46 @@ public class PlayFieldController : BaseController
         {
             CardData currentCard = activePlayer.hand.GetCard(_currentMoveRequest.handIndex);
             
-            var piecePath = new MoveRequest.PiecePathData();
-            piecePath.pieceIndex = pieceView.piece.index;
-
             var pathList = new List<MovePath>();
             if(_matchState.validator.GetValidPaths(pieceView.piece, currentCard, ref pathList))
             {
                 Debug.Log(pathList.Count);
+
+
+                _currentMoveRequest.playerIndex = activePlayer.index;
+                _tempPiecePath = new MoveRequest.PiecePathData();
+                _tempPiecePath.pieceIndex = pieceView.piece.index;
+
+                // If only 1 valid path, take it immidiately
+                if(pathList.Count == 1)
+                {
+                    _tempPiecePath.path = pathList[0];
+                    _currentMoveRequest.piecePathList.Add(_tempPiecePath);
+
+                    applyMoveRequest(_currentMoveRequest);
+                }
+                else
+                {
+                    _tempMovePaths = pathList;
+                    _playMoveState = PlayMoveState.SELECT_PATHS;
+                }
             }
         }
     }
-    
+
+    private void applyMoveRequest(MoveRequest request)
+    {
+        DispatchEvent(GameEventType.MOVE_REQUEST, false, request);
+        _playMoveState = PlayMoveState.NONE;
+        _boardView.invalidateFlag = InvalidationFlag.ALL;
+
+        _tempMovePaths = null;
+        _tempPiecePath = null;
+        //foreach(MoveRequest.PiecePathData data in request.piecePathList)
+        //{
+        //    _boardView.RefreshPieceView(data.pieceIndex);
+        //}
+    }
 
     private bool addTradeCard(int playerIndex, int handSlotIndex)
     {

@@ -40,7 +40,6 @@ public class CardResourceBank : ScriptableObject, IPostInit
     {
         CardView view = Instantiate<CardView>(cardPrefab, cParent, false);
         view.cardData = cardData;
-
         return view;
     }
 

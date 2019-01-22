@@ -33,7 +33,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         {
             _changeGameMatchMode(GameMatchMode.INITIAL);
             _changeGameMatchMode(GameMatchMode.SHUFFLE_AND_REDISTRIBUTE);
-            _changeGameMatchMode(GameMatchMode.PARTNER_TRADE);
+            _changeGameMatchMode(GameMatchMode.PLAYER_TURN);
 
             _tuckMatchCore.ClearCommands();
         });
@@ -82,6 +82,7 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         _playFieldController.AddListener(GameEventType.UNDO, onUndoTurn);
         _playFieldController.AddListener(GameEventType.REDO, onRedoTurn);
         _playFieldController.AddListener(GameEventType.TRADE_CARD, onPushTradeRequest);
+        _playFieldController.AddListener(GameEventType.MOVE_REQUEST, onMoveRequest);
         _playFieldController.AddListener(GameEventType.FINISH_TURN, onFinishTurn);
 
         //_playFieldController.onPlayOnCustomer   = onPlayCard;
@@ -106,10 +107,23 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
 
     private void onFinishTurn(GeneralEvent e)
     {
+        GameMatchMode prevMode = matchState.gameMatchMode;
+        _changeGameMatchMode(GameMatchMode.CHANGE_ACTIVE_PLAYER);
 
-        if(matchState.escrow.hasAllAssets)
+        if(prevMode == GameMatchMode.PARTNER_TRADE)
         {
-            _tuckMatchCore.ApplyTrade();
+            if(matchState.escrow.hasAllAssets)
+            {
+                _tuckMatchCore.ApplyTrade();
+                _changeGameMatchMode(GameMatchMode.PLAYER_TURN);
+            }
+            else
+            {
+                _changeGameMatchMode(GameMatchMode.PARTNER_TRADE);
+            }
+        }
+        else
+        {        
             _changeGameMatchMode(GameMatchMode.PLAYER_TURN);
         }
 
@@ -122,17 +136,32 @@ public class PassPlayGameMode : NotificationDispatcher, IGameModeController
         _tuckMatchCore.AddTradeRequest(request);
 
     }
+    private void onMoveRequest(GeneralEvent e)
+    {
+        MoveRequest request = e.data as MoveRequest;
+        _tuckMatchCore.ApplyMoveCommand(request);
+    }
 
     private void onUndoTurn(GeneralEvent e)
     {
-        _tuckMatchCore.Undo();
-        _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
+        if(_tuckMatchCore.Undo())
+        {
+            _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
+
+            _playFieldController.RefreshBoard();
+            _playFieldController.RefreshHand();
+        }
     }
 
     private void onRedoTurn(GeneralEvent e)
     {
-        _tuckMatchCore.Redo();
-        _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
+        if(_tuckMatchCore.Redo())
+        {
+            _playFieldController.ChangeMatchMode(_tuckMatchCore.matchState.gameMatchMode);
+
+            _playFieldController.RefreshBoard();
+            _playFieldController.RefreshHand();
+        }
     }
 
     private void _changeGameMatchMode(GameMatchMode mode)

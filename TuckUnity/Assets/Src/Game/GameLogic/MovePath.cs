@@ -65,6 +65,18 @@ public class MovePath
         _currentIndex = 0;
     }
 
+    public bool Contains(BoardPosition pos)
+    {
+        for(int i = 0; i < positionCount; ++i)
+        {
+            if(pos == _path[i])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool GetNext(out BoardPosition pos)
     {
         if(_currentIndex < _path.Count)

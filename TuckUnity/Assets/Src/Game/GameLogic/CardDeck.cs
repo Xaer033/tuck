@@ -11,6 +11,8 @@ using System;
 public class CardDeck : object
 {
     private List<CardData> _cardList = new List<CardData>();
+    private List<CardData> _discardList = new List<CardData>();
+    private int _defaultSeed;
 
     public List<CardData> cardList { get { return _cardList; } }
 
@@ -22,8 +24,8 @@ public class CardDeck : object
 
     public static CardDeck FromFile(string path)
     {
-        TextAsset ingredientDeckJson = Resources.Load<TextAsset>(path);
-        return CardDeck.FromJson(ingredientDeckJson.text);
+        TextAsset deckJson = Resources.Load<TextAsset>(path);
+        return CardDeck.FromJson(deckJson.text);
     }
 
     public static CardDeck FromJson(string jsonStr)
@@ -33,8 +35,9 @@ public class CardDeck : object
 
         for (int i = 0; i < jsonDeck.Count; ++i)
         {
-            JToken card = jsonDeck[i];
-            deck._cardList.Add(CardDataFactory.CreateFromJToken(card));
+            JToken cardJson = jsonDeck[i];
+            CardData card = CardDataFactory.CreateFromJToken(cardJson);
+            deck.Push(card);
         }
         return deck;
     }
@@ -42,6 +45,11 @@ public class CardDeck : object
     public static string ToJson(CardDeck deck, bool prettyPrint)
     {
         return JsonUtility.ToJson(deck, prettyPrint);
+    }
+
+    private CardDeck()
+    {
+        _defaultSeed = System.DateTime.UtcNow.Millisecond;
     }
 
     public CardData Pop()
@@ -57,6 +65,32 @@ public class CardDeck : object
         _cardList.Add(card);
     }
 
+// ------------ Discard Stack Methods -----------------
+    public void Discard(CardData card)
+    {
+        _discardList.Add(card);
+    }
+
+    public void Reset()
+    {
+        _cardList.AddRange(_discardList);
+        _discardList.Clear();
+    }
+
+    public CardData PopDiscard()
+    {
+        CardData card = null;
+
+        if(_discardList.Count > 0)
+        {
+            card = _discardList[_discardList.Count - 1];
+            _discardList.Remove(card);
+        }
+
+        return card;
+    }
+ // -----------------------------------------------------
+ 
     public CardData top
     {
         get
@@ -85,11 +119,7 @@ public class CardDeck : object
 
     public void Shuffle(int randomSeed = -1)
     {
-        if(randomSeed < 0)
-        {
-            randomSeed = System.DateTime.UtcNow.Millisecond;
-        }
-
+        int seed = randomSeed < 0 ? _defaultSeed : randomSeed;
         System.Random random = new System.Random(randomSeed);
         
         _cardList.Sort((a, b) =>

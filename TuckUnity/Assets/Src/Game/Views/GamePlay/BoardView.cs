@@ -51,6 +51,12 @@ public class BoardView : UIView
         }
     }
     
+    //public void MovePiece(int pegIndex)
+    public void RefreshPieceView(int pieceIndex)
+    {
+        _pieceList[pieceIndex].invalidateFlag = InvalidationFlag.ALL;
+    }
+
     protected override void OnViewUpdate()
     {
         base.OnViewUpdate();
@@ -116,17 +122,17 @@ public class BoardView : UIView
 
     private void destroyBoardView()
     {
-        _pegList.Clear();
-        _pieceList.Clear();
-
-        for(int i = _pegsGroup.childCount - 1; i > 0; --i)
+        for(int i = _pegsGroup.childCount - 1; i >= 0; --i)
         {
             GameObject.Destroy(_pegsGroup.GetChild(i).gameObject);
         }
 
-        for(int i = _piecesGroup.childCount - 1; i > 0; --i)
+        for(int i = _piecesGroup.childCount - 1; i >= 0; --i)
         {
             GameObject.Destroy(_piecesGroup.GetChild(i).gameObject);
         }
+
+        _pegList.Clear();
+        _pieceList.Clear();
     }
 }

@@ -101,6 +101,9 @@ public class Board : NotificationDispatcher
 
     public void SetPiecePosition(BoardPiece piece, BoardPosition pos )
     {
+        piece.justLeftHome =    piece.boardPosition.type == PositionType.HOME && 
+                                pos.type != PositionType.HOME;
+
         _positionPieceMap[piece.boardPosition] = null;
         piece.boardPosition = pos;        
         _positionPieceMap[pos] = piece;

@@ -11,6 +11,7 @@ public class PieceView : UIView, IPointerClickHandler
     public PositionType _positionType;
     public int _trackIndex;
     public int _ownerIndex;
+    public int _pieceIndex;
     // -----------
     
     private BoardPiece _piece;
@@ -60,6 +61,7 @@ public class PieceView : UIView, IPointerClickHandler
             _positionType = boardPosition.type;
             _trackIndex = boardPosition.trackIndex;
             _ownerIndex = piece.ownerIndex;
+            _pieceIndex = piece.index;
         }
     }
 }

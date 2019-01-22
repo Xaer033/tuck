@@ -104,6 +104,7 @@ public class MoveValidator
         int ownerIndex = piece.ownerIndex;
         bool startingPegValid = true;
 
+        BoardPosition homePosition = piece.boardPosition;
         BoardPosition startingPeg = _board.GetStartingPosition(ownerIndex);
 
         BoardPiece blockingPiece;
@@ -115,6 +116,7 @@ public class MoveValidator
         if(startingPegValid)
         {
             MovePath path = new MovePath();
+            path.Add(homePosition);
             path.Add(startingPeg);
             result.Add(path);
         }
@@ -184,7 +186,7 @@ public class MoveValidator
         _invalidPathStack.Clear();
         result.Add(new MovePath());
 
-        recurseGetPath(distance, piece.ownerIndex, 0, piece.boardPosition, forward, ref result);
+        recurseGetPath(distance, 0, piece.ownerIndex, piece.boardPosition, forward, ref result);
 
         // Post process
         while(_invalidPathStack.Count > 0)
@@ -193,11 +195,12 @@ public class MoveValidator
             result.RemoveAt(invalidPath);
         }
 
-        for(int i = 0; i < result.Count; ++i)
-        {
-            result[i].RemoveAt(0);
-        }
-        return result.Count > 0;
+        int resultCount = result.Count;
+        //for(int i = 0; i < resultCount; ++i)
+        //{
+        //    result[resultCount - 1].RemoveAt(0);
+        //}
+        return resultCount > 0;
     }
 
 }

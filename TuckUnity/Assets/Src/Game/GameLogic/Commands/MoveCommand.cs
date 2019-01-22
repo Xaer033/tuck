@@ -9,20 +9,22 @@ namespace GameCommands
         private Board board;
         private PlayerGroup playerGroup;
         private MoveRequest moveRequest;
+        private CardDeck deck;
         private CardData playedCard;
         private PlayerState player;
 
         private List<BoardPiece> hitList = new List<BoardPiece>();
         private Dictionary<BoardPiece, BoardPosition> killedPositionMap = new Dictionary<BoardPiece, BoardPosition>();
-        private List<MoveRequest.PiecePathData> piecePathList;
+        private List<MoveRequest.PiecePathData> piecePathList = new List<MoveRequest.PiecePathData>();
 
-        public static MoveCommand Create(MoveRequest request, Board board, PlayerGroup group, MoveValidator validator)
+        public static MoveCommand Create(MoveRequest request, Board board, PlayerGroup group, MoveValidator validator, CardDeck deck)
         {
             MoveCommand command = new MoveCommand();
             command.board = board;
             command.playerGroup = group;
             command.moveRequest = request;
             command.validator = validator;
+            command.deck = deck;
             return command;
         }
 
@@ -34,21 +36,23 @@ namespace GameCommands
         public void Execute()
         {
             player = playerGroup.GetPlayerByIndex(moveRequest.playerIndex);
-
+            
+            // Remove card from hand
             Assert.IsNotNull(player);
-            playedCard = player.hand.GetCard(moveRequest.handIndex);
+            playedCard = player.hand.ReplaceCard(moveRequest.handIndex, null);
             Assert.IsNotNull(playedCard);
+            deck.Discard(playedCard);
 
             if(moveRequest.piecePathList != null)
             {
-                piecePathList = moveRequest.piecePathList;
+                piecePathList.AddRange(moveRequest.piecePathList);
+
                 for(int i = 0; i < piecePathList.Count; ++i)
                 {
                     var piecePath = piecePathList[i];
                     List<BoardPieceGroup> pieceGroupList = board.GetPieceGroupList();
                     BoardPieceGroup pieceGroup = pieceGroupList[player.index];
                     BoardPiece piece = pieceGroup.GetPiece(piecePath.pieceIndex);
-
 
                     bool isKiller = _isSplitStomp(playedCard);
                     // Kill Other Pieces
@@ -73,19 +77,23 @@ namespace GameCommands
             }
 
             //Move back to the old positions
-            if(moveRequest.piecePathList != null)
+            if(piecePathList.Count > 0)
             {
-                piecePathList = moveRequest.piecePathList;
-                for(int i = 0; i < piecePathList.Count; ++i)
+                for(int i = piecePathList.Count - 1; i >= 0; --i)
                 {
                     var piecePath = piecePathList[i];
                     List<BoardPieceGroup> pieceGroupList = board.GetPieceGroupList();
                     BoardPieceGroup pieceGroup = pieceGroupList[player.index];
                     BoardPiece piece = pieceGroup.GetPiece(piecePath.pieceIndex);
+                    BoardPosition newPiecePos = piecePath.path.start;
 
-                    board.SetPiecePosition(piece, piecePath.path.start);
+                    board.SetPiecePosition(piece, newPiecePos);
                 }
             }
+
+            // Un discard played card            
+            CardData card = deck.PopDiscard();
+            player.hand.ReplaceCard(moveRequest.handIndex, card);
         }
 
         private void _killPieces(List<BoardPiece> pieces)

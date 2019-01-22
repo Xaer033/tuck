@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[System.Serializable]
 public class MoveRequest
 {
     public int playerIndex      { get; set; }
@@ -7,6 +8,7 @@ public class MoveRequest
 
     public List<PiecePathData> piecePathList { get; set; }
 
+    [System.Serializable]
     public class PiecePathData
     {
         public int ownerIndex;
