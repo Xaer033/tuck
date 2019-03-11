@@ -40,5 +40,4 @@ public class BoardPieceGroup
 
         return _pieceList[pieceIndex];
     }
-
 }

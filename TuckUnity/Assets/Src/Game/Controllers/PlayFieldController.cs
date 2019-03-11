@@ -272,8 +272,6 @@ public class PlayFieldController : BaseController
         
         if(_playMoveState == PlayMoveState.SELECT_PATHS && _tempMovePaths != null && _tempPiecePath != null)
         {
-            BoardPosition pos;
-
             foreach(MovePath path in _tempMovePaths)
             {
                 if(path.Contains(peg.boardPosition))
@@ -300,8 +298,7 @@ public class PlayFieldController : BaseController
             if(_matchState.validator.GetValidPaths(pieceView.piece, currentCard, ref pathList))
             {
                 Debug.Log(pathList.Count);
-
-
+                
                 _currentMoveRequest.playerIndex = activePlayer.index;
                 _tempPiecePath = new MoveRequest.PiecePathData();
                 _tempPiecePath.pieceIndex = pieceView.piece.index;

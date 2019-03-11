@@ -80,12 +80,12 @@ public class MoveValidator
                 hasPath = handleHomeMovement(piece, moveData, ref result);
                 break;
 
-            //case MoveType.SWAP:
-            //    hasPath = handleSwapMovement(piece, moveData, ref result);
-            //    break;
+            case MoveType.SWAP:
+                hasPath = handleSwapMovement(piece, moveData, ref result);
+                break;
 
-            //case MoveType.SPLIT_STOMP:
-            //    hasPath = handleSplitStompMovement()
+                //case MoveType.SPLIT_STOMP:
+                //    hasPath = handleSplitStompMovement()
         }
 
         return hasPath;
@@ -143,8 +143,35 @@ public class MoveValidator
         
         return hasPath;
     }
-    
-    private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
+
+    private bool handleSwapMovement(
+        BoardPiece piece,
+        PieceMovementData movementData,
+        ref List<MovePath> result)
+    {
+        bool hasPath = false;
+
+        List<BoardPieceGroup> groupList = _board.GetPieceGroupList();
+        for(int i = 0; i < groupList.Count; ++i)
+        {
+            BoardPieceGroup group = groupList[i];
+            for(int j = 0; j < group.pieceList.Count; ++j)
+            {
+                BoardPiece groupPiece = group.pieceList[j];
+                if(!groupPiece.isSafe && groupPiece.ownerIndex != piece.ownerIndex)
+                {
+                    MovePath path = new MovePath();
+                    path.Add(groupPiece.boardPosition);
+                    result.Add(path);
+                    hasPath = true;
+                }
+            }
+        }
+
+        return hasPath;
+    }
+
+        private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
     {
         if(pathIndex >= 0 || pathIndex < result.Count)
         {
