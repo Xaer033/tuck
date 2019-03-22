@@ -32,6 +32,27 @@ public class PieceMovementData
 }
 
 [System.Serializable]
+public class PieceMovementState
+{
+    public static PieceMovementState Create(PieceMovementData data)
+    {
+        var state = new PieceMovementState();
+        state.data = data;
+        state.movesLeft = data.value;
+        return state;
+    }
+
+    public PieceMovementData data;
+    public int movesLeft;
+}
+
+[System.Serializable]
+public class CardState
+{
+    public CardData data;
+}
+
+[System.Serializable]
 public class CardData : System.Object
 {
     public string       id;

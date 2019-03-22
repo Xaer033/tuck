@@ -54,20 +54,21 @@ public class MoveValidator
         {
             PieceMovementData moveData = card.pieceMovementList[i];
 
-            //Lots of work to do here!
-            GetValidPaths(piece, moveData, ref result);
+            // TODO: Convert everything to use State instead creating it on the fly here. TEMP
+            PieceMovementState state = PieceMovementState.Create(moveData);
+            GetValidPaths(piece, state, ref result);
         }
         return result.Count > 0;   
     }
 
-    public bool GetValidPaths(BoardPiece piece, PieceMovementData moveData, ref List<MovePath> result)
+    public bool GetValidPaths(BoardPiece piece, PieceMovementState moveState, ref List<MovePath> result)
     {
         Assert.IsNotNull(piece);
-        Assert.IsNotNull(moveData);
+        Assert.IsNotNull(moveState);
         Assert.IsNotNull(result);
 
         bool hasPath = false;
-
+        PieceMovementData moveData = moveState.data;
         string moveType = moveData.type;
         switch(moveType)
         {
@@ -84,8 +85,9 @@ public class MoveValidator
                 hasPath = handleSwapMovement(piece, moveData, ref result);
                 break;
 
-                //case MoveType.SPLIT_STOMP:
-                //    hasPath = handleSplitStompMovement()
+            case MoveType.SPLIT_STOMP:
+                hasPath = handleSplitStompMovement(piece, moveData, ref result);
+                break;
         }
 
         return hasPath;
@@ -122,6 +124,16 @@ public class MoveValidator
         }
 
         return result.Count > 0;
+    }
+
+    private bool handleSplitStompMovement(
+        BoardPiece piece,
+        PieceMovementData movementData,
+        ref List<MovePath> result)
+    {
+        bool hasPath = false;
+
+        return hasPath;
     }
 
     private bool handleNormalMovement(
@@ -171,7 +183,13 @@ public class MoveValidator
         return hasPath;
     }
 
-        private bool recurseGetPath(int count, int pathIndex, int playerIndex, BoardPosition currentPosition, bool forward, ref List<MovePath> result)
+    private bool recurseGetPath(
+        int count, 
+        int pathIndex, 
+        int playerIndex, 
+        BoardPosition currentPosition, 
+        bool forward, 
+        ref List<MovePath> result)
     {
         if(pathIndex >= 0 || pathIndex < result.Count)
         {
